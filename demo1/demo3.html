@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="../static/js/vue.js"></script>
+    <link rel="stylesheet" href="./css/demo1.css" type="text/css">
+</head>
+<body>
+    <div id="root">
+        <h1>
+            {{greeting}}
+        </h1>
+        <input v-model="greeting">
+        <div v-if="count === 1">
+            Green
+        </div>
+        <div v-else-if="count === 2">
+            Red
+        </div>
+        <div v-else>
+            Orange
+        </div>
+        <div v-show="show === 1">
+            isShow
+        </div>
+        <div>
+            Sign up
+            <br>
+            <p>{{email}}</p>
+            <p v-text="email"></p>
+            <p v-once>{{email}}</p>
+            <input v-model="email" :class="[email.length < 2 ? 'red' : 'green']">
+            <br>
+            <button onclick="alert('signed up')" :disabled="email.length < 2">
+                Submit
+            </button>
+        </div>
+        <div>
+            {{ kittifyName }}
+            <br>
+            <input v-model="newCat" @keyup.enter="addKitty">
+            <button @click="addKitty">
+                + ADD
+            </button>
+            <ul>
+                <li v-for="cat in cats">
+                    {{cat.name | capitalize | kitty}}
+                </li>
+            </ul>
+            <cat-list :cats="cats">
+        </div>
+    </div>
+</body>
+<script src="./js/demo3.js"></script>
+</html>
