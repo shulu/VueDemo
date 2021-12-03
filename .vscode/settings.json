@@ -18,7 +18,11 @@
     {
       "language": "vue",
       "autoFix": true
-    }
+    },
+    {
+      "language": "html",
+      "autoFix": true
+    },
   ],
   //  #让prettier使用eslint的代码格式进行校验
   // "prettier.eslintIntegration": true,
@@ -48,4 +52,9 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "vue-html": "html",
+    "vue": "html"
+  }
 }
