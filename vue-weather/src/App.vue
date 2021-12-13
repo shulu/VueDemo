@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       area:'',
-      api_key: '1f3b2cd75578ad56009aa3ac05fcc0c1',
+      api_key: '',
       url_base: 'https://api.openweathermap.org/data/2.5/weather',
       weather: {}
     }
