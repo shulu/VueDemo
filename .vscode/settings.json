@@ -5,6 +5,10 @@
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features" //保存js文件时同样格式化
   },
+  {
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active"
+  },
   // vscode默认启用了根据文件类型自动设置tabsize的选项
   "editor.detectIndentation": false,
   // 重新设定tabsize
