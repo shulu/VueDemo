@@ -29,12 +29,11 @@ export default {
     checkSceen() {
       const windowWidth = window.innerWidth;
       console.log(windowWidth)
-      if (windowWidth < 750) {
+      if (windowWidth <= 750) {
         this.mobile = true
-      }else{
-        this.mobile = null
+        return;
       }
-      
+      this.mobile = null
     }
   },
   created() {
