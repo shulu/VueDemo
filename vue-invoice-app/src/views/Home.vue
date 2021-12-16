@@ -33,8 +33,14 @@ export default {
   name: "Home",
   data() {
     return {
-      filterMenu: true,
+      filterMenu: null,
     };
+  },
+  methods: {
+    newInvoice(){},
+    toggleFilterMenu(){
+      this.filterMenu = ! this.filterMenu
+    }
   },
   components: {},
 };
@@ -69,11 +75,7 @@ export default {
       .filter {
         position: relative;
         margin-right: 40px;
-
-        span,
-        img {
-          pointer-events: none;
-        }
+        cursor: pointer;
 
         img {
           margin-left: 12px;
