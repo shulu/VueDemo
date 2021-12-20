@@ -20,7 +20,7 @@
             <input required type="text" id="billerCity" v-model="billerCity" />
           </div>
           <div class="input flex flex-column">
-            <label for="billerZipCode">Zipcode</label>
+            <label for="billerZipCode">Zip Code</label>
             <input
               required
               type="text"
@@ -44,7 +44,7 @@
       <div class="bill-to flex flex-column">
         <h4>Bill To</h4>
         <div class="input flex flex-column">
-          <label for="clientName">Client'sName</label>
+          <label for="clientName">Client's Name</label>
           <input required type="text" id="clientName" v-model="clientName" />
         </div>
         <div class="input flex flex-column">
@@ -66,7 +66,7 @@
             <input required type="text" id="clientCity" v-model="clientCity" />
           </div>
           <div class="input flex flex-column">
-            <label for="clientZipCode">Client's ZipCode</label>
+            <label for="clientZipCode">Client's Zip Code</label>
             <input
               required
               type="text"
@@ -89,17 +89,17 @@
       <!-- Invoice Work Details -->
       <div class="invoice-work flex flex-column">
         <div class="payment flex">
-          <div class="input flex flex column">
-            <label for="InvoiceDate">Invoice Date</label>
+          <div class="input flex flex-column">
+            <label for="invoiceDate">Invoice Date</label>
             <input
               disabled
               required
               type="text"
-              id="InvoiceDate"
+              id="invoiceDate"
               v-model="invoiceDate"
             />
           </div>
-          <div class="input flex flex column">
+          <div class="input flex flex-column">
             <label for="paymentDueDate">Payment Due Date</label>
             <input
               disabled
@@ -110,7 +110,7 @@
             />
           </div>
         </div>
-        <div class="input flex flex column">
+        <div class="input flex flex-column">
           <label for="paymentTerms">Payment Terms</label>
           <select required id="paymentTerms" v-model="paymentTerms">
             <option value="30">Net 30 Day</option>
@@ -165,11 +165,11 @@
       <!-- Save/Exit -->
       <div class="save flex">
         <div class="left">
-          <button class="red" @click="closeInvoice">Cancel</button>
+          <button class="red" @click="closeInvoice()">Cancel</button>
         </div>
         <div class="right flex">
           <button class="dark-purple">Save Draft</button>
-          <button class="dark-purple">Create Invoice</button>
+          <button class="purple">Create Invoice</button>
         </div>
       </div>
     </form>
@@ -177,10 +177,12 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "InvoiceModal",
   data() {
     return {
+      dateOptions: { year: "numeric", month: "short", day: "numeric" },
       billerStreetAddress: null,
       billerCity: null,
       billerZipCode: null,
@@ -203,6 +205,19 @@ export default {
       invoiceTotal: 0,
     };
   },
+  methods: {
+    ...mapMutations(["TOGGLE_INVOICE"]),
+    closeInvoice() {
+      this.TOGGLE_INVOICE();
+    },
+  },
+  created() {
+    this.invoiceDateUnix = Date.now();
+    this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
+      "zh-CN",
+      this.dateOptions
+    );
+  },
 };
 </script>
 
@@ -215,10 +230,15 @@ export default {
   width: 100%;
   height: 100vh;
   overflow: scroll;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
   @media (min-width: 900px) {
     left: 90px;
   }
 }
+
 .invoice-content {
   position: relative;
   padding: 56px;
@@ -227,7 +247,7 @@ export default {
   background-color: #141625;
   color: #fff;
   box-shadow: 10px 4px 6px -1px rgba(0, 0, 0, 0.2),
-    0 2px 4px -1 px rgba(0, 0, 0, 0.06);
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
   h1 {
     margin-bottom: 48px;
@@ -244,6 +264,102 @@ export default {
     color: #7c5dfa;
     font-size: 12px;
     margin-bottom: 24px;
+  }
+
+  //Bill To / Bill From
+  .bill-to,
+  bill-from {
+    margin-bottom: 48px;
+
+    .location-details {
+      gap: 16px;
+      div {
+        flex: 1;
+      }
+    }
+  }
+
+  //invoice-work
+  .invoice-work {
+    .payment {
+      gap: 24px;
+      div {
+        flex: 1;
+      }
+    }
+    .work-items {
+      .item-list {
+        width: 100%;
+
+        //Item Table Styleing
+        .table-heading,
+        .table-items {
+          gap: 16px;
+          font-size: 12px;
+
+          .item-name {
+            flex-basis: 50%;
+          }
+
+          .qty {
+            flex-basis: 10%;
+          }
+
+          .price {
+            flex-basis: 20%;
+          }
+
+          .total {
+            flex-basis: 20%;
+            align-self: center;
+          }
+        }
+
+        .table-items {
+          position: relative;
+          margin-bottom: 24px;
+
+          img {
+            position: absolute;
+            top: 15px;
+            right: 0;
+            width: 12px;
+            height: 16px;
+          }
+        }
+
+        .table-heading {
+          margin-bottom: 16px;
+          th {
+            text-align: left;
+          }
+        }
+      }
+
+      .button {
+        color: #fff;
+        background-color: #252945;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        img {
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+
+  .save {
+    margin-top: 60px;
+
+    div {
+      flex: 1;
+    }
+
+    .right {
+      justify-content: flex-end;
+    }
   }
 }
 

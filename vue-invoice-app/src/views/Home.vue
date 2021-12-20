@@ -17,7 +17,7 @@
             <li>Clear Filter</li>
           </ul>
         </div>
-        <div @click="newInvoice" class="button flex">
+        <div @click="newInvoice()" class="button flex">
           <div class="inner-button flex">
             <img src="@/assets/icon-plus.svg" alt="" />
           </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
   name: "Home",
   data() {
@@ -37,10 +38,13 @@ export default {
     };
   },
   methods: {
-    newInvoice(){},
-    toggleFilterMenu(){
-      this.filterMenu = ! this.filterMenu
-    }
+    ...mapMutations(["TOGGLE_INVOICE"]),
+    newInvoice() {
+      this.TOGGLE_INVOICE();
+    },
+    toggleFilterMenu() {
+      this.filterMenu = !this.filterMenu;
+    },
   },
   components: {},
 };
