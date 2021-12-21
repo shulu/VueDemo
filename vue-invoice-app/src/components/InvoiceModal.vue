@@ -1,5 +1,5 @@
 <template>
-  <div @click="checkClick" class="invoice-wrap flex flex-column">
+  <div @click="checkClick" ref="invoiceWrap" class="invoice-wrap flex flex-column">
     <form @submit.prevent="submitForm" class="invoice-content">
       <Loading v-show="loading" />
       <h1>New Invoice</h1>
@@ -215,7 +215,12 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["TOGGLE_INVOICE"]),
+    ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_MODAL"]),
+    checkClick(e){
+      if(e.target === this.$refs.invoiceWrap){
+        this.TOGGLE_MODAL();
+      }
+    },
     closeInvoice() {
       this.TOGGLE_INVOICE();
     },

@@ -1,3 +1,6 @@
 export default {
-    invoiceModal: null
+    invoiceDate:[],
+    invoiceModal: null,
+    modalActive: null,
+    invoiceLoaded: null
 }
