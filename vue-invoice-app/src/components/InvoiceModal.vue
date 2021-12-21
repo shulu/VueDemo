@@ -1,9 +1,10 @@
 <template>
   <div @click="checkClick" class="invoice-wrap flex flex-column">
     <form @submit.prevent="submitForm" class="invoice-content">
+      <Loading v-show="loading" />
       <h1>New Invoice</h1>
       <!-- Bill From -->
-      <div class="bill-form flex flex-column">
+      <div class="bill-from flex flex-column">
         <h4>Bill From</h4>
         <div class="input flex flex-column">
           <label for="billerStreetAddress">Stree Address</label>
@@ -155,7 +156,7 @@
               />
             </tr>
           </table>
-          <div class="flex button" @click="addNewInvoiceItem">
+          <div class="flex button" @click="addNewInvoiceItem()">
             <img src="@/assets/icon-plus.svg" alt="" />
             Add New Item
           </div>
@@ -168,8 +169,8 @@
           <button class="red" @click="closeInvoice()">Cancel</button>
         </div>
         <div class="right flex">
-          <button class="dark-purple">Save Draft</button>
-          <button class="purple">Create Invoice</button>
+          <button class="dark-purple" @click="saveDraft()">Save Draft</button>
+          <button class="purple" @click="publishInvoice">Create Invoice</button>
         </div>
       </div>
     </form>
@@ -178,10 +179,18 @@
 
 <script>
 import { mapMutations } from "vuex";
+import { uid } from "uid";
+import * as fb from "@/firebase/firebaseInit";
+import Loading from "@/components/Loading";
+
 export default {
   name: "InvoiceModal",
+  components: {
+    Loading,
+  },
   data() {
     return {
+      loading: null,
       dateOptions: { year: "numeric", month: "short", day: "numeric" },
       billerStreetAddress: null,
       billerCity: null,
@@ -209,6 +218,79 @@ export default {
     ...mapMutations(["TOGGLE_INVOICE"]),
     closeInvoice() {
       this.TOGGLE_INVOICE();
+    },
+    addNewInvoiceItem() {
+      this.invoiceItemList.push({
+        id: uid(),
+        itemName: "",
+        qty: "",
+        price: 0,
+        total: 0,
+      });
+    },
+    deleteInvoiceItem(id) {
+      this.invoiceItemList = this.invoiceItemList.filter(
+        (item) => item.id !== id
+      );
+    },
+    calInvoiceTotal() {
+      this.invoiceTotal = 0;
+      this.invoiceItemList.forEach((item) => {
+        this.invoiceTotal += item.total;
+      });
+    },
+    publishInvoice() {
+      this.invoicePending = true;
+    },
+    saveDraft() {
+      this.invoiceDraft = true;
+    },
+    async uploadInvoice() {
+      if (this.invoiceItemList.length <= 0) {
+        alert("Please ensure you filled out work items!");
+        return;
+      }
+      this.loading = true;
+      this.calInvoiceTotal();
+      fb.addInvoicesData("invoices", {
+        invoiceId: uid(6),
+        billerStreetAddress: this.billerStreetAddress,
+        billerCity: this.billerCity,
+        billerZipCode: this.billerZipCode,
+        billerCountry: this.billerCountry,
+        clientName: this.clientName,
+        clientEmail: this.clientEmail,
+        clientStreetAddress: this.clientStreetAddress,
+        clientCity: this.clientCity,
+        clientZipCode: this.clientZipCode,
+        clientCountry: this.clientCountry,
+        invoiceDateUnix: this.invoiceDateUnix,
+        invoiceDate: this.invoiceDate,
+        paymentTerms: this.paymentTerms,
+        paymentDueDateUnix: this.paymentDueDateUnix,
+        paymentDueDate: this.paymentDueDate,
+        productDescription: this.productDescription,
+        invoicePending: this.invoicePending,
+        invoiceDraft: this.invoiceDraft,
+        invoiceItemList: this.invoiceItemList,
+        invoiceTotal: this.invoiceTotal,
+      });
+      this.loading = null;
+      this.TOGGLE_INVOICE();
+    },
+    submitForm() {
+      this.uploadInvoice();
+    },
+  },
+  watch: {
+    paymentTerms() {
+      const futureDate = new Date();
+      this.paymentDueDateUnix = futureDate.setDate(
+        futureDate.getDate() + parseInt(this.paymentTerms)
+      );
+      this.paymentDueDate = new Date(
+        this.paymentDueDateUnix
+      ).toLocaleDateString("zh-CN", this.dateOptions);
     },
   },
   created() {
@@ -268,7 +350,7 @@ export default {
 
   //Bill To / Bill From
   .bill-to,
-  bill-from {
+  .bill-from {
     margin-bottom: 48px;
 
     .location-details {
@@ -320,6 +402,7 @@ export default {
           margin-bottom: 24px;
 
           img {
+            cursor: pointer;
             position: absolute;
             top: 15px;
             right: 0;
