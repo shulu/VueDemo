@@ -7,10 +7,13 @@ export default {
     },
     SET_INVOICE_DATA(state, payload) {
         state.invoiceData = payload
-        console.log("this is set data")
-        console.log(state.invoiceData)
     },
     INVOICE_LOADED(state) {
         state.invoiceLoaded = true
+    },
+    SET_CURRENT_INVOICE(state, payload) {
+        state.currentInvoiceArray = state.invoiceData.filter((invoice) => {
+            return invoice.invoiceId === payload;
+        })
     }
 }

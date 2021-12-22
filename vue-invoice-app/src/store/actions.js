@@ -2,9 +2,9 @@ import * as fb from "@/firebase/firebaseInit";
 
 export default {
     GET_INVOICES({ commit }) {
-        const invoiceData = fb.getInvoicesData('invoices');
-        console.log(invoiceData)
-        commit("SET_INVOICE_DATA", invoiceData)
+        fb.getInvoicesData('invoices').then((res) => {
+            commit("SET_INVOICE_DATA", res)
+        });
         commit("INVOICE_LOADED")
     }
 }

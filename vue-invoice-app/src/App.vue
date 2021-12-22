@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div v-if="invoiceLoaded">
     <div v-if="!mobile" class="app flex flex-column">
       <Navigation />
       <div class="app-content flex flex-column">
-        <Modal v-if="modalActive"/>
+        <Modal v-if="modalActive" />
         <transition name="invoice">
           <InvoiceModal v-show="invoiceModal" />
         </transition>
