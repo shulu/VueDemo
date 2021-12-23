@@ -3,5 +3,6 @@ export default {
     invoiceModal: null,
     modalActive: null,
     invoiceLoaded: null,
-    currentInvoiceArray: null
+    currentInvoiceArray: null,
+    editInvoice: null
 }

@@ -1,6 +1,6 @@
 export default {
     TOGGLE_INVOICE(state) {
-        state.invoiceModal = !state.invoiceModal
+        state.invoiceModal = !state.invoiceModal 
     },
     TOGGLE_MODAL(state) {
         state.modalActive = !state.modalActive
@@ -15,5 +15,10 @@ export default {
         state.currentInvoiceArray = state.invoiceData.filter((invoice) => {
             return invoice.invoiceId === payload;
         })
+        console.log(state.currentInvoiceArray)
+    },
+    TOGGLE_EDIT_INVOICE(state) {
+        state.editInvoice = !state.editInvoice;
+        console.log("tei "+state.editInvoice)
     }
 }

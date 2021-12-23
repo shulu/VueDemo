@@ -1,8 +1,13 @@
 <template>
-  <div @click="checkClick" ref="invoiceWrap" class="invoice-wrap flex flex-column">
+  <div
+    @click="checkClick"
+    ref="invoiceWrap"
+    class="invoice-wrap flex flex-column"
+  >
     <form @submit.prevent="submitForm" class="invoice-content">
       <Loading v-show="loading" />
-      <h1>New Invoice</h1>
+      <h1 v-if="!editInvoice">New Invoice</h1>
+      <h1 v-if="editInvoice">Edit Invoice</h1>
       <!-- Bill From -->
       <div class="bill-from flex flex-column">
         <h4>Bill From</h4>
@@ -169,8 +174,30 @@
           <button class="red" @click="closeInvoice()">Cancel</button>
         </div>
         <div class="right flex">
-          <button class="dark-purple" @click="saveDraft()">Save Draft</button>
-          <button class="purple" @click="publishInvoice">Create Invoice</button>
+          <button
+            type="submit"
+            class="dark-purple"
+            @click="saveDraft()"
+            v-if="!editInvoice"
+          >
+            Save Draft
+          </button>
+          <button
+            type="submit"
+            class="purple"
+            @click="publishInvoice"
+            v-if="!editInvoice"
+          >
+            Create Invoice
+          </button>
+          <button
+            type="submit"
+            class="purple"
+            @click="updateInvoice"
+            v-if="editInvoice"
+          >
+            Update Invoice
+          </button>
         </div>
       </div>
     </form>
@@ -178,7 +205,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { uid } from "uid";
 import * as fb from "@/firebase/firebaseInit";
 import Loading from "@/components/Loading";
@@ -215,14 +242,17 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_MODAL"]),
-    checkClick(e){
-      if(e.target === this.$refs.invoiceWrap){
+    ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_MODAL", "TOGGLE_EDIT_INVOICE"]),
+    checkClick(e) {
+      if (e.target === this.$refs.invoiceWrap) {
         this.TOGGLE_MODAL();
       }
     },
     closeInvoice() {
       this.TOGGLE_INVOICE();
+      if (this.editInvoice) {
+        this.TOGGLE_EDIT_INVOICE();
+      }
     },
     addNewInvoiceItem() {
       this.invoiceItemList.push({
@@ -287,6 +317,9 @@ export default {
       this.uploadInvoice();
     },
   },
+  computed: {
+    ...mapState(["editInvoice", "currentInvoiceArray"]),
+  },
   watch: {
     paymentTerms() {
       const futureDate = new Date();
@@ -299,11 +332,37 @@ export default {
     },
   },
   created() {
-    this.invoiceDateUnix = Date.now();
-    this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
-      "zh-CN",
-      this.dateOptions
-    );
+    if (!this.editInvoice) {
+      this.invoiceDateUnix = Date.now();
+      this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
+        "zh-CN",
+        this.dateOptions
+      );
+    }
+    console.log(this, this.currentInvoiceArray);
+    if (this.editInvoice) {
+      const currentInvoice = this.currentInvoiceArray[0];
+      this.billerStreetAddress = currentInvoice.billerStreetAddress;
+      this.billerCity = currentInvoice.billerCity;
+      this.billerZipCode = currentInvoice.billerZipCode;
+      this.billerCountry = currentInvoice.billerCountry;
+      this.clientName = currentInvoice.clientName;
+      this.clientEmail = currentInvoice.clientEmail;
+      this.clientStreetAddress = currentInvoice.clientStreetAddress;
+      this.clientCity = currentInvoice.clientCity;
+      this.clientZipCode = currentInvoice.clientZipCode;
+      this.clientCountry = currentInvoice.clientCountry;
+      this.invoiceDateUnix = currentInvoice.invoiceDateUnix;
+      this.invoiceDate = currentInvoice.invoiceDate;
+      this.paymentTerms = currentInvoice.paymentTerms;
+      this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix;
+      this.paymentDueDate = currentInvoice.paymentDueDate;
+      this.productDescription = currentInvoice.productDescription;
+      this.invoicePending = currentInvoice.invoicePending;
+      this.invoiceDraft = currentInvoice.invoiceDraft;
+      this.invoiceItemList = currentInvoice.invoiceItemList;
+      this.invoiceTotal = currentInvoice.invoiceTotal;
+    }
   },
 };
 </script>
