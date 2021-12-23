@@ -118,6 +118,9 @@ export default {
       currentInvoice: null,
     };
   },
+  created() {
+    this.getCurrentInvoice();
+  },
   methods: {
     ...mapMutations([
       "SET_CURRENT_INVOICE",
@@ -135,12 +138,6 @@ export default {
   },
   computed: {
     ...mapState(["currentInvoiceArray"]),
-  },
-  created() {
-    // if (this.invoiceLoaded && this.currentInvoiceArray) {
-    this.getCurrentInvoice();
-    // return;
-    // }
   },
 };
 </script>

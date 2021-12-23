@@ -15,10 +15,12 @@ export default {
         state.currentInvoiceArray = state.invoiceData.filter((invoice) => {
             return invoice.invoiceId === payload;
         })
-        console.log(state.currentInvoiceArray)
     },
     TOGGLE_EDIT_INVOICE(state) {
         state.editInvoice = !state.editInvoice;
         console.log("tei "+state.editInvoice)
+    },
+    DELETE_INVOICE(state, payload) {
+        state.invoiceData = state.invoiceData.filter(invoice => invoice.docId !== payload)
     }
 }

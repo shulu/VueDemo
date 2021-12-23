@@ -54,6 +54,9 @@ export default {
       filterMenu: null,
     };
   },
+  components: {
+    Invoice,
+  },
   methods: {
     ...mapMutations(["TOGGLE_INVOICE"]),
     newInvoice() {
@@ -62,9 +65,6 @@ export default {
     toggleFilterMenu() {
       this.filterMenu = !this.filterMenu;
     },
-  },
-  components: {
-    Invoice,
   },
   computed: {
     ...mapState(["invoiceData"]),

@@ -212,13 +212,11 @@ import Loading from "@/components/Loading";
 
 export default {
   name: "InvoiceModal",
-  components: {
-    Loading,
-  },
   data() {
     return {
       loading: null,
       dateOptions: { year: "numeric", month: "short", day: "numeric" },
+      docId:null,
       billerStreetAddress: null,
       billerCity: null,
       billerZipCode: null,
@@ -240,6 +238,44 @@ export default {
       invoiceItemList: [],
       invoiceTotal: 0,
     };
+  },
+  components: {
+    Loading,
+  },
+  created() {
+    if (!this.editInvoice) {
+      this.invoiceDateUnix = Date.now();
+      this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
+        "zh-CN",
+        this.dateOptions
+      );
+    }
+  },
+  beforeUpdate(){
+    if (this.editInvoice) {
+      const currentInvoice = this.currentInvoiceArray[0];
+      this.docId = currentInvoice.docId;
+      this.billerStreetAddress = currentInvoice.billerStreetAddress;
+      this.billerCity = currentInvoice.billerCity;
+      this.billerZipCode = currentInvoice.billerZipCode;
+      this.billerCountry = currentInvoice.billerCountry;
+      this.clientName = currentInvoice.clientName;
+      this.clientEmail = currentInvoice.clientEmail;
+      this.clientStreetAddress = currentInvoice.clientStreetAddress;
+      this.clientCity = currentInvoice.clientCity;
+      this.clientZipCode = currentInvoice.clientZipCode;
+      this.clientCountry = currentInvoice.clientCountry;
+      this.invoiceDateUnix = currentInvoice.invoiceDateUnix;
+      this.invoiceDate = currentInvoice.invoiceDate;
+      this.paymentTerms = currentInvoice.paymentTerms;
+      this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix;
+      this.paymentDueDate = currentInvoice.paymentDueDate;
+      this.productDescription = currentInvoice.productDescription;
+      this.invoicePending = currentInvoice.invoicePending;
+      this.invoiceDraft = currentInvoice.invoiceDraft;
+      this.invoiceItemList = currentInvoice.invoiceItemList;
+      this.invoiceTotal = currentInvoice.invoiceTotal;
+    }
   },
   methods: {
     ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_MODAL", "TOGGLE_EDIT_INVOICE"]),
@@ -280,7 +316,40 @@ export default {
     saveDraft() {
       this.invoiceDraft = true;
     },
-    async uploadInvoice() {
+    uploadInvoice() {
+      if (this.invoiceItemList.length <= 0) {
+        alert("Please ensure you filled out work items!");
+        return;
+      }
+      this.loading = true;
+      this.calInvoiceTotal();
+      fb.addInvoicesData("invoices", {
+        invoiceId: uid(6),
+        billerStreetAddress: this.billerStreetAddress,
+        billerCity: this.billerCity,
+        billerZipCode: this.billerZipCode,
+        billerCountry: this.billerCountry,
+        clientName: this.clientName,
+        clientEmail: this.clientEmail,
+        clientStreetAddress: this.clientStreetAddress,
+        clientCity: this.clientCity,
+        clientZipCode: this.clientZipCode,
+        clientCountry: this.clientCountry,
+        invoiceDateUnix: this.invoiceDateUnix,
+        invoiceDate: this.invoiceDate,
+        paymentTerms: this.paymentTerms,
+        paymentDueDateUnix: this.paymentDueDateUnix,
+        paymentDueDate: this.paymentDueDate,
+        productDescription: this.productDescription,
+        invoicePending: this.invoicePending,
+        invoiceDraft: this.invoiceDraft,
+        invoiceItemList: this.invoiceItemList,
+        invoiceTotal: this.invoiceTotal,
+      });
+      this.loading = null;
+      this.TOGGLE_INVOICE();
+    },
+    updateInvoice() {
       if (this.invoiceItemList.length <= 0) {
         alert("Please ensure you filled out work items!");
         return;
@@ -314,7 +383,11 @@ export default {
       this.TOGGLE_INVOICE();
     },
     submitForm() {
-      this.uploadInvoice();
+      if (!this.editInvoice) {
+        this.uploadInvoice();
+        return;
+      }
+      this.updateInvoice(this.docId, this.$route.params.invoiceId)
     },
   },
   computed: {
@@ -331,39 +404,7 @@ export default {
       ).toLocaleDateString("zh-CN", this.dateOptions);
     },
   },
-  created() {
-    if (!this.editInvoice) {
-      this.invoiceDateUnix = Date.now();
-      this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
-        "zh-CN",
-        this.dateOptions
-      );
-    }
-    console.log(this, this.currentInvoiceArray);
-    if (this.editInvoice) {
-      const currentInvoice = this.currentInvoiceArray[0];
-      this.billerStreetAddress = currentInvoice.billerStreetAddress;
-      this.billerCity = currentInvoice.billerCity;
-      this.billerZipCode = currentInvoice.billerZipCode;
-      this.billerCountry = currentInvoice.billerCountry;
-      this.clientName = currentInvoice.clientName;
-      this.clientEmail = currentInvoice.clientEmail;
-      this.clientStreetAddress = currentInvoice.clientStreetAddress;
-      this.clientCity = currentInvoice.clientCity;
-      this.clientZipCode = currentInvoice.clientZipCode;
-      this.clientCountry = currentInvoice.clientCountry;
-      this.invoiceDateUnix = currentInvoice.invoiceDateUnix;
-      this.invoiceDate = currentInvoice.invoiceDate;
-      this.paymentTerms = currentInvoice.paymentTerms;
-      this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix;
-      this.paymentDueDate = currentInvoice.paymentDueDate;
-      this.productDescription = currentInvoice.productDescription;
-      this.invoicePending = currentInvoice.invoicePending;
-      this.invoiceDraft = currentInvoice.invoiceDraft;
-      this.invoiceItemList = currentInvoice.invoiceItemList;
-      this.invoiceTotal = currentInvoice.invoiceTotal;
-    }
-  },
+  
 };
 </script>
 
