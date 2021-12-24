@@ -5,7 +5,7 @@
       <div class="app-content flex flex-column">
         <Modal v-if="modalActive" />
         <transition name="invoice">
-          <InvoiceModal v-show="invoiceModal" />
+          <InvoiceModal v-if="invoiceModal" />
         </transition>
         <router-view />
       </div>
@@ -38,9 +38,19 @@ export default {
     this.GET_INVOICES();
     this.checkScreen();
     window.addEventListener("resize", this.checkScreen);
+    window.addEventListener("submit", this.checkSubmit);
+    window.addEventListener("click", this.checkButtonClick);
   },
   methods: {
     ...mapActions(["GET_INVOICES"]),
+    checkSubmit(e){
+      console.log(e.innerText);
+      console.log("submit...");
+    },
+    checkButtonClick(e){
+      console.log(e.innerText);
+      console.log("click...");
+    },
     checkScreen() {
       const windowWidth = window.innerWidth;
       if (windowWidth <= 750) {

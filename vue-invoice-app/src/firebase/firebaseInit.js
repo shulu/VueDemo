@@ -57,7 +57,7 @@ export const getInvoicesData = async (docName) => {
   return invoiceData;
 }
 
-export const updateInvoice = async (docName, docId, updateData) => {
+export const updateInvoiceData = async (docName, docId, updateData) => {
   const docRef = doc(db, docName, docId);
   const result = await updateDoc(docRef, updateData).then(() => {
     return true;

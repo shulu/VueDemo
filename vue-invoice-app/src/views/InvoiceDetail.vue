@@ -134,12 +134,12 @@ export default {
       this.TOGGLE_EDIT_INVOICE();
       this.TOGGLE_INVOICE();
     },
-    updateInvoiceStatus() {
+    async updateInvoiceStatus() {
       const updateData = {
         invoicePending: !this.currentInvoice.invoicePending,
         invoicePaid: !this.currentInvoice.invoicePaid,
       };
-      this.UPDATE_INVOICE_STATUS({
+      await this.UPDATE_INVOICE_STATUS({
         docId: this.currentInvoice.docId,
         updateData: updateData,
       });

@@ -5,7 +5,7 @@
     class="invoice-wrap flex flex-column"
   >
     <form @submit.prevent="submitForm" class="invoice-content">
-      <Loading v-show="loading" />
+      <Loading v-if="loading" />
       <h1 v-if="!editInvoice">New Invoice</h1>
       <h1 v-if="editInvoice">Edit Invoice</h1>
       <!-- Bill From -->
@@ -175,7 +175,7 @@
         </div>
         <div class="right flex">
           <button
-            type="submit"
+            type="button"
             class="dark-purple"
             @click="saveDraft()"
             v-if="!editInvoice"
@@ -183,7 +183,7 @@
             Save Draft
           </button>
           <button
-            type="submit"
+            type="button"
             class="purple"
             @click="publishInvoice"
             v-if="!editInvoice"
@@ -194,6 +194,7 @@
             type="submit"
             class="purple"
             @click="updateInvoice"
+            id="updateInvoice"
             v-if="editInvoice"
           >
             Update Invoice
@@ -250,10 +251,35 @@ export default {
         this.dateOptions
       );
     }
+    if (this.editInvoice) {
+        const currentInvoice = this.currentInvoiceArray[0];
+        this.docId = currentInvoice.docId;
+        this.billerStreetAddress = currentInvoice.billerStreetAddress;
+        this.billerCity = currentInvoice.billerCity;
+        this.billerZipCode = currentInvoice.billerZipCode;
+        this.billerCountry = currentInvoice.billerCountry;
+        this.clientName = currentInvoice.clientName;
+        this.clientEmail = currentInvoice.clientEmail;
+        this.clientStreetAddress = currentInvoice.clientStreetAddress;
+        this.clientCity = currentInvoice.clientCity;
+        this.clientZipCode = currentInvoice.clientZipCode;
+        this.clientCountry = currentInvoice.clientCountry;
+        this.invoiceDateUnix = currentInvoice.invoiceDateUnix;
+        this.invoiceDate = currentInvoice.invoiceDate;
+        this.paymentTerms = currentInvoice.paymentTerms;
+        this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix;
+        this.paymentDueDate = currentInvoice.paymentDueDate;
+        this.productDescription = currentInvoice.productDescription;
+        this.invoicePaid = currentInvoice.invoicePaid;
+        this.invoicePending = currentInvoice.invoicePending;
+        this.invoiceDraft = currentInvoice.invoiceDraft;
+        this.invoiceItemList = currentInvoice.invoiceItemList;
+        this.invoiceTotal = currentInvoice.invoiceTotal;
+    }
   },
   methods: {
     ...mapMutations(["TOGGLE_INVOICE", "TOGGLE_MODAL", "TOGGLE_EDIT_INVOICE"]),
-    ...mapActions(["ADD_INVOICE", "UPDATE_INVOICE"]),
+    ...mapActions(["ADD_INVOICE", "UPDATE_INVOICE_DATA"]),
     checkClick(e) {
       if (e.target === this.$refs.invoiceWrap) {
         this.TOGGLE_MODAL();
@@ -315,7 +341,7 @@ export default {
     saveDraft() {
       this.invoiceDraft = true;
     },
-    uploadInvoice() {
+    async uploadInvoice() {
       if (this.invoiceItemList.length <= 0) {
         alert("Please ensure you filled out work items!");
         return;
@@ -346,10 +372,11 @@ export default {
         invoiceItemList: this.invoiceItemList,
         invoiceTotal: this.invoiceTotal,
       };
-      this.ADD_INVOICE(docData);
+      await this.ADD_INVOICE(docData);
       this.loading = null;
     },
-    updateInvoice() {
+    async updateInvoice() {
+      console.log("this is click")
       if (this.invoiceItemList.length <= 0) {
         alert("Please ensure you filled out work items!");
         return;
@@ -380,7 +407,7 @@ export default {
         invoiceItemList: this.invoiceItemList,
         invoiceTotal: this.invoiceTotal,
       };
-      this.UPDATE_INVOICE({
+      await this.UPDATE_INVOICE_DATA({
         docId: this.docId,
         routeId: this.$route.params.invoiceId,
         updateData: docData,
@@ -409,31 +436,7 @@ export default {
       ).toLocaleDateString("zh-CN", this.dateOptions);
     },
     editInvoice() {
-      if (this.editInvoice) {
-        const currentInvoice = this.currentInvoiceArray[0];
-        this.docId = currentInvoice.docId;
-        this.billerStreetAddress = currentInvoice.billerStreetAddress;
-        this.billerCity = currentInvoice.billerCity;
-        this.billerZipCode = currentInvoice.billerZipCode;
-        this.billerCountry = currentInvoice.billerCountry;
-        this.clientName = currentInvoice.clientName;
-        this.clientEmail = currentInvoice.clientEmail;
-        this.clientStreetAddress = currentInvoice.clientStreetAddress;
-        this.clientCity = currentInvoice.clientCity;
-        this.clientZipCode = currentInvoice.clientZipCode;
-        this.clientCountry = currentInvoice.clientCountry;
-        this.invoiceDateUnix = currentInvoice.invoiceDateUnix;
-        this.invoiceDate = currentInvoice.invoiceDate;
-        this.paymentTerms = currentInvoice.paymentTerms;
-        this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix;
-        this.paymentDueDate = currentInvoice.paymentDueDate;
-        this.productDescription = currentInvoice.productDescription;
-        this.invoicePaid = currentInvoice.invoicePaid;
-        this.invoicePending = currentInvoice.invoicePending;
-        this.invoiceDraft = currentInvoice.invoiceDraft;
-        this.invoiceItemList = currentInvoice.invoiceItemList;
-        this.invoiceTotal = currentInvoice.invoiceTotal;
-      } else {
+      if(!this.editInvoice ) {
         this.initModal();
       }
     },

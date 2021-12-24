@@ -1,6 +1,6 @@
 export default {
     TOGGLE_INVOICE(state) {
-        state.invoiceModal = !state.invoiceModal 
+        state.invoiceModal = !state.invoiceModal;
     },
     TOGGLE_MODAL(state) {
         state.modalActive = !state.modalActive
@@ -12,12 +12,9 @@ export default {
         state.invoiceLoaded = true
     },
     ADD_INVOICE_DATA(state, payload) {
-        state.invoiceData.push(payload)
+        state.invoiceData.unshift(payload)
     },
     SET_CURRENT_INVOICE(state, payload) {
-        console.log("this is s c i")
-        console.log(payload)
-        console.log(state.invoiceData)
         state.currentInvoiceArray = state.invoiceData.filter((invoice) => {
             return invoice.invoiceId === payload;
         })
