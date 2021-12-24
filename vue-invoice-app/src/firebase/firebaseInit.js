@@ -1,7 +1,10 @@
 import config from "./firebase.config"
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, doc, addDoc, getDocs } from "firebase/firestore"
+import {
+  getFirestore, doc, collection,
+  addDoc, getDocs, updateDoc, deleteDoc
+} from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,7 +16,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const addInvoicesData = async (docName, data) => {
-  return await addDoc(doc(collection(db, docName)), data)
+  const docRef = await addDoc(collection(db, docName), data)
+  return docRef.id;
 }
 
 export const getInvoicesData = async (docName) => {
@@ -41,6 +45,7 @@ export const getInvoicesData = async (docName) => {
         paymentDueDateUnix: doc.data().paymentDueDateUnix,
         paymentDueDate: doc.data().paymentDueDate,
         productDescription: doc.data().productDescription,
+        invoicePaid: doc.data().invoicePaid,
         invoicePending: doc.data().invoicePending,
         invoiceDraft: doc.data().invoiceDraft,
         invoiceItemList: doc.data().invoiceItemList,
@@ -50,4 +55,23 @@ export const getInvoicesData = async (docName) => {
     }
   });
   return invoiceData;
+}
+
+export const updateInvoice = async (docName, docId, updateData) => {
+  const docRef = doc(db, docName, docId);
+  const result = await updateDoc(docRef, updateData).then(() => {
+    return true;
+  }).catch(() => {
+    return false;
+  });
+  return result;
+}
+
+export const deleteInvoiceData = async (docName, docId) => {
+  const result = await deleteDoc(doc(db, docName, docId)).then(() => {
+    return true;
+  }).catch(() => {
+    return false;
+  });
+  return result;
 }

@@ -51,7 +51,12 @@ export default {
     },
   },
   computed: {
-    ...mapState(["invoiceModal", "modalActive", "invoiceLoaded"]),
+    ...mapState([
+      "invoiceData",
+      "invoiceModal",
+      "modalActive",
+      "invoiceLoaded",
+    ]),
   },
 };
 </script>
