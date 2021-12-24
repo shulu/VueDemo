@@ -191,7 +191,7 @@
             Create Invoice
           </button>
           <button
-            type="submit"
+            type="button"
             class="purple"
             @click="updateInvoice"
             id="updateInvoice"
