@@ -174,24 +174,13 @@
           <button class="red" @click="closeInvoice()">Cancel</button>
         </div>
         <div class="right flex">
-          <button
-            type="button"
-            class="dark-purple"
-            @click="saveDraft()"
-            v-if="!editInvoice"
-          >
+          <button class="dark-purple" @click="saveDraft()" v-if="!editInvoice">
             Save Draft
           </button>
-          <button
-            type="button"
-            class="purple"
-            @click="publishInvoice"
-            v-if="!editInvoice"
-          >
+          <button class="purple" @click="publishInvoice" v-if="!editInvoice">
             Create Invoice
           </button>
           <button
-            type="button"
             class="purple"
             @click="updateInvoice"
             id="updateInvoice"
@@ -252,29 +241,29 @@ export default {
       );
     }
     if (this.editInvoice) {
-        const currentInvoice = this.currentInvoiceArray[0];
-        this.docId = currentInvoice.docId;
-        this.billerStreetAddress = currentInvoice.billerStreetAddress;
-        this.billerCity = currentInvoice.billerCity;
-        this.billerZipCode = currentInvoice.billerZipCode;
-        this.billerCountry = currentInvoice.billerCountry;
-        this.clientName = currentInvoice.clientName;
-        this.clientEmail = currentInvoice.clientEmail;
-        this.clientStreetAddress = currentInvoice.clientStreetAddress;
-        this.clientCity = currentInvoice.clientCity;
-        this.clientZipCode = currentInvoice.clientZipCode;
-        this.clientCountry = currentInvoice.clientCountry;
-        this.invoiceDateUnix = currentInvoice.invoiceDateUnix;
-        this.invoiceDate = currentInvoice.invoiceDate;
-        this.paymentTerms = currentInvoice.paymentTerms;
-        this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix;
-        this.paymentDueDate = currentInvoice.paymentDueDate;
-        this.productDescription = currentInvoice.productDescription;
-        this.invoicePaid = currentInvoice.invoicePaid;
-        this.invoicePending = currentInvoice.invoicePending;
-        this.invoiceDraft = currentInvoice.invoiceDraft;
-        this.invoiceItemList = currentInvoice.invoiceItemList;
-        this.invoiceTotal = currentInvoice.invoiceTotal;
+      const currentInvoice = this.currentInvoiceArray[0];
+      this.docId = currentInvoice.docId;
+      this.billerStreetAddress = currentInvoice.billerStreetAddress;
+      this.billerCity = currentInvoice.billerCity;
+      this.billerZipCode = currentInvoice.billerZipCode;
+      this.billerCountry = currentInvoice.billerCountry;
+      this.clientName = currentInvoice.clientName;
+      this.clientEmail = currentInvoice.clientEmail;
+      this.clientStreetAddress = currentInvoice.clientStreetAddress;
+      this.clientCity = currentInvoice.clientCity;
+      this.clientZipCode = currentInvoice.clientZipCode;
+      this.clientCountry = currentInvoice.clientCountry;
+      this.invoiceDateUnix = currentInvoice.invoiceDateUnix;
+      this.invoiceDate = currentInvoice.invoiceDate;
+      this.paymentTerms = currentInvoice.paymentTerms;
+      this.paymentDueDateUnix = currentInvoice.paymentDueDateUnix;
+      this.paymentDueDate = currentInvoice.paymentDueDate;
+      this.productDescription = currentInvoice.productDescription;
+      this.invoicePaid = currentInvoice.invoicePaid;
+      this.invoicePending = currentInvoice.invoicePending;
+      this.invoiceDraft = currentInvoice.invoiceDraft;
+      this.invoiceItemList = currentInvoice.invoiceItemList;
+      this.invoiceTotal = currentInvoice.invoiceTotal;
     }
   },
   methods: {
@@ -376,7 +365,7 @@ export default {
       this.loading = null;
     },
     async updateInvoice() {
-      console.log("this is click")
+      console.log("this is click");
       if (this.invoiceItemList.length <= 0) {
         alert("Please ensure you filled out work items!");
         return;
@@ -436,7 +425,7 @@ export default {
       ).toLocaleDateString("zh-CN", this.dateOptions);
     },
     editInvoice() {
-      if(!this.editInvoice ) {
+      if (!this.editInvoice) {
         this.initModal();
       }
     },

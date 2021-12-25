@@ -38,16 +38,16 @@ export default {
     this.GET_INVOICES();
     this.checkScreen();
     window.addEventListener("resize", this.checkScreen);
-    window.addEventListener("submit", this.checkSubmit);
-    window.addEventListener("click", this.checkButtonClick);
+    //window.addEventListener("submit", this.checkSubmit);
+    //window.addEventListener("click", this.checkButtonClick);
   },
   methods: {
     ...mapActions(["GET_INVOICES"]),
-    checkSubmit(e){
+    checkSubmit(e) {
       console.log(e.innerText);
       console.log("submit...");
     },
-    checkButtonClick(e){
+    checkButtonClick(e) {
       console.log(e.innerText);
       console.log("click...");
     },

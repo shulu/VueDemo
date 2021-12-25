@@ -4,17 +4,28 @@
     <div class="header flex">
       <div class="left flex flex-column">
         <h1>Invoices</h1>
-        <span>There are 4 total invoices</span>
+        <span>There are {{ invoiceDataTotal }} total invoices</span>
       </div>
       <div class="right flex">
         <div @click="toggleFilterMenu" class="filter flex" ref="filter">
-          <span>Filter by Status</span>
+          <span
+            >Filter by Status:
+            <span
+              v-if="targetFilter"
+              :class="{
+                paid: targetFilter === 'Paid',
+                draft: targetFilter === 'Draft',
+                pending: targetFilter === 'Pending',
+              }"
+              >{{ targetFilter }}</span
+            >
+          </span>
           <img src="@/assets/icon-arrow-down.svg" alt="" />
           <ul v-show="filterMenu" class="filter-menu">
-            <li>Draft</li>
-            <li>Pending</li>
-            <li>Paid</li>
-            <li>Clear Filter</li>
+            <li @click="filterData">Draft</li>
+            <li @click="filterData">Pending</li>
+            <li @click="filterData">Paid</li>
+            <li @click="filterData">Clear Filter</li>
           </ul>
         </div>
         <div @click="newInvoice()" class="button flex">
@@ -26,9 +37,9 @@
       </div>
     </div>
     <!-- Invoices -->
-    <div v-if="invoiceData.length > 0">
+    <div v-if="filteredData.length > 0">
       <Invoice
-        v-for="(invoice, index) in invoiceData"
+        v-for="(invoice, index) in filteredData"
         :key="index"
         v-bind:invoice="invoice"
       />
@@ -52,22 +63,53 @@ export default {
   data() {
     return {
       filterMenu: null,
+      targetFilter: null,
+      filteredData: [],
     };
   },
   components: {
     Invoice,
   },
+  created() {
+    this.filteredData = this.invoiceData;
+    this.CAL_INVOICE_TOTAL();
+  },
   methods: {
-    ...mapMutations(["TOGGLE_INVOICE"]),
+    ...mapMutations(["TOGGLE_INVOICE", "CAL_INVOICE_TOTAL"]),
     newInvoice() {
       this.TOGGLE_INVOICE();
     },
     toggleFilterMenu() {
       this.filterMenu = !this.filterMenu;
     },
+    filterData(e) {
+      const filterType = e.target.innerText;
+      this.targetFilter = filterType;
+      switch (filterType) {
+        case "Pending":
+          this.filteredData = this.invoiceData.filter(
+            (invoice) => invoice.invoicePending === true
+          );
+          break;
+        case "Paid":
+          this.filteredData = this.invoiceData.filter(
+            (invoice) => invoice.invoicePaid === true
+          );
+          break;
+        case "Draft":
+          this.filteredData = this.invoiceData.filter(
+            (invoice) => invoice.invoiceDraft === true
+          );
+          break;
+        default:
+          this.targetFilter = null;
+          this.filteredData = this.invoiceData;
+          break;
+      }
+    },
   },
   computed: {
-    ...mapState(["invoiceData"]),
+    ...mapState(["invoiceData", "invoiceDataTotal"]),
   },
 };
 </script>

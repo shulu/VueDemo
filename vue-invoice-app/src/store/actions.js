@@ -6,6 +6,7 @@ export default {
         docData.docId = docId;
         commit("ADD_INVOICE_DATA", docData);
         commit("TOGGLE_INVOICE");
+        commit("CAL_INVOICE_TOTAL")
     },
     async GET_INVOICES({ commit }) {
         await fb.getInvoicesData('invoices').then((res) => {
@@ -30,5 +31,12 @@ export default {
             }
         });
     },
-    async DELETE_INVOICE(){}
+    async DELETE_INVOICE({ commit, dispatch }, docId) {
+        await fb.deleteInvoiceData("invoices", docId).then(async (res) => {
+            if (res) {
+                await dispatch("GET_INVOICES");
+                commit("CAL_INVOICE_TOTAL")
+            }
+        })
+    }
 }

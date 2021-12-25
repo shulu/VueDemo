@@ -11,6 +11,18 @@ export default {
     INVOICE_LOADED(state) {
         state.invoiceLoaded = true
     },
+    FILTER_PENDING_DATA(state) {
+        state.invoiceData = state.invoiceData.filter(invoice => invoice.invoicePending === true)
+    },
+    FILTER_PAID_DATA(state) {
+        state.invoiceData = state.invoiceData.filter(invoice => invoice.invoicePaid === true)
+    },
+    FILTER_DRAFT_DATA(state) {
+        state.invoiceData = state.invoiceData.filter(invoice => invoice.invoiceDraft === true)
+    },
+    CAL_INVOICE_TOTAL(state) {
+        state.invoiceDataTotal = state.invoiceData.length  
+    },
     ADD_INVOICE_DATA(state, payload) {
         state.invoiceData.unshift(payload)
     },
@@ -28,5 +40,6 @@ export default {
     UPDATE_INVOICE_DATA_STATUS(state, payload) {
         state.currentInvoiceArray[0].invoicePending = payload.invoicePending;
         state.currentInvoiceArray[0].invoicePaid = payload.invoicePaid;
+        state.currentInvoiceArray[0].invoiceDraft = payload.invoiceDraft;
     }
 }

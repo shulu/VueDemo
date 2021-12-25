@@ -26,14 +26,14 @@
         <button @click="deleteInvoice" class="red">Delete</button>
         <button
           v-if="currentInvoice.invoicePending"
-          @click="updateInvoiceStatus"
+          @click="updateInvoiceStatus('paid')"
           class="green"
         >
           Mark as Paid
         </button>
         <button
           v-if="currentInvoice.invoiceDraft || currentInvoice.invoicePaid"
-          @click="updateInvoiceStatus"
+          @click="updateInvoiceStatus('pending')"
           class="orange"
         >
           Mark as Pending
@@ -134,15 +134,32 @@ export default {
       this.TOGGLE_EDIT_INVOICE();
       this.TOGGLE_INVOICE();
     },
-    async updateInvoiceStatus() {
-      const updateData = {
-        invoicePending: !this.currentInvoice.invoicePending,
-        invoicePaid: !this.currentInvoice.invoicePaid,
-      };
+    async updateInvoiceStatus(stat) {
+      let updateData = {};
+      if (stat === "pending") {
+        updateData = {
+          invoicePending: true,
+          invoicePaid: false,
+          invoiceDraft: false,
+        };
+      }
+      if (stat === "paid") {
+        updateData = {
+          invoicePending: false,
+          invoicePaid: true,
+          invoiceDraft: false,
+        };
+      }
       await this.UPDATE_INVOICE_STATUS({
         docId: this.currentInvoice.docId,
         updateData: updateData,
       });
+    },
+    async deleteInvoice() {
+      this.loading = true;
+      await this.DELETE_INVOICE(this.currentInvoice.docId);
+      this.loading = false;
+      this.$router.push({ name: "Home" });
     },
   },
   computed: {
