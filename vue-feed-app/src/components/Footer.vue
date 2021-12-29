@@ -6,13 +6,13 @@
         <p>首页</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'Home' }" class="footer-link">
+    <router-link :to="{ name: 'Order' }" class="footer-link">
       <div class="footer-inner">
         <img src="@/assets/reorder-four-outline.svg" alt="" />
         <p>订单</p>
       </div>
     </router-link>
-    <router-link :to="{ name: 'Home' }" class="footer-link">
+    <router-link :to="{ name: 'User' }" class="footer-link">
       <div class="footer-inner">
         <img src="@/assets/person-outline.svg" alt="" />
         <p>我的</p>

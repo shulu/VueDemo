@@ -120,7 +120,7 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
+    font-size: 16px;
 
     img {
       display: flex;

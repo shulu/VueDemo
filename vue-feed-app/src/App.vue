@@ -19,16 +19,15 @@ export default {
 
 <style lang="scss">
 * {
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  background-color: #fff;
 }
 
 .container {
   max-width: 375px;
-  max-height: 812px;
+  height: 100%;
   border: 1px solid red;
 
   .toper {
