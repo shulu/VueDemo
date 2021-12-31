@@ -14,7 +14,7 @@
             <p class="total-left">共1条</p>
             <p class="click-right">
               展开
-              <img src="@/assets/chevron-forward-outline.svg" alt="" />
+              <img src="@/assets/chevron-down-outline.svg" alt="" />
             </p>
           </div>
         </div>
@@ -28,7 +28,7 @@
           </div>
           <div class="layer-two">
             <div class="meal-img">
-              <img src="" alt="" />
+              <img src="@/assets/cai-120x120.jpeg" alt="" />
             </div>
             <div class="meal-detail">
               <div class="meal-title">七天无骨酸菜鱼+米饭</div>
@@ -220,6 +220,97 @@ export default {
           widows: 10px;
           height: 10px;
           line-height: 30px;
+        }
+      }
+    }
+
+    .bf-order-list {
+      .layer-one {
+        display: flex;
+        flex-direction: row;
+
+        .shop {
+          flex: 1;
+          justify-content: flex-start;
+          display: flex;
+          font-size: 10px;
+          margin-left: 5px;
+          font-weight: 400;
+        }
+
+        .shop-status {
+          flex: 1;
+          display: flex;
+          justify-content: flex-end;
+          color: orange;
+          font-size: 12px;
+          margin-right: 15px;
+        }
+      }
+
+      .layer-two {
+        display: flex;
+        flex-direction: row;
+        max-height: 130px;
+
+        .meal-img {
+          display: flex;
+          justify-content: flex-start;
+          margin: 5px;
+          img {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+          }
+        }
+
+        .meal-detail {
+          display: flex;
+          flex-direction: column;
+          justify-content: left;
+
+          .meal-title {
+            display: flex;
+            font-size: 14px;
+            justify-content: left;
+            flex: 1;
+          }
+
+          .meal-date {
+            display: flex;
+            font-size: 10px;
+            color: gray;
+          }
+
+          .meal-address {
+            display: flex;
+            font-size: 10px;
+            color: gray;
+          }
+        }
+      }
+
+      .layer-three {
+        display: flex;
+        flex-direction: row;
+        .get {
+          display: flex;
+          flex: 1;
+          justify-content: flex-start;
+
+          font-size: 10px;
+          color: gray;
+        }
+
+        .gift {
+          justify-content: flex-end;
+          width: 60px;
+          height: 20px;
+          border: 1px solid orange;
+          color: orange;
+          border-radius: 5px;
+          text-align: center;
+          font-size: 10px;
         }
       }
     }
