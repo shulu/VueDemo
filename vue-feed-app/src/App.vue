@@ -26,7 +26,6 @@ export default {
 }
 
 .container {
-  max-width: 375px;
   height: 100%;
   border: 1px solid red;
 

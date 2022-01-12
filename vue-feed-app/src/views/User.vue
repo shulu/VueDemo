@@ -36,20 +36,41 @@
         </div>
       </div>
     </div>
-    <div class="discount"></div>
+    <div class="discount">
+      <div class="left">
+        <img src="@/assets/ticket-outline.svg" alt="" />
+        <p>优惠券</p>
+      </div>
+      <div class="right">
+        <img src="@/assets/chevron-forward-outline.svg" alt="" />
+      </div>
+    </div>
     <div class="user-taste">
-      <div class="choose-taste"></div>
-      <div class="order-tips"></div>
+      <div class="choose-taste left">
+        <div class="left">
+          <img src="@/assets/insert_emoticon_black_24dp.svg" alt="" />
+          <p>口味偏好</p>
+        </div>
+        <div class="right">
+          <img src="@/assets/chevron-forward-outline.svg" alt="" />
+        </div>
+      </div>
+      <div class="order-tips right">
+        <div class="left">
+          <img src="@/assets/notifications-outline.svg" alt="" />
+          <p>订餐微信提示</p>
+        </div>
+        <div class="right">
+          <img src="@/assets/toggle_on_black_24dp.svg" alt="" />
+        </div>
+      </div>
     </div>
     <div class="about-us"></div>
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 .user {
-  width: 100%;
-  height: 30vh;
   background-color: #f7f7f5;
   padding-top: 10px;
   .user-header {
@@ -119,6 +140,61 @@
         font-size: 8px;
         opacity: 0.5;
       }
+    }
+  }
+
+  .discount {
+    height: 45px;
+    border: 1px dashed red;
+    margin: 10px 10px 10px 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    img {
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+    }
+
+    .left {
+      display: flex;
+      p {
+        margin-left: 10px;
+      }
+    }
+    .right {
+      justify-content: flex-end;
+    }
+  }
+
+  .user-taste {
+    height: 85px;
+    border: 1px dashed red;
+    margin: 10px 10px 10px 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+    }
+
+    p {
+      display: inline-block;
+    }
+
+    .left,
+    .right {
+      display: flex;
+      flex-direction: row;
+      flex-basis: 50%;
+      margin: 5px 5px;
     }
   }
 }
