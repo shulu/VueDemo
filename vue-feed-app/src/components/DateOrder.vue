@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 .date-order {
-  min-height: 500px;
+  min-height: 50vh;
   .feed-layer-first {
     min-height: 10vh;
     margin: 10px;

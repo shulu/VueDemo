@@ -35,6 +35,7 @@ export default {
   text-align: center;
   justify-content: center;
   align-content: center;
+  opacity: 0.5;
 
   .footer-link {
     padding: 0px 45px;
