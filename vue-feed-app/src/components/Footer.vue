@@ -30,6 +30,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .footer {
+  position: fixed;
+  bottom: 0px;
   font-size: 12px;
   display: flex;
   text-align: center;
@@ -41,14 +43,15 @@ export default {
     padding: 0px 45px;
   }
 
-  .footer-inner {
-    text-decoration: none;
-    cursor: pointer;
+  p {
+    color: #333;
+    font-size: 1.2em;
+    font-weight: 500;
   }
 
   img {
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
   }
 }
 </style>

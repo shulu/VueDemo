@@ -26,27 +26,20 @@ export default {
 }
 
 .container {
+  max-width: 400px;
   height: 100%;
-  border: 1px solid red;
-
+  background-color: #fff;
   .toper {
-    max-width: 120px;
     margin: 0 auto;
     padding: 0;
     font-size: 18px;
-    border: 1px solid green;
+    text-align: center;
   }
 }
 
-.flex {
-  flex: 1;
-}
-
-.flex-column {
-  flex-direction: row;
-}
-
-.flex-row {
-  flex-direction: column;
+a {
+  text-decoration: none;
+  text-decoration-color: none;
+  cursor: pointer;
 }
 </style>
