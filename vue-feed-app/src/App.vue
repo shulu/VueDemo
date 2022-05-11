@@ -35,11 +35,11 @@ export default {
     font-size: 18px;
     text-align: center;
   }
+  cursor: pointer;
 }
 
 a {
   text-decoration: none;
   text-decoration-color: none;
-  cursor: pointer;
 }
 </style>

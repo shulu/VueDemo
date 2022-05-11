@@ -1,18 +1,21 @@
 <template>
   <div class="home">
-    <home-header />
+    <Header />
+    <date-picker />
     <date-order />
   </div>
 </template>
 
 <script>
-import HomeHeader from "@/components/HomeHeader";
+import Header from "@/components/Header";
 import DateOrder from "@/components/DateOrder";
+import DatePicker from "@/components/DatePicker.vue";
 
 export default {
   name: "Home",
   components: {
-    HomeHeader,
+    Header,
+    DatePicker,
     DateOrder,
   },
 };
