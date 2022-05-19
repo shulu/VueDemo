@@ -28,15 +28,16 @@ const routes = [
     component: PickOffice,
   },
   {
-    path: "/user",
-    name: "User",
-    component: User,
+    path: "/showqr",
+    name: "ShowQR",
+    component: ShowQR,
   },
   {
-    path: "/user",
-    name: "User",
-    component: User,
+    path: "/showmessage",
+    name: "ShowMessage",
+    component: ShowMessage,
   },
+  
 ];
 
 const router = createRouter({
