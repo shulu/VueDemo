@@ -3,7 +3,7 @@
     <div class="top-office">
       <router-link :to="{ name: 'PickOffice' }">
         <img src="@/assets/location-outline.svg" alt="" />
-        <p>鄱阳B2F办公点</p>
+        <p>{{ nowAddr }}</p>
         <img src="@/assets/chevron-forward-outline.svg" alt="" />
       </router-link>
     </div>
@@ -20,8 +20,26 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Header",
+  data() {
+    return {
+      nowAddr: null,
+    };
+  },
+  created() {
+    this.setAddr();
+  },
+  methods: {
+    setAddr() {
+      this.nowAddr = this.addrList[this.addrChoose];
+    },
+  },
+  computed: {
+    ...mapState(["addrList", "addrChoose"]),
+  },
 };
 </script>
 
@@ -37,6 +55,8 @@ export default {
     p {
       float: left;
       font-weight: 500;
+      text-decoration: none;
+      color: #000;
     }
 
     img:first-child {

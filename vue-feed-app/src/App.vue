@@ -1,18 +1,40 @@
 <template>
   <div class="container">
-    <div class="toper">Feed Vue</div>
     <router-view />
-    <Footer />
   </div>
 </template>
 
 <script>
-import Footer from "@/components/Footer";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "App",
-  components: {
-    Footer,
+  components: {},
+  created() {
+    this.INIT_ADDRLIST();
+    this.randomAddrIndex();
+  },
+  methods: {
+    ...mapActions(["INIT_ADDRLIST", "UPDATE_ADDRINDEX"]),
+    randomAddrIndex() {
+      let addrLen = this.addrList.length;
+      let randIndex = this.randomNum(0, addrLen - 1);
+      this.UPDATE_ADDRINDEX(randIndex);
+    },
+    //生成从minNum到maxNum的随机数
+    randomNum(minNum, maxNum) {
+      switch (arguments.length) {
+        case 1:
+          return parseInt(Math.random() * minNum + 1, 10);
+        case 2:
+          return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+        default:
+          return 0;
+      }
+    },
+  },
+  computed: {
+    ...mapState(["addrList", "addrChoose"]),
   },
 };
 </script>
@@ -26,7 +48,7 @@ export default {
 }
 
 .container {
-  max-width: 400px;
+  // max-width: 400px;
   height: 100%;
   background-color: #fff;
   .toper {

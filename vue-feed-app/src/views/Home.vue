@@ -3,6 +3,7 @@
     <Header />
     <date-picker />
     <date-order />
+    <Footer />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import Header from "@/components/Header";
 import DateOrder from "@/components/DateOrder";
 import DatePicker from "@/components/DatePicker.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "Home",
@@ -17,6 +19,7 @@ export default {
     Header,
     DatePicker,
     DateOrder,
+    Footer,
   },
 };
 </script>

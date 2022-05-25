@@ -80,7 +80,19 @@
       </div>
     </div>
   </div>
+  <Footer />
 </template>
+
+<script>
+import Footer from "@/components/Footer.vue";
+
+export default {
+  name: "User",
+  components: {
+    Footer,
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .user {
