@@ -1,6 +1,5 @@
 <template>
-  <div class="order">
-    <div class="order-header">
+  <div class="order-header">
       <div class="choose-order today-order" @click="pickList('today-order')">
         <div class="today-order-content">
           <p :class="{ active: listPick === 'today-order' }">今日订单</p>
@@ -39,9 +38,8 @@
           </div>
         </div>
       </div>
-    </div>
-    <order-list-modal />
   </div>
+  <order-list-modal />
   <Footer />
 </template>
 
@@ -69,14 +67,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.order {
-  height: 3rem;
   .order-header {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 11;
 
     .choose-order {
       margin: 10px 10px;
@@ -133,5 +135,4 @@ export default {
     width: 100%;
     margin-top: 0.2rem;
   }
-}
 </style>

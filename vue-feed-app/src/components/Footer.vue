@@ -35,7 +35,7 @@ export default {
   z-index: 11;
   background-color: #fff;
   position: fixed;
-  bottom: 1rem;
+  bottom: 0;
   left: 0;
   right: 0;
 
