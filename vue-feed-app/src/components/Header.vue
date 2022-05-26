@@ -45,9 +45,10 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  width: 100%;
-  height: 30px;
-  line-height: 30px;
+  height: 3em;
+  line-height: 3em;
+  vertical-align: middle;
+  margin: 0 1em;
 
   .top-office {
     float: left;
@@ -57,6 +58,7 @@ export default {
       font-weight: 500;
       text-decoration: none;
       color: #000;
+      line-height: 3em;
     }
 
     img:first-child {
@@ -65,9 +67,9 @@ export default {
 
     img {
       float: right;
-      height: 20px;
-      width: 20px;
-      margin: 5px 0;
+      height: 1em;
+      width: 1em;
+      margin: 1em 0;
     }
   }
 

@@ -32,7 +32,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .footer {
-  margin-top: 70%;
+  z-index: 11;
+  background-color: #fff;
+  position: fixed;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
 
   .footer-wrap {
     font-size: 12px;

@@ -5,17 +5,17 @@
         <li v-for="(item, index) in pickDates" :key="index">
           <p>{{ item.date }}</p>
           <p v-if="index == nowDay" class="pick-date-pick">
-            {{ item.day }}
+            {{ item.dayCN }}
           </p>
           <p v-else @Click="pickDate(index)">
-            {{ item.day }}
+            {{ item.dayCN }}
           </p>
         </li>
       </ul>
       <ul class="pick-date-more" v-show="show">
         <li v-for="(item, index) in pickMoreDates" :key="index">
           <p>{{ item.date }}</p>
-          <p>{{ item.day }}</p>
+          <p>{{ item.dayCN }}</p>
         </li>
       </ul>
       <div class="show-more-date">
@@ -55,41 +55,48 @@ export default {
   methods: {
     initDates() {
       const nowDate = new Date();
+      let countMiles = 24 * 60 * 60 * 1000;
       let nowDay = nowDate.getDay();
+      let nextDate = new Date(nowDate.getTime() + 7 * countMiles);
+      this.genWeekByDate(nowDate, this.pickDates);
+      this.genWeekByDate(nextDate, this.pickMoreDates);
       this.nowDay = nowDay;
-      let j = 0;
-      while (j <= nowDay) {
-        this.getPickDates(-j);
-        j++;
-      }
-      while (nowDay > 0) {
-        this.getPickDates(nowDay);
-        nowDay--;
-      }
-      this.pickDates.sort((a, b) => a.date - b.date);
-      this.pickMoreDates.sort((a, b) => a.date - b.date);
     },
     pickDate(day) {
       this.nowDay = day;
     },
-    getPickDates(n) {
-      let countMiles = 24 * 60 * 60 * 1000 * n;
-      let nextCountMiles = 24 * 60 * 60 * 1000 * 7;
-      var curDate = new Date();
-      var preDate = new Date(curDate.getTime() + countMiles);
-      var sufDate = new Date(curDate.getTime() + countMiles + nextCountMiles);
-      var preDateInfo = {
-        date:
-          preDate.getDate() < 10 ? "0" + preDate.getDate() : preDate.getDate(),
-        day: this.dayMapCn[preDate.getDay()],
-      };
-      var sufDateInfo = {
-        date:
-          sufDate.getDate() < 10 ? "0" + sufDate.getDate() : sufDate.getDate(),
-        day: this.dayMapCn[sufDate.getDay()],
-      };
-      this.pickDates.push(preDateInfo);
-      this.pickMoreDates.push(sufDateInfo);
+    genWeekByDate(date, info) {
+      let startDay = date.getDay();
+      let countMiles = 24 * 60 * 60 * 1000;
+      let j = 0;
+      while (j <= startDay) {
+        var preDate = new Date(date.getTime() + -j * countMiles);
+        var preDateInfo = {
+          date:
+            preDate.getDate() < 10
+              ? "0" + preDate.getDate()
+              : preDate.getDate(),
+          day: preDate.getDay(),
+          dayCN: this.dayMapCn[preDate.getDay()],
+        };
+        info.push(preDateInfo);
+        j++;
+      }
+      let spareDay = 6 - startDay;
+      while (spareDay > 0) {
+        preDate = new Date(date.getTime() + spareDay * countMiles);
+        preDateInfo = {
+          date:
+            preDate.getDate() < 10
+              ? "0" + preDate.getDate()
+              : preDate.getDate(),
+          day: preDate.getDay(),
+          dayCN: this.dayMapCn[preDate.getDay()],
+        };
+        info.push(preDateInfo);
+        spareDay--;
+      }
+      info.sort((a, b) => a.day - b.day);
     },
     showMoreDate() {
       this.show = !this.show;
