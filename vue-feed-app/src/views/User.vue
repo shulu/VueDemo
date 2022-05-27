@@ -1,18 +1,12 @@
 <template>
-  <div class="user flex flex-column">
-    <div class="flex user-header">
-      <div class="user-info flex">
-        <div class="user-avatar">
-          <img src="@/assets/cai-120x120.jpeg" alt="" />
-        </div>
-        <div class="user-profile">
-          <p class="user-name">ufan_e1568703123803></p>
-          <p class="user-company">XXXXXXXXXXXX</p>
-        </div>
+  <div class="user">
+    <div class="user-header">
+      <img class="user-avatar" src="@/assets/cai-120x120.jpeg" alt="" />
+      <div class="user-profile">
+        <p class="user-name">ufan_e1568703123803></p>
+        <p class="user-company">XXXXXXXXXXXX</p>
       </div>
-      <div class="qr-code">
-        <img src="@/assets/qr-code-outline.svg" alt="" />
-      </div>
+      <img class="qr-code" src="@/assets/qr-code-outline.svg" alt="" />
     </div>
     <div class="user-pay-account">
       <div class="account-header">
@@ -96,50 +90,35 @@ export default {
 
 <style lang="scss" scoped>
 .user {
-  min-height: 50vh;
   background-color: #f7f7f5;
-  padding-top: 10px;
+  padding: 0 1.5rem;
+
   .user-header {
-    width: 100%;
+    height: 4rem;
     display: flex;
-    align-items: center;
+    justify-content: flex-start;
+    margin: 1.5rem 0;
 
-    .user-info {
-      display: flex;
-      justify-content: left;
-      align-items: center;
+    .user-avatar {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 2rem;
+    }
 
-      div {
-        display: inline-block;
-      }
-      .user-avatar {
-        margin-left: 10px;
-        img {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-        }
-      }
+    .user-profile {
+      flex: 1;
+      margin-left: 1rem;
 
-      .user-profile {
-        margin-left: 10px;
-        .user-name {
-          font-size: 15px;
-        }
-        .user-company {
-          font-size: 10px;
-          opacity: 0.5;
-        }
+      p {
+        height: 1.5rem;
+        line-height: 2rem;
       }
     }
 
     .qr-code {
-      justify-content: flex-end;
-      margin-right: 10px;
-      img {
-        width: 30px;
-        height: 30px;
-      }
+      width: 2rem;
+      height: 2rem;
+      margin: 1rem 0;
     }
   }
 

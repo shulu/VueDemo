@@ -35,7 +35,7 @@
               <img src="https://fakeimg.pl/50x50/" alt="" class="shop-img" />
               <p>川粤味道</p>
             </div>
-            <div class="shop-status">
+            <div class="shop-status" @click="showDeliveryStatus()">
               <p>商家备餐中</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +191,7 @@
               <img src="https://fakeimg.pl/50x50/" alt="" class="shop-img" />
               <p>川粤味道</p>
             </div>
-            <div class="shop-status">
+            <div class="shop-status" @click="showDeliveryStatus()">
               <p>商家备餐中</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -347,7 +347,7 @@
               <img src="https://fakeimg.pl/50x50/" alt="" class="shop-img" />
               <p>川粤味道</p>
             </div>
-            <div class="shop-status">
+            <div class="shop-status" @click="showDeliveryStatus()">
               <p>商家备餐中</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -469,13 +469,17 @@
       </div>
     </div>
   </div>
+  <delivery-status-modal v-if="showDeStat" @emitEvent="showDeliveryStatus" />
 </template>
 
 <script>
+import DeliveryStatusModal from "@/components/DeliveryStatusModal";
+
 export default {
   name: "OrderListModal",
   data() {
     return {
+      showDeStat: false,
       showOrderList: {
         bf: {
           show: true,
@@ -501,6 +505,9 @@ export default {
     };
   },
   methods: {
+    showDeliveryStatus() {
+      this.showDeStat = !this.showDeStat;
+    },
     changeOrderList(orderType) {
       switch (orderType) {
         case "bf":
@@ -535,6 +542,9 @@ export default {
           break;
       }
     },
+  },
+  components: {
+    DeliveryStatusModal,
   },
 };
 </script>

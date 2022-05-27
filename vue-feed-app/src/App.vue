@@ -34,7 +34,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["addrList", "addrChoose"]),
+    ...mapState(["addrList", "addrChoose", "showDeStat"]),
   },
 };
 </script>
