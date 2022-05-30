@@ -13,4 +13,7 @@ export default {
   UPDATE_ADDRINDEX({ commit }, addrIndex) {
     commit("SET_CUR_ADDR", addrIndex);
   },
+  UPDATE_PAGE_CHOOSE({ commit }, pageChoose) {
+    commit("SET_PAGE_CHOOSE", pageChoose);
+  },
 };

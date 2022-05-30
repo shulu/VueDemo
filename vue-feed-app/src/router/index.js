@@ -5,6 +5,7 @@ import User from "../views/User.vue";
 import PickOffice from "../views/PickOffice.vue";
 import ShowQR from "../views/ShowQR.vue";
 import ShowMessage from "../views/ShowMessage.vue";
+import UserInfo from "../views/UserInfo.vue";
 
 const routes = [
   {
@@ -23,6 +24,11 @@ const routes = [
     component: User,
   },
   {
+    path: "/userinfo",
+    name: "UserInfo",
+    component: UserInfo,
+  },
+  {
     path: "/PickOffice",
     name: "PickOffice",
     component: PickOffice,
@@ -37,7 +43,6 @@ const routes = [
     name: "ShowMessage",
     component: ShowMessage,
   },
-  
 ];
 
 const router = createRouter({

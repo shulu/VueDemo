@@ -1,8 +1,10 @@
 <template>
   <div class="top">
-    <router-link :to="{ name: 'Home' }">
-      <img src="@/assets/arrow-back-outline.svg" alt="" />
-    </router-link>
+    <img
+      src="@/assets/arrow-back-outline.svg"
+      alt=""
+      @click="this.$router.go(-1)"
+    />
     <p>{{ title }}</p>
   </div>
 </template>

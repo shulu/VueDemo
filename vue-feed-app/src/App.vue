@@ -63,5 +63,6 @@ export default {
 a {
   text-decoration: none;
   text-decoration-color: none;
+  color: gray;
 }
 </style>
