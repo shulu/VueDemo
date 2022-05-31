@@ -6,6 +6,7 @@ import PickOffice from "../views/PickOffice.vue";
 import ShowQR from "../views/ShowQR.vue";
 import ShowMessage from "../views/ShowMessage.vue";
 import UserInfo from "../views/UserInfo.vue";
+import Wallet from "../views/Wallet.vue";
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: "/showmessage",
     name: "ShowMessage",
     component: ShowMessage,
+  },
+  {
+    path: "/wallet",
+    name: "Wallet",
+    component: Wallet,
   },
 ];
 

@@ -23,10 +23,12 @@
         <p>账户(元)</p>
       </div>
       <div class="pocket">
-        <div class="pocket-money">
-          <p class="pocket-num">0</p>
-          <p class="pocket-txt">钱包</p>
-        </div>
+        <router-link :to="{ name: 'Wallet' }">
+          <div class="pocket-money">
+            <p class="pocket-num">0</p>
+            <p class="pocket-txt">钱包</p>
+          </div>
+        </router-link>
         |
         <div class="pocket-breakfast">
           <p class="pocket-num">8</p>
@@ -268,7 +270,7 @@ export default {
         .user-name {
           height: 2rem;
           line-height: 2.3rem;
-          font-size: 1rem;
+          font-size: 1.2rem;
           font-weight: 800;
           color: #000;
         }
@@ -328,7 +330,7 @@ export default {
 
       .pocket-txt {
         font-size: 0.8rem;
-        font-weight: 800;
+        color: rgba($color: #a1a1a1, $alpha: 1);
       }
     }
   }
