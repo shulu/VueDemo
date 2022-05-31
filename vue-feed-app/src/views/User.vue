@@ -270,7 +270,7 @@ export default {
         .user-name {
           height: 2rem;
           line-height: 2.3rem;
-          font-size: 1.2rem;
+          font-size: 1rem;
           font-weight: 800;
           color: #000;
         }

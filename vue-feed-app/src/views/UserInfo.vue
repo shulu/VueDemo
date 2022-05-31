@@ -207,7 +207,7 @@ export default {
         .edit-avatar {
           position: absolute;
           top: 3.5rem;
-          left: 17rem;
+          left: 53%;
           background-color: rgba($color: #000000, $alpha: 0.4);
           width: 1.5rem;
           height: 1.5rem;
