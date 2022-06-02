@@ -6,13 +6,29 @@
       @click="this.$router.go(-1)"
     />
     <p>{{ title }}</p>
+    <div v-if="showSwitch" class="manual-switch">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="48"
+        width="48"
+        :class="{ off: switchStats == 'off', on: switchStats == 'on' }"
+        @click="doSwitch()"
+      >
+        <path :d="d" />
+      </svg>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "TopModal",
-  props: ["title"],
+  props: ["title", "showSwitch", "switchStats", "d"],
+  methods: {
+    doSwitch() {
+      this.$emit("emitEvent");
+    },
+  },
 };
 </script>
 
@@ -38,6 +54,23 @@ export default {
   p {
     font-size: 1.2em;
     font-weight: 600;
+    display: inline;
+  }
+
+  .manual-switch {
+    float: right;
+
+    .on {
+      width: 3rem;
+      height: 2.2rem;
+      fill: #f37626;
+    }
+
+    .off {
+      width: 3rem;
+      height: 2.2rem;
+      fill: lightgray;
+    }
   }
 }
 </style>

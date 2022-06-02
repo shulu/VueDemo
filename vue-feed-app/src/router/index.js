@@ -7,6 +7,10 @@ import ShowQR from "../views/ShowQR.vue";
 import ShowMessage from "../views/ShowMessage.vue";
 import UserInfo from "../views/UserInfo.vue";
 import Wallet from "../views/Wallet.vue";
+import MealHistory from "../views/MealHistory.vue";
+import Coupon from "../views/Coupon.vue";
+import Tastes from "../views/Tastes.vue";
+import OrderManual from "../views/OrderManual.vue";
 
 const routes = [
   {
@@ -48,6 +52,26 @@ const routes = [
     path: "/wallet",
     name: "Wallet",
     component: Wallet,
+  },
+  {
+    path: "/mealHistory",
+    name: "MealHistory",
+    component: MealHistory,
+  },
+  {
+    path: "/coupon",
+    name: "Coupon",
+    component: Coupon,
+  },
+  {
+    path: "/tastes",
+    name: "Tastes",
+    component: Tastes,
+  },
+  {
+    path: "/ordermanual",
+    name: "OrderManual",
+    component: OrderManual,
   },
 ];
 

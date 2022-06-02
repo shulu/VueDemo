@@ -30,122 +30,57 @@
           </div>
         </router-link>
         |
-        <div class="pocket-breakfast">
-          <p class="pocket-num">8</p>
-          <p class="pocket-txt">早</p>
-        </div>
+        <router-link :to="{ name: 'MealHistory' }">
+          <div class="pocket-breakfast">
+            <p class="pocket-num">8</p>
+            <p class="pocket-txt">早</p>
+          </div>
+        </router-link>
         |
-        <div class="pocket-lunch">
-          <p class="pocket-num">20</p>
-          <p class="pocket-txt">中</p>
-        </div>
+        <router-link :to="{ name: 'MealHistory' }">
+          <div class="pocket-lunch">
+            <p class="pocket-num">20</p>
+            <p class="pocket-txt">中</p>
+          </div>
+        </router-link>
         |
-        <div class="pocket-dinner">
-          <p class="pocket-num">20</p>
-          <p class="pocket-txt">晚</p>
-        </div>
+        <router-link :to="{ name: 'MealHistory' }">
+          <div class="pocket-dinner">
+            <p class="pocket-num">20</p>
+            <p class="pocket-txt">晚</p>
+          </div>
+        </router-link>
       </div>
     </div>
     <div class="discount">
-      <div class="left">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="ionicon"
-          viewBox="0 0 512 512"
-        >
-          <title>Ticket</title>
-          <path
-            fill="none"
-            stroke="currentColor"
-            stroke-miterlimit="10"
-            stroke-width="32"
-            d="M366.05 146a46.7 46.7 0 01-2.42-63.42 3.87 3.87 0 00-.22-5.26l-44.13-44.18a3.89 3.89 0 00-5.5 0l-70.34 70.34a23.62 23.62 0 00-5.71 9.24h0a23.66 23.66 0 01-14.95 15h0a23.7 23.7 0 00-9.25 5.71L33.14 313.78a3.89 3.89 0 000 5.5l44.13 44.13a3.87 3.87 0 005.26.22 46.69 46.69 0 0165.84 65.84 3.87 3.87 0 00.22 5.26l44.13 44.13a3.89 3.89 0 005.5 0l180.4-180.39a23.7 23.7 0 005.71-9.25h0a23.66 23.66 0 0114.95-15h0a23.62 23.62 0 009.24-5.71l70.34-70.34a3.89 3.89 0 000-5.5l-44.13-44.13a3.87 3.87 0 00-5.26-.22 46.7 46.7 0 01-63.42-2.32z"
-          />
-          <path
-            fill="none"
-            stroke="currentColor"
-            stroke-miterlimit="10"
-            stroke-width="32"
-            stroke-linecap="round"
-            d="M250.5 140.44l-16.51-16.51M294.52 184.46l-11.01-11M338.54 228.49l-11-11.01M388.07 278.01l-16.51-16.51"
-          />
-        </svg>
-        <p>优惠券</p>
-      </div>
-      <div class="right">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="ionicon"
-          viewBox="0 0 512 512"
-        >
-          <title>Chevron Forward</title>
-          <path
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="48"
-            d="M184 112l144 144-144 144"
-          />
-        </svg>
-      </div>
-    </div>
-    <div class="user-taste">
-      <div class="choose-taste">
-        <div class="left">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 0 24 24"
-            width="24px"
-            fill="#000000"
-          >
-            <path d="M0 0h24v24H0V0z" fill="none" />
-            <path
-              d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
-            />
-          </svg>
-          <p>口味偏好</p>
-        </div>
-        <div class="right">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="ionicon"
-            viewBox="0 0 512 512"
-          >
-            <title>Chevron Forward</title>
-            <path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="48"
-              d="M184 112l144 144-144 144"
-            />
-          </svg>
-        </div>
-      </div>
-      <div class="order-manual">
+      <router-link :to="{ name: 'Coupon' }">
         <div class="left">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="ionicon"
             viewBox="0 0 512 512"
           >
-            <title>Notifications Circle</title>
+            <title>Ticket</title>
             <path
-              d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
               fill="none"
               stroke="currentColor"
               stroke-miterlimit="10"
               stroke-width="32"
+              d="M366.05 146a46.7 46.7 0 01-2.42-63.42 3.87 3.87 0 00-.22-5.26l-44.13-44.18a3.89 3.89 0 00-5.5 0l-70.34 70.34a23.62 23.62 0 00-5.71 9.24h0a23.66 23.66 0 01-14.95 15h0a23.7 23.7 0 00-9.25 5.71L33.14 313.78a3.89 3.89 0 000 5.5l44.13 44.13a3.87 3.87 0 005.26.22 46.69 46.69 0 0165.84 65.84 3.87 3.87 0 00.22 5.26l44.13 44.13a3.89 3.89 0 005.5 0l180.4-180.39a23.7 23.7 0 005.71-9.25h0a23.66 23.66 0 0114.95-15h0a23.62 23.62 0 009.24-5.71l70.34-70.34a3.89 3.89 0 000-5.5l-44.13-44.13a3.87 3.87 0 00-5.26-.22 46.7 46.7 0 01-63.42-2.32z"
             />
             <path
-              d="M365.2 313c-16.33-19.34-27.86-27.47-27.86-80.8 0-48.86-25.78-66.23-47-74.67a11.39 11.39 0 01-6.34-6.68C280.29 138.6 269.88 128 256 128s-24.31 10.6-28 22.86a11.35 11.35 0 01-6.33 6.68c-21.24 8.46-47 25.8-47 74.67 0 53.33-11.54 61.46-27.87 80.8-6.77 8-.65 23 11.19 23H354C365.77 336 371.94 321 365.2 313zM220.24 352a4 4 0 00-4 4.42C218.49 375.14 235.11 384 256 384c20.67 0 37.14-9.15 39.66-27.52a4 4 0 00-4-4.48z"
+              fill="none"
+              stroke="currentColor"
+              stroke-miterlimit="10"
+              stroke-width="32"
+              stroke-linecap="round"
+              d="M250.5 140.44l-16.51-16.51M294.52 184.46l-11.01-11M338.54 228.49l-11-11.01M388.07 278.01l-16.51-16.51"
             />
           </svg>
-          <p>自动订餐</p>
+          <p>优惠券</p>
         </div>
+      </router-link>
+      <router-link :to="{ name: 'Coupon' }">
         <div class="right">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +98,89 @@
             />
           </svg>
         </div>
+      </router-link>
+    </div>
+    <div class="user-taste">
+      <router-link :to="{ name: 'Tastes' }">
+        <div class="choose-taste">
+          <div class="left">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 0 24 24"
+              width="24px"
+              fill="#000000"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path
+                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+              />
+            </svg>
+            <p>口味偏好</p>
+          </div>
+          <div class="right">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <title>Chevron Forward</title>
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="48"
+                d="M184 112l144 144-144 144"
+              />
+            </svg>
+          </div>
+        </div>
+      </router-link>
+      <div class="order-manual">
+        <router-link :to="{ name: 'OrderManual' }">
+          <div class="left">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <title>Notifications Circle</title>
+              <path
+                d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                fill="none"
+                stroke="currentColor"
+                stroke-miterlimit="10"
+                stroke-width="32"
+              />
+              <path
+                d="M365.2 313c-16.33-19.34-27.86-27.47-27.86-80.8 0-48.86-25.78-66.23-47-74.67a11.39 11.39 0 01-6.34-6.68C280.29 138.6 269.88 128 256 128s-24.31 10.6-28 22.86a11.35 11.35 0 01-6.33 6.68c-21.24 8.46-47 25.8-47 74.67 0 53.33-11.54 61.46-27.87 80.8-6.77 8-.65 23 11.19 23H354C365.77 336 371.94 321 365.2 313zM220.24 352a4 4 0 00-4 4.42C218.49 375.14 235.11 384 256 384c20.67 0 37.14-9.15 39.66-27.52a4 4 0 00-4-4.48z"
+              />
+            </svg>
+            <p>自动订餐</p>
+          </div>
+        </router-link>
+        <router-link :to="{ name: 'OrderManual' }">
+          <div class="right">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <title>Chevron Forward</title>
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="48"
+                d="M184 112l144 144-144 144"
+              />
+            </svg>
+          </div>
+        </router-link>
       </div>
+
       <div class="order-tips">
         <div class="left">
           <img
@@ -344,6 +361,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 
     .left {
       flex: 1;
@@ -378,6 +396,10 @@ export default {
     }
   }
 
+  a {
+    color: #000;
+  }
+
   .user-taste {
     background-color: #fff;
     border-radius: 5px;
@@ -393,7 +415,7 @@ export default {
     .order-manual,
     .order-tips {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       margin: 0.3rem 0;
 
