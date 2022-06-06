@@ -60,13 +60,13 @@ export default {
   .breakfast,
   .lunch,
   .dinner {
-    height: 7rem;
-    margin: 8px 5px;
-    padding: 8px 8px;
-    border-radius: 10px;
+    height: 12rem;
+    margin: 0.8rem 0.5rem;
+    padding: 0.8rem 0.8rem;
+    border-radius: 1rem;
     border: none;
     box-shadow: 0.5rem 0.5rem rgba(0, 0, 0, 0.05);
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .breakfast,

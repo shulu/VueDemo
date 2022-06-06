@@ -146,8 +146,8 @@ export default {
   color: #fff;
 
   .delivery {
-    width: 20rem;
-    height: 34rem;
+    width: 30rem;
+    height: 40rem;
     position: absolute;
     margin: auto;
     top: -15rem;
@@ -166,9 +166,9 @@ export default {
     align-content: center;
 
     .head {
-      height: 4rem;
-      line-height: 4rem;
-      font-size: 1.3rem;
+      height: 5rem;
+      line-height: 5rem;
+      font-size: 1.7rem;
       font-weight: 500;
     }
 
@@ -185,7 +185,7 @@ export default {
         float: left;
       }
       div {
-        font-size: 0.9rem;
+        font-size: 1.4rem;
         margin-left: 1rem;
         line-height: 1rem;
         float: right;
@@ -216,8 +216,9 @@ export default {
     }
 
     .foot {
-      height: 2.6rem;
-      line-height: 2.6rem;
+      height: 4rem;
+      line-height: 4rem;
+      font-size: 1.5rem;
       color: #fff;
       font-weight: 500;
       margin: 1rem 1rem;

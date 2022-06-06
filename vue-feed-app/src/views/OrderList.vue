@@ -64,39 +64,20 @@ export default {
 .order-header {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 1rem;
+  right: 1rem;
   background-color: #fff;
   z-index: 11;
 
   .choose-order {
-    margin: 10px 10px;
-    font-size: 15px;
+    margin: 1rem 1rem;
+    font-size: 1.5rem;
     color: gray;
-
-    &:first-child {
-      flex: 1;
-      flex-basis: 20%;
-    }
-
-    &:nth-child(2) {
-      flex: 2;
-      flex-basis: 20%;
-    }
-
-    &:nth-child(3) {
-      flex: 3;
-      flex-basis: 20%;
-    }
-
-    &:nth-child(4) {
-      flex-basis: 20%;
-    }
   }
 
   .today-order,
@@ -107,16 +88,12 @@ export default {
     text-align: center;
     justify-content: center;
     align-items: center;
-
-    .today-order-content {
-      width: 4rem;
-    }
   }
 }
 
 .active {
   color: #000;
-  font-size: 1rem;
+  font-size: 1.6rem;
   font-weight: 500;
 }
 

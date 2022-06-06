@@ -263,69 +263,69 @@ export default {
   padding: 0 1.5rem;
 
   .user-header {
-    height: 4rem;
+    height: 6rem;
     display: flex;
     justify-content: space-between;
-    margin: 1.5rem 0;
-
+    margin: 2rem 0;
     .user-header-left {
       flex: 1;
 
       .user-avatar {
         float: left;
-        width: 4rem;
-        height: 4rem;
-        border-radius: 2rem;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 3rem;
       }
 
       .user-profile {
         float: left;
         flex: 1;
         margin-left: 1.5rem;
-        height: 4rem;
+        height: 6rem;
 
         .user-name {
-          height: 2rem;
-          line-height: 2.3rem;
-          font-size: 1rem;
+          height: 3rem;
+          line-height: 3rem;
+          font-size: 1.8rem;
           font-weight: 800;
           color: #000;
         }
 
         .user-company {
-          height: 2rem;
-          font-size: 0.9rem;
+          height: 3rem;
+          font-size: 1rem;
           color: gray;
         }
       }
     }
 
     .qr-code {
-      width: 1.5rem;
-      height: 1.5rem;
-      margin: 1rem 0;
+      width: 3rem;
+      height: 3rem;
+      margin: 1.2rem 0;
     }
   }
 
   .user-pay-account {
     display: flex;
     flex-direction: column;
-    border-radius: 5px;
+    border-radius: 0.5rem;
     background-color: #fff;
     margin: 2rem 0;
 
     .account-header {
       img {
-        width: 1.8rem;
-        height: 1.8rem;
+        width: 3rem;
+        height: 3rem;
         color: #f37626;
         float: left;
       }
 
       p {
-        margin-left: 2rem;
-        height: 2rem;
-        line-height: 2rem;
+        font-size: 1.4rem;
+        margin-left: 4rem;
+        height: 3rem;
+        line-height: 3rem;
       }
     }
 
@@ -341,12 +341,12 @@ export default {
 
       .pocket-num {
         color: #000;
-        font-size: 1.3rem;
+        font-size: 1.8rem;
         font-weight: 800;
       }
 
       .pocket-txt {
-        font-size: 0.8rem;
+        font-size: 1.3rem;
         color: rgba($color: #a1a1a1, $alpha: 1);
       }
     }
@@ -354,8 +354,8 @@ export default {
 
   .discount,
   .about-us {
-    height: 3rem;
-    margin: 1rem 0;
+    height: 5rem;
+    margin: 2rem 0;
     background-color: #fff;
     border-radius: 5px;
     display: flex;
@@ -367,20 +367,21 @@ export default {
       flex: 1;
       img {
         float: left;
-        width: 1.8rem;
-        height: 1.8rem;
+        width: 2.5rem;
+        height: 2.5rem;
       }
 
       svg {
         float: left;
-        width: 1.8rem;
-        height: 1.8rem;
+        width: 2.5rem;
+        height: 2.5rem;
         color: #f37626;
       }
 
       p {
-        margin-left: 2rem;
-        line-height: 1.9rem;
+        margin-left: 4rem;
+        line-height: 3rem;
+        font-size: 1.5rem;
         font-weight: 500;
         opacity: 0.7;
       }
@@ -389,8 +390,8 @@ export default {
     .right {
       svg {
         float: left;
-        width: 1.3rem;
-        height: 1.3rem;
+        width: 2rem;
+        height: 2rem;
         color: gray;
       }
     }
@@ -417,7 +418,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 0.3rem 0;
+      margin: 0.5rem 0;
 
       .left,
       .right {
@@ -428,37 +429,39 @@ export default {
 
       .left {
         svg {
-          width: 1.8rem;
-          height: 1.8rem;
+          width: 2.5rem;
+          height: 2.5rem;
           color: #f37626;
           fill: #f37626;
         }
         img {
-          height: 1.8rem;
-          width: 1.8rem;
+          height: 2.5rem;
+          width: 2.5rem;
         }
         p {
-          line-height: 2.1rem;
+          font-size: 1.6rem;
+          line-height: 3rem;
+          margin-left: 1rem;
         }
       }
 
       .right {
         justify-content: flex-end;
         svg {
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 2.5rem;
+          height: 2.5rem;
           color: gray;
         }
 
         .on {
-          width: 3rem;
-          height: 2.2rem;
+          width: 5rem;
+          height: 3.5rem;
           fill: #f37626;
         }
 
         .off {
-          width: 3rem;
-          height: 2.2rem;
+          width: 5rem;
+          height: 3.5rem;
           fill: lightgray;
         }
       }

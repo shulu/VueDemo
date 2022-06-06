@@ -46,7 +46,7 @@ export default {
 <style lang="scss" scoped>
 .header {
   height: 3em;
-  line-height: 3em;
+  line-height: 3rem;
   vertical-align: middle;
   margin: 0 1em;
 
@@ -55,10 +55,11 @@ export default {
     vertical-align: middle;
     p {
       float: left;
+      font-size: 1.6rem;
       font-weight: 500;
       text-decoration: none;
       color: #000;
-      line-height: 3em;
+      line-height: 4rem;
     }
 
     img:first-child {
@@ -67,9 +68,9 @@ export default {
 
     img {
       float: right;
-      height: 1em;
-      width: 1em;
-      margin: 1em 0;
+      height: 2rem;
+      width: 2rem;
+      margin: 1rem 0;
     }
   }
 
@@ -79,7 +80,8 @@ export default {
     margin-right: 5px;
     img {
       margin: 0 4px;
-      height: 18px;
+      height: 2rem;
+      margin: 1rem 0.3rem;
     }
   }
 }

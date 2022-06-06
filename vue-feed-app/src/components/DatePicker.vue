@@ -115,7 +115,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   font-weight: 500;
-  gap: 10px;
+  gap: 1rem;
 
   ul {
     float: left;
@@ -127,10 +127,11 @@ export default {
   li {
     flex: 1;
     list-style: none;
-    margin: 0 5px;
+    margin: 0 0.5rem;
 
     p {
-      line-height: 30px;
+      font-size: 1.5rem;
+      line-height: 3rem;
       text-align: center;
     }
   }
@@ -141,8 +142,8 @@ export default {
 
   .show-more-date {
     float: right;
-    width: 20px;
-    margin: 0 5px;
+    width: 2rem;
+    margin: 0 0.5rem;
     opacity: 0.3;
   }
 

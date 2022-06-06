@@ -551,8 +551,8 @@ export default {
 
 <style lang="scss" scoped>
 .order-list {
-  margin-top: 4rem;
-  margin-bottom: 5rem;
+  margin-top: 6rem;
+  margin-bottom: 7rem;
   margin-left: 1rem;
   margin-right: 1rem;
 
@@ -560,9 +560,10 @@ export default {
   .lunch,
   .dinner {
     background-color: #f7f7f5;
-    border-radius: 1em;
-    padding: 1em;
-    margin: 1em 0;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 1.2rem;
 
     .meal-header {
       min-height: 2rem;
@@ -573,8 +574,8 @@ export default {
         .left-empty {
           float: left;
           content: "";
-          width: 0.3rem;
-          height: 1.1rem;
+          width: 0.5rem;
+          height: 1.5rem;
           min-height: 1rem;
           color: #ff8c00;
           background-color: #d2691e;
@@ -585,7 +586,7 @@ export default {
 
         .left-content {
           float: right;
-          font-size: 1rem;
+          font-size: 1.6rem;
           font-weight: 600;
           line-height: 2rem;
           margin-left: 0.6rem;
@@ -595,7 +596,7 @@ export default {
       .right {
         float: right;
         .total-left {
-          font-size: 12px;
+          font-size: 1.3rem;
           letter-spacing: 3px;
           opacity: 0.5;
         }
@@ -608,9 +609,10 @@ export default {
 
         .click-right {
           position: relative;
-          margin-left: 10px;
-          margin-right: 10px;
+          margin-left: 1rem;
+          margin-right: 1rem;
           color: #ff8c00;
+          font-size: 1.3rem;
 
           svg {
             widows: 1em;
@@ -625,8 +627,8 @@ export default {
   .breakfast-order-info {
     .order-content {
       background-color: #fff;
-      border-radius: 0.5em;
-      min-height: 12em;
+      border-radius: 0.5rem;
+      min-height: 15rem;
       margin-top: 1rem;
       .layer-one,
       .layer-two {
@@ -784,7 +786,7 @@ export default {
   .no-more {
     widows: 100%;
     text-align: center;
-    margin-top: 1em;
+    margin-top: 1rem;
     font-size: 0.9em;
     color: #a9a9a9;
   }

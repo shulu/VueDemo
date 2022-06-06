@@ -47,6 +47,10 @@ export default {
   font-family: "Poppins", sans-serif;
 }
 
+:root {
+  font-size: 62.5%;
+}
+
 .container {
   // max-width: 400px;
   height: 100%;

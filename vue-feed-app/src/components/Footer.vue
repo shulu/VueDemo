@@ -147,7 +147,7 @@ export default {
   right: 0;
 
   .footer-wrap {
-    font-size: 12px;
+    font-size: 1.2rem;
     display: flex;
     text-align: center;
     justify-content: center;
@@ -159,12 +159,12 @@ export default {
     }
 
     p {
-      font-size: 0.9rem;
+      font-size: 1.6rem;
     }
 
     svg {
-      width: 1.8rem;
-      height: 1.8rem;
+      width: 2.5rem;
+      height: 2.5rem;
     }
   }
 
