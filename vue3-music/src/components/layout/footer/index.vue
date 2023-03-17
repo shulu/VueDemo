@@ -12,7 +12,7 @@ const msg = ref('footer')
 </script>
 
 <template>
-  <div>
+  <div class="footer">
     {{ msg }}
   </div>
 </template>
