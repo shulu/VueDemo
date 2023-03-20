@@ -7,14 +7,13 @@
  * @FilePath: /vue3-music/src/components/layout/menu/index.vue
 -->
 <script setup lang="ts">
+import menuList from './menuList.vue';
 import { ref } from 'vue'
 const msg = ref('menu')
 </script>
 
 <template>
-  <div class="menu">
-    {{ msg }}
-  </div>
+  <menuList/>
 </template>
 
 <style scoped>
