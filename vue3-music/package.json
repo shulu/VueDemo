@@ -11,6 +11,7 @@
   "dependencies": {
     "@icon-park/vue-next": "^1.4.2",
     "path": "^0.12.7",
+    "swiper": "^9.1.1",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },

@@ -2,10 +2,12 @@
  * @Author: shulu
  * @Date: 2023-03-20 16:07:27
  * @LastEditors: shulu
- * @LastEditTime: 2023-03-20 17:38:11
+ * @LastEditTime: 2023-03-22 16:08:11
  * @Description: file content
  * @FilePath: /vue3-music/src/components/layout/menu/useMenu.ts
  */
+import {Camera, Music, VideoOne, Fm} from "@icon-park/vue-next";
+
 interface IMenu {
     name: string;
     key: string;
@@ -25,22 +27,22 @@ export function useMenu() {
                 {
                     name: '推荐',
                     key: 'discovery',
-                    icon: ''
+                    icon: Camera
                 },
                 {
                     name: '音乐馆',
                     key: 'music',
-                    icon: ''
+                    icon: Music
                 },
                 {
                     name: '视频',
                     key: 'video',
-                    icon: ''
+                    icon: VideoOne
                 },
                 {
                     name: '电台',
                     key: 'dj',
-                    icon: ''
+                    icon: Fm
                 }
             ]
         },
