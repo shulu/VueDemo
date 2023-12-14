@@ -7,7 +7,7 @@
  * @FilePath: /vue3-music/src/views/discovery/banner.vue
 -->
 <script setup lang="ts">
-import { useBannerStore } from '@/store/store';
+import { useBannerStore } from '@/store/bannerr';
 import { register } from 'swiper/element/bundle';
 import { ref, onMounted } from 'vue';
 register();

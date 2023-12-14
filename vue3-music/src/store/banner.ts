@@ -1,3 +1,11 @@
+/*
+ * @Author: shulu
+ * @Date: 2023-03-28 18:01:40
+ * @LastEditors: shulu
+ * @LastEditTime: 2023-03-30 14:42:49
+ * @Description: file content
+ * @FilePath: /vue3-music/src/store/banner.ts
+ */
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { IBanner } from "@/models/banner";
