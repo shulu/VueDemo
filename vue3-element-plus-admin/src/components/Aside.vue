@@ -2,13 +2,13 @@
  * @Author: shulu
  * @Date: 2023-12-25 14:37:35
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-26 15:11:45
+ * @LastEditTime: 2023-12-26 16:34:20
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/Aside.vue
 -->
 <template>
     <h1 class="logo"><img :src="data.logo" alt="手把手撸前端" srcset="" /></h1>
-    <el-menu :default-active="currentPath" background-color="#344a5f" text-color="#fff" active-text-color="#fff" router="true" :collapse="collapse">
+    <el-menu :default-active="currentPath" background-color="#344a5f" text-color="#fff" active-text-color="#fff" router="true" :collapse="data.collapse">
         <template v-for="item in routers" :key="item.path">
             <template v-if="hasOnlyChild(item.children)">
                 <el-menu-item :index="item.children[0].path">
@@ -22,11 +22,16 @@
                         <svg-icon :icon-name="item.meta && item.meta.icon" class-name="aside-menu-svg" />
                         {{ item.meta && item.meta.title }}
                     </template>
-                    <template v-for="child in item.children" :key="child.path">
+                    <!-- <template v-for="child in item.children" :key="child.path">
                         <el-menu-item :index="child.path" v-if="!child.hidden">
                             {{ child.meta && child.meta.title }}
                         </el-menu-item>
-                    </template>
+                    </template> -->
+                    <el-menu-item-group>
+                        <template #title><span>Group One</span></template>
+                        <el-menu-item index="1-1">item one</el-menu-item>
+                        <el-menu-item index="1-2">item two</el-menu-item>
+                    </el-menu-item-group>
                 </el-sub-menu>
             </template>
         </template>
@@ -41,7 +46,9 @@ const { options } = useRouter();
 const { path } = useRoute();
 const sideStore = useSideStore();
 const data = reactive({
-    logo: require('@/assets/images/logo.png'),
+    logo: computed(() => {
+        return sideStore.collapse ? require('@/assets/images/logo-min.png') : require('@/assets/images/logo.png');
+    }),
     collapse: computed(() => sideStore.collapse),
 });
 //过滤隐藏的一级子菜单
