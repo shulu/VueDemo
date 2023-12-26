@@ -2,11 +2,14 @@
  * @Author: shulu
  * @Date: 2023-12-14 10:13:21
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-21 16:28:28
+ * @LastEditTime: 2023-12-25 17:28:40
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/vue.config.js
  */
 const path = require('path');
+function resolve(dir) {
+    return path.join(__dirname, '.', dir);
+}
 // webpack.config.js
 // const ElementPlus = require("unplugin-element-plus/webpack").default;
 module.exports = {
@@ -35,6 +38,20 @@ module.exports = {
         config.performance = {
             hints: false,
         };
+    },
+    chainWebpack: (config) => {
+        config.module.rules.delete('svg');
+        // set svg-sprite-loader
+        config.module
+            .rule('svg-sprite-svg')
+            .test(/\.svg$/)
+            .include.add(resolve('/src/components/svgIcon/icon'))
+            .end()
+            .use('svg-sprite-loader')
+            .loader('svg-sprite-loader')
+            .options({
+                symbolId: 'icon-[name]',
+            });
     },
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: false,
