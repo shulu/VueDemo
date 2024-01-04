@@ -2,13 +2,26 @@
  * @Author: shulu
  * @Date: 2023-12-14 10:13:21
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-25 16:06:04
+ * @LastEditTime: 2023-12-28 16:30:00
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/App.vue
 -->
 <template>
-    <router-view />
+    <el-config-provider :locale="locale">
+        <router-view />
+    </el-config-provider>
 </template>
+
+<script>
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
+export default {
+    name: 'App',
+    setup() {
+        let locale = zhCn;
+        return { locale };
+    },
+};
+</script>
 
 <style lang="scss">
 #app {

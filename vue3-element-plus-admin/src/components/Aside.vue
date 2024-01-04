@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 14:37:35
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-26 16:34:20
+ * @LastEditTime: 2023-12-28 14:44:00
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/Aside.vue
 -->
@@ -13,25 +13,26 @@
             <template v-if="hasOnlyChild(item.children)">
                 <el-menu-item :index="item.children[0].path">
                     <svg-icon :icon-name="item.children[0].meta && item.children[0].meta.icon" class-name="aside-menu-svg" />
-                    <template #title> {{ item.children[0].meta && item.children[0].meta.title }}</template>
+                    <template #title>
+                        <span>
+                            {{ item.children[0].meta && item.children[0].meta.title }}
+                        </span>
+                    </template>
                 </el-menu-item>
             </template>
             <template v-else>
                 <el-sub-menu v-if="item.children && item.children.length" :index="item.path">
                     <template #title>
                         <svg-icon :icon-name="item.meta && item.meta.icon" class-name="aside-menu-svg" />
-                        {{ item.meta && item.meta.title }}
+                        <span>
+                            {{ item.meta && item.meta.title }}
+                        </span>
                     </template>
-                    <!-- <template v-for="child in item.children" :key="child.path">
+                    <template v-for="child in item.children" :key="child.path">
                         <el-menu-item :index="child.path" v-if="!child.hidden">
                             {{ child.meta && child.meta.title }}
                         </el-menu-item>
-                    </template> -->
-                    <el-menu-item-group>
-                        <template #title><span>Group One</span></template>
-                        <el-menu-item index="1-1">item one</el-menu-item>
-                        <el-menu-item index="1-2">item two</el-menu-item>
-                    </el-menu-item-group>
+                    </template>
                 </el-sub-menu>
             </template>
         </template>

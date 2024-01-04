@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2023-12-25 14:04:26
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-26 16:18:58
+ * @LastEditTime: 2024-01-02 17:17:57
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/layout/index.vue
+ * @FilePath: /vue3-element-plus-admin/src/layout/Index.vue
 -->
 
 <template>
@@ -36,6 +36,8 @@ const data = reactive({
 }
 
 #layout-aside {
+    height: 100%;
+    min-height: 100%;
     background-color: #344a5f;
     @include webkit(transition, all 0.3s ease 0s);
 }
@@ -48,7 +50,7 @@ const data = reactive({
 }
 
 #layout-main {
-    background-color: #bc77a1;
+    background-color: #f7f7f7;
     height: 100%;
 }
 </style>

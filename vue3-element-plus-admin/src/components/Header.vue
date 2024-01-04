@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 14:37:43
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-26 15:15:29
+ * @LastEditTime: 2024-01-03 18:03:19
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/Header.vue
 -->
@@ -16,10 +16,10 @@
         <div class="wrap">
             <div class="user-info">
                 <div class="face-info">
-                    <img src="../assets/images/logo-min.png" alt="409019683@qq.com" srcset="" />
-                    <span class="name">409019683@qq.com</span>
+                    <img src="../assets/images/logo-min.png" :alt="data.username" srcset="" />
+                    <span class="name">{{ data.username }}</span>
                 </div>
-                <span class="logout">
+                <span class="logout" @click="handlerLogout()">
                     <svg-icon iconName="logout" className="icon-logout"></svg-icon>
                 </span>
             </div>
@@ -29,9 +29,32 @@
 
 <script setup>
 import { useSideStore } from '@/store/sideStore';
+import { getCurrentInstance, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+const { replace } = useRouter();
+const { proxy } = getCurrentInstance();
 const sideStore = useSideStore();
+const data = reactive({
+    username: sideStore.username,
+});
 const changeSide = () => {
     sideStore.CHANGE_SIDE();
+};
+const handlerLogout = () => {
+    proxy
+        .$confirm('确定退出管理后台', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+        })
+        .then(async () => {
+            const res = await proxy.$api.LoginOut();
+            proxy.$message({
+                message: res.message,
+                type: 'success',
+            });
+            replace({ path: '/Login' });
+        });
 };
 </script>
 
@@ -42,6 +65,9 @@ const changeSide = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.wrap {
+    margin-left: 25px;
 }
 .menu-btn {
     cursor: pointer;
