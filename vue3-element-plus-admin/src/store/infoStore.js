@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-04 17:24:03
+ * @LastEditTime: 2024-01-05 16:03:25
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/infoStore.js
  */
@@ -17,9 +17,6 @@ export const useInfoStore = defineStore('info', {
             defaultProps: {
                 children: 'children',
                 label: 'category_name',
-            },
-            detail_props: {
-                label: 'category_name',
                 value: 'id',
             },
             parent_category: '',
@@ -27,11 +24,27 @@ export const useInfoStore = defineStore('info', {
             button_loading: false,
             parent_category_data: null,
             sub_category_data: null,
+            detail_props: {
+                label: 'category_name',
+                value: 'id',
+                checkStrictly: false,
+                multiple: false,
+            },
             detail_form: {
-                imageUrl: '',
-                category: '',
+                image_url: '',
+                category_id: '',
                 title: '',
-                date: '',
+                content: '',
+                create_date: '',
+                status: '0',
+            },
+            detail_form_rules: {
+                category_id: [{ required: true, message: '分类不能为空', trigger: 'change' }],
+                title: [{ required: true, message: '标题不能为空', trigger: 'change' }],
+                image_url: [{ required: true, message: '缩略图不能为空', trigger: 'change' }],
+                create_date: [{ required: true, message: '请选择发布日期', trigger: 'change' }],
+                status: [{ required: true, message: '请选择发布状态', trigger: 'change' }],
+                content: [{ required: true, message: '内容不能为空', trigger: 'change' }],
             },
         };
     },
@@ -196,13 +209,16 @@ export const useInfoStore = defineStore('info', {
             return isJPG && isLt2M;
         },
         async UPLOAD_IMG(params) {
-            console.log(`output->params`, params);
             const file = params.file;
             const form = new FormData();
             form.append('files', file);
-            console.log(`output->form`, form);
-            const res = await UploadFile(form);
-            console.log(`output->res`, res);
+            try {
+                const res = await UploadFile(form);
+                this.image_url = res.data.file_path;
+                ElMessage.success(res.message);
+            } catch (error) {
+                ElMessage.error(error.message);
+            }
         },
     },
 });
