@@ -2,17 +2,26 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-05 16:03:25
+ * @LastEditTime: 2024-01-12 17:39:32
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/infoStore.js
  */
 import { UploadFile } from '@/api';
-import { CategoryDel, CategoryEdit, ChildCategoryAdd, GetCategory, firstCategoryAdd } from '@/api/info';
+import { CategoryDel, CategoryEdit, ChildCategoryAdd, Delete, GetCategory, GetTableList, InfoCreate, Status, firstCategoryAdd } from '@/api/info';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { defineStore } from 'pinia';
 export const useInfoStore = defineStore('info', {
     state: () => {
         return {
+            category_info: {
+                category_list: [],
+                detail_props: {
+                    label: 'category_name',
+                    value: 'id',
+                    checkStrictly: false,
+                    multiple: false,
+                },
+            },
             tree_data: [],
             defaultProps: {
                 children: 'children',
@@ -31,8 +40,8 @@ export const useInfoStore = defineStore('info', {
                 multiple: false,
             },
             detail_form: {
-                image_url: '',
                 category_id: '',
+                image_url: '',
                 title: '',
                 content: '',
                 create_date: '',
@@ -46,6 +55,34 @@ export const useInfoStore = defineStore('info', {
                 status: [{ required: true, message: '请选择发布状态', trigger: 'change' }],
                 content: [{ required: true, message: '内容不能为空', trigger: 'change' }],
             },
+            table_info: {
+                data: [],
+                total: 0,
+                keywords_options: [
+                    {
+                        label: 'ID',
+                        value: 'id',
+                    },
+                    {
+                        label: '标题',
+                        value: 'title',
+                    },
+                ],
+            },
+            page_info: {
+                page_num: 1,
+                current_page: 1,
+                page_size: 20,
+                total: 0,
+            },
+            table_search: {
+                categore_id: 0,
+                key: '',
+                key_word: '',
+            },
+            table_batch_del: {
+                ids: [],
+            },
         };
     },
     actions: {
@@ -53,11 +90,13 @@ export const useInfoStore = defineStore('info', {
             try {
                 const res = await GetCategory();
                 this.tree_data = res.data;
+                this.category_info.category_list = res.data;
                 ElMessage({
                     message: res.message,
                     type: 'success',
                 });
             } catch (error) {
+                console.log(`output->error`, error);
                 ElMessage({
                     message: '获取分类失败',
                     type: 'error',
@@ -197,7 +236,6 @@ export const useInfoStore = defineStore('info', {
             });
         },
         CHECK_IMG(file) {
-            console.log(`output->file`, file);
             const isJPG = file.type === 'image/jpeg';
             const isLt2M = file.size / 1024 / 1024 < 2;
             if (!isJPG) {
@@ -214,11 +252,110 @@ export const useInfoStore = defineStore('info', {
             form.append('files', file);
             try {
                 const res = await UploadFile(form);
-                this.image_url = res.data.file_path;
+                this.detail_form.image_url = res.data.files_path;
                 ElMessage.success(res.message);
             } catch (error) {
                 ElMessage.error(error.message);
             }
+        },
+        async SUBMIT_INFO_FORM(req_data) {
+            try {
+                const res = await InfoCreate(req_data);
+                ElMessage.success(res.message);
+                return true;
+            } catch (error) {
+                ElMessage.error(error.message);
+                return false;
+            }
+        },
+        async GET_TABLE_LIST() {
+            try {
+                const search_data = this.FORTMAT_PARAMS();
+                let request_data = {
+                    pageNumber: this.page_info.current_page,
+                    pageSize: this.page_info.page_size,
+                };
+                request_data = Object.assign(request_data, search_data);
+                console.log(`output->request_data`, request_data);
+                const { data, message } = await GetTableList(request_data);
+                this.table_info.data = data.data;
+                this.table_info.total = data.total;
+                this.page_info.total = data.total;
+                this.page_info.current_page = data.current_page;
+                this.page_info.page_num = Math.ceil(data.total / data.per_page);
+                ElMessage({
+                    message: message,
+                    type: 'success',
+                });
+            } catch (error) {
+                ElMessage({
+                    message: '获取信息失败',
+                    type: 'error',
+                });
+            }
+        },
+        async CHANGE_STATUS(request_data) {
+            try {
+                const { data, message } = await Status(request_data);
+                ElMessage({
+                    message: message,
+                    type: 'success',
+                });
+                return data;
+            } catch (error) {
+                ElMessage({
+                    message: '获取信息失败',
+                    type: 'error',
+                });
+                return false;
+            }
+        },
+        INFO_DEL(req_data) {
+            ElMessageBox.confirm('确认删除当前数据吗?删除后无法恢复', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                showClose: false,
+                closeOnClickModal: false,
+                closeOnPressEscape: false,
+                type: 'warning',
+                beforeClose: async (action, instance, done) => {
+                    if (action === 'confirm') {
+                        instance.confirmButtonLoading = true;
+                        try {
+                            const res = await Delete(req_data);
+                            ElMessage({
+                                message: res.message,
+                                type: 'success',
+                            });
+                            this.GET_TABLE_LIST();
+                        } catch (error) {
+                            ElMessage({
+                                message: error.message,
+                                type: 'error',
+                            });
+                        }
+                        instance.confirmButtonLoading = false;
+                        done();
+                    } else {
+                        instance.confirmButtonLoading = false;
+                        done();
+                    }
+                },
+            });
+        },
+        FORTMAT_PARAMS() {
+            const data = Object.assign({}, this.table_search);
+            if (data.categore_id.length) {
+                data.categore_id = data.categore_id[data.categore_id.length - 1];
+            } else {
+                delete data.categore_id;
+            }
+            if (data.key && data.key_word) {
+                data[data.key] = data.key_word;
+            }
+            delete data.key;
+            delete data.key_word;
+            return data;
         },
     },
 });

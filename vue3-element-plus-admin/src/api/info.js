@@ -2,11 +2,55 @@
  * @Author: shulu
  * @Date: 2023-12-21 16:09:40
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-04 15:01:28
+ * @LastEditTime: 2024-01-11 16:55:39
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/api/info.js
  */
 import instance from '@/utils/request';
+
+/**
+ *删除
+ */
+export const Delete = (data) => {
+    return instance.request({
+        method: 'post',
+        url: '/news/delete/',
+        data,
+    });
+};
+
+/**
+ *发布状态
+ */
+export const Status = (data) => {
+    return instance.request({
+        method: 'post',
+        url: '/news/status/',
+        data,
+    });
+};
+
+/**
+ *信息列表
+ */
+export const GetTableList = (data) => {
+    return instance.request({
+        method: 'post',
+        url: '/news/getList/',
+        data,
+    });
+};
+
+/**
+ * 创建信息
+ */
+export const InfoCreate = (data) => {
+    return instance.request({
+        method: 'post',
+        url: '/news/add/',
+        data,
+    });
+};
 
 /**
  * 添加父级分类

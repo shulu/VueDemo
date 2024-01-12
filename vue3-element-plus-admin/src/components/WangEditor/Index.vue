@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-02 16:57:43
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-05 16:53:16
+ * @LastEditTime: 2024-01-08 15:50:14
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/WangEditor/Index.vue
 -->
@@ -15,14 +15,14 @@
         @onCreated="handleCreated"
         class="wang-editor"
         style="height: 200px"
-        @change="changeContent"
+        @onChange="$emit('update:modelValue', valueHtml)"
     />
 </template>
 1
 <script>
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
-import { defineEmits, defineProps, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
+import { defineProps, onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
 
 export default {
     components: { Editor, Toolbar },
@@ -44,19 +44,12 @@ export default {
         const handleCreated = (editor) => {
             editorRef.value = editor; // 记录 editor 实例，重要！
         };
-
         defineProps({
             modelValue: {
                 type: String,
                 default: '',
             },
         });
-
-        const emit = defineEmits(['update:modelValue']);
-        const changeContent = () => {
-            console.log(`output->1`, 1);
-            emit('update:modelValue', valueHtml);
-        };
         return {
             editorRef,
             valueHtml,
@@ -64,7 +57,6 @@ export default {
             toolbarConfig,
             editorConfig,
             handleCreated,
-            changeContent,
         };
     },
 };
