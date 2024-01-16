@@ -2,14 +2,14 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:23:13
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-11 17:22:36
+ * @LastEditTime: 2024-01-16 16:06:47
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Detailed.vue
 -->
 <template>
     <el-form label-width="150px" ref="infoForm" :model="detail_form" :rules="detail_form_rules">
         <el-form-item label="信息类别：" prop="category_id">
-            <el-cascader :options="tree_data" :props="detail_props" v-model="detail_form.category_id"> </el-cascader>
+            <el-cascader :options="category_info.category_list" :props="category_info.detail_props" v-model="detail_form.category_id"> </el-cascader>
         </el-form-item>
         <el-form-item label="信息标题：" prop="title">
             <el-input v-model.trim="detail_form.title"></el-input>
@@ -50,11 +50,14 @@
 import { useInfoStore } from '@/store/infoStore';
 import { formatDateTime } from '@/utils/common';
 import { onBeforeMount, ref } from 'vue';
-import { useRouter } from 'vue-router';
-const { GET_CATEGORY, detail_form, detail_form_rules, tree_data, detail_props, SUBMIT_INFO_FORM, CHECK_IMG, UPLOAD_IMG } = useInfoStore();
+import { useRoute, useRouter } from 'vue-router';
+const { GET_CATEGORY, detail_form, detail_form_rules, category_info, INFO_CREATE, CHECK_IMG, UPLOAD_IMG, detail_info, GET_DETAIL, INFO_EDIT } = useInfoStore();
 const { go } = useRouter();
+const { query } = useRoute();
 onBeforeMount(() => {
+    detail_info.id = query.id;
     GET_CATEGORY();
+    GET_DETAIL();
 });
 const infoForm = ref();
 const handleSubmitForm = () => {
@@ -67,10 +70,14 @@ const handleSubmitForm = () => {
             // category_idd 重新赋值
             request_data.category_id = request_data.category_id[request_data.category_id.length - 1];
             // 打印结果
-            console.log(request_data);
+            // console.log(request_data);
             //
-            const res = SUBMIT_INFO_FORM(request_data);
-            console.log(`output->res`, res);
+            if (detail_info.id) {
+                request_data.id = detail_info.id;
+                INFO_EDIT(request_data);
+            } else {
+                INFO_CREATE(request_data);
+            }
             go(-1);
         } else {
             console.log('error submit!!');

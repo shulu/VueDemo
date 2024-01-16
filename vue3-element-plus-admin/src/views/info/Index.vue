@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-12 17:35:04
+ * @LastEditTime: 2024-01-16 14:31:21
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Index.vue
 -->
@@ -44,7 +44,7 @@
         </el-table-column>
         <el-table-column prop="handle" label="操作" width="200">
             <template #default="scope">
-                <el-button type="danger" size="small" @click="handleDetailed">编辑</el-button>
+                <el-button type="danger" size="small" @click="handleDetailed(scope.row.id)">编辑</el-button>
                 <el-button size="small" @click="delteInfo(scope.row)">删除</el-button>
             </template>
         </el-table-column>
@@ -99,9 +99,10 @@ const handleCurrentChange = (val) => {
     page_info.current_page = val;
     GET_TABLE_LIST();
 };
-const handleDetailed = () => {
+const handleDetailed = (id) => {
     push({
         path: '/newsDetailed',
+        query: { id },
     });
 };
 const changeStatus = (value, row) => {

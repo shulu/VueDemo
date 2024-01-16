@@ -2,12 +2,24 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-12 17:39:32
+ * @LastEditTime: 2024-01-16 16:03:43
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/infoStore.js
  */
 import { UploadFile } from '@/api';
-import { CategoryDel, CategoryEdit, ChildCategoryAdd, Delete, GetCategory, GetTableList, InfoCreate, Status, firstCategoryAdd } from '@/api/info';
+import {
+    CategoryDel,
+    CategoryEdit,
+    ChildCategoryAdd,
+    Delete,
+    GetCategory,
+    GetDettailed,
+    GetTableList,
+    InfoCreate,
+    InfoEdit,
+    Status,
+    firstCategoryAdd,
+} from '@/api/info';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { defineStore } from 'pinia';
 export const useInfoStore = defineStore('info', {
@@ -82,6 +94,9 @@ export const useInfoStore = defineStore('info', {
             },
             table_batch_del: {
                 ids: [],
+            },
+            detail_info: {
+                id: 0,
             },
         };
     },
@@ -258,7 +273,7 @@ export const useInfoStore = defineStore('info', {
                 ElMessage.error(error.message);
             }
         },
-        async SUBMIT_INFO_FORM(req_data) {
+        async INFO_CREATE(req_data) {
             try {
                 const res = await InfoCreate(req_data);
                 ElMessage.success(res.message);
@@ -276,7 +291,6 @@ export const useInfoStore = defineStore('info', {
                     pageSize: this.page_info.page_size,
                 };
                 request_data = Object.assign(request_data, search_data);
-                console.log(`output->request_data`, request_data);
                 const { data, message } = await GetTableList(request_data);
                 this.table_info.data = data.data;
                 this.table_info.total = data.total;
@@ -356,6 +370,39 @@ export const useInfoStore = defineStore('info', {
             delete data.key;
             delete data.key_word;
             return data;
+        },
+        async GET_DETAIL() {
+            try {
+                let request_data = {
+                    id: this.detail_info.id,
+                };
+                const { data, message } = await GetDettailed(request_data);
+                this.detail_form.category_id = data.category_id;
+                this.detail_form.content = data.content;
+                this.detail_form.create_date = data.create_date;
+                this.detail_form.image_url = data.image_url;
+                this.detail_form.status = data.status;
+                this.detail_form.title = data.title;
+                ElMessage({
+                    message: message,
+                    type: 'success',
+                });
+            } catch (error) {
+                ElMessage({
+                    message: '获取信息失败',
+                    type: 'error',
+                });
+            }
+        },
+        async INFO_EDIT(req_data) {
+            try {
+                const res = await InfoEdit(req_data);
+                ElMessage.success(res.message);
+                return true;
+            } catch (error) {
+                ElMessage.error(error.message);
+                return false;
+            }
         },
     },
 });

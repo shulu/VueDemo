@@ -9,6 +9,28 @@
 import instance from '@/utils/request';
 
 /**
+ *信息编辑
+ */
+export const InfoEdit = (data) => {
+    return instance.request({
+        method: 'post',
+        url: '/news/editInfo/',
+        data,
+    });
+};
+
+/**
+ *获取信息
+ */
+export const GetDettailed = (data) => {
+    return instance.request({
+        method: 'post',
+        url: '/news/detailed/',
+        data,
+    });
+};
+
+/**
  *删除
  */
 export const Delete = (data) => {
