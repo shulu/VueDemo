@@ -2,88 +2,96 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:23:13
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-16 16:06:47
+ * @LastEditTime: 2024-02-28 17:59:08
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Detailed.vue
 -->
 <template>
-    <el-form label-width="150px" ref="infoForm" :model="detail_form" :rules="detail_form_rules">
-        <el-form-item label="信息类别：" prop="category_id">
-            <el-cascader :options="category_info.category_list" :props="category_info.detail_props" v-model="detail_form.category_id"> </el-cascader>
-        </el-form-item>
-        <el-form-item label="信息标题：" prop="title">
-            <el-input v-model.trim="detail_form.title"></el-input>
-        </el-form-item>
-        <el-form-item label="缩略图：" prop="image_url">
-            <el-upload
-                class="avatar-upload"
-                action="#"
-                :http-request="UPLOAD_IMG"
-                :show-file-list="true"
-                :on-success="handleOnSuccess"
-                :on-error="handleOnError"
-                :before-upload="CHECK_IMG"
-            >
-                <img w-full v-if="detail_form.image_url" :src="detail_form.image_url" alt="avatar" />
-                <span v-else>+</span>
-            </el-upload>
-        </el-form-item>
-        <el-form-item label="发布日期：" prop="create_date">
-            <el-date-picker v-model="detail_form.create_date" type="datetime" placeholder="选择日期时间"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="内容：" prop="content">
-            <wang-editor v-model.trim="detail_form.content"></wang-editor>
-        </el-form-item>
-        <el-form-item label="是否发布：" prop="status">
-            <el-radio-group v-model="detail_form.status">
-                <el-radio label="1">是</el-radio>
-                <el-radio label="0">否</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="danger" @click="handleSubmitForm('infoForm')">确定</el-button>
-        </el-form-item>
-    </el-form>
+    <basic-form
+        :options="category_info.category_list"
+        :props="category_info.detail_props"
+        :form_item="form_config.form_item"
+        :form_button="form_config.form_button"
+        :field="detail_form"
+        :form_ref="infoForm"
+        :form_model="detail_form"
+        :form_rules="detail_form_rules"
+        @submitForm="handleSubmitForm"
+    />
 </template>
 
 <script setup>
 import { useInfoStore } from '@/store/infoStore';
-import { formatDateTime } from '@/utils/common';
-import { onBeforeMount, ref } from 'vue';
+import { formatDateTime } from '@u/common';
+import { onBeforeMount, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-const { GET_CATEGORY, detail_form, detail_form_rules, category_info, INFO_CREATE, CHECK_IMG, UPLOAD_IMG, detail_info, GET_DETAIL, INFO_EDIT } = useInfoStore();
+const { GET_CATEGORY, detail_form, detail_form_rules, category_info, INFO_CREATE, detail_info, GET_DETAIL, INFO_EDIT } = useInfoStore();
 const { go } = useRouter();
 const { query } = useRoute();
+const form_config = reactive({
+    form_item: [
+        { type: 'cascader', label: '信息分类', prop: 'category_id' },
+        { type: 'input', label: '信息标题', prop: 'title', width: '300px', max_length: 50, min_length: 1, placeholder: '请输入标题' },
+        { type: 'upload', label: '缩略图', prop: 'image_url' },
+        {
+            type: 'date',
+            label: '发布日期',
+            prop: 'create_date',
+            date_type: 'date',
+            date_format: 'YYYY/MM/DD',
+            date_value: 'YYYY/MM/DD',
+            placeholder: '请选择时间',
+        },
+        {
+            type: 'radio',
+            label: '是否发布',
+            prop: 'status',
+            options: [
+                { value: 1, label: '是' },
+                { value: 0, label: '否' },
+            ],
+        },
+        { type: 'wangeditor', label: '内容描述', prop: 'content' },
+    ],
+    form_button: [
+        { label: '提交', type: 'danger', key: 'submit' },
+        // { label: '重置', type: 'primary', key: 'reset' },
+        // { label: '关闭', type: 'primary', key: 'close', callback: () => handlerClose() },
+    ],
+    form_data: {
+        category_id: '',
+        image_url: '',
+        title: '',
+        content: '',
+        create_date: '',
+        start_date: '',
+        end_date: '',
+        status: '0',
+        citys: [],
+    },
+});
 onBeforeMount(() => {
     detail_info.id = query.id;
     GET_CATEGORY();
     GET_DETAIL();
 });
-const infoForm = ref();
 const handleSubmitForm = () => {
-    infoForm.value.validate((valid) => {
-        if (valid) {
-            // 深度拷贝
-            const request_data = JSON.parse(JSON.stringify(detail_form));
-            // 日期处理
-            request_data.create_date = formatDateTime(request_data.create_date);
-            // category_idd 重新赋值
-            request_data.category_id = request_data.category_id[request_data.category_id.length - 1];
-            // 打印结果
-            // console.log(request_data);
-            //
-            if (detail_info.id) {
-                request_data.id = detail_info.id;
-                INFO_EDIT(request_data);
-            } else {
-                INFO_CREATE(request_data);
-            }
-            go(-1);
-        } else {
-            console.log('error submit!!');
-            return false;
-        }
-    });
+    // 深度拷贝
+    const request_data = JSON.parse(JSON.stringify(detail_form));
+    // 日期处理
+    request_data.create_date = formatDateTime(request_data.create_date);
+    // category_idd 重新赋值
+    request_data.category_id = request_data.category_id[request_data.category_id.length - 1];
+    // 打印结果
+    // console.log(request_data);
+    //
+    if (detail_info.id) {
+        request_data.id = detail_info.id;
+        INFO_EDIT(request_data);
+    } else {
+        INFO_CREATE(request_data);
+    }
+    go(-1);
 };
 </script>
 

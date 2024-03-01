@@ -18,18 +18,21 @@ import ElementPlus from 'element-plus';
 // 如果您正在使用CDN引入，请删除下面一行。
 import '@/components/svgIcon/svg';
 import 'element-plus/dist/index.css';
+//components
+import components from './components';
 // svgicon
-import SvgIcon from '@/components/svgIcon/Index.vue';
+// import SvgIcon from '@/components/svgIcon/Index.vue';
 //Editor
-import WangEditor from '@/components/WangEditor/Index.vue'
+// import WangEditor from '@/components/WangEditor/Index.vue';
 //axios
 import * as api from './api';
 const app = createApp(App);
-app.component('svg-icon', SvgIcon);
-app.component('wang-editor', WangEditor);
+// app.component('svg-icon', SvgIcon);
+// app.component('wang-editor', WangEditor);
 //全局应用配置
 app.config.globalProperties.$api = api;
 app.use(ElementPlus);
 app.use(createPinia());
 app.use(router);
+app.use(components);
 app.mount('#app');

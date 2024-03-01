@@ -2,11 +2,10 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-16 16:03:43
+ * @LastEditTime: 2024-02-28 16:52:53
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/infoStore.js
  */
-import { UploadFile } from '@/api';
 import {
     CategoryDel,
     CategoryEdit,
@@ -57,7 +56,7 @@ export const useInfoStore = defineStore('info', {
                 title: '',
                 content: '',
                 create_date: '',
-                status: '0',
+                status: 0,
             },
             detail_form_rules: {
                 category_id: [{ required: true, message: '分类不能为空', trigger: 'change' }],
@@ -250,29 +249,6 @@ export const useInfoStore = defineStore('info', {
                 },
             });
         },
-        CHECK_IMG(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-            if (!isJPG) {
-                ElMessage.error('上传图片格式只能是JPG格式!');
-            }
-            if (!isLt2M) {
-                ElMessage.error('上传图片大小不能超过2MB');
-            }
-            return isJPG && isLt2M;
-        },
-        async UPLOAD_IMG(params) {
-            const file = params.file;
-            const form = new FormData();
-            form.append('files', file);
-            try {
-                const res = await UploadFile(form);
-                this.detail_form.image_url = res.data.files_path;
-                ElMessage.success(res.message);
-            } catch (error) {
-                ElMessage.error(error.message);
-            }
-        },
         async INFO_CREATE(req_data) {
             try {
                 const res = await InfoCreate(req_data);
@@ -350,12 +326,11 @@ export const useInfoStore = defineStore('info', {
                         }
                         instance.confirmButtonLoading = false;
                         done();
-                    } else {
-                        instance.confirmButtonLoading = false;
+                    } else if (action === 'cancel') {
                         done();
                     }
                 },
-            });
+            }).catch(() => {});
         },
         FORTMAT_PARAMS() {
             const data = Object.assign({}, this.table_search);
@@ -373,6 +348,9 @@ export const useInfoStore = defineStore('info', {
         },
         async GET_DETAIL() {
             try {
+                if (!this.detail_info.id) {
+                    return false;
+                }
                 let request_data = {
                     id: this.detail_info.id,
                 };
@@ -381,7 +359,7 @@ export const useInfoStore = defineStore('info', {
                 this.detail_form.content = data.content;
                 this.detail_form.create_date = data.create_date;
                 this.detail_form.image_url = data.image_url;
-                this.detail_form.status = data.status;
+                this.detail_form.status = parseInt(data.status);
                 this.detail_form.title = data.title;
                 ElMessage({
                     message: message,
