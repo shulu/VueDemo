@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:23:13
  * @LastEditors: shulu
- * @LastEditTime: 2024-02-28 17:59:08
+ * @LastEditTime: 2024-03-05 17:56:33
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Detailed.vue
 -->
@@ -16,6 +16,8 @@
         :form_ref="infoForm"
         :form_model="detail_form"
         :form_rules="detail_form_rules"
+        :form_hidden="form_config.form_hidden"
+        :form_disabled="form_config.form_disabled"
         @submitForm="handleSubmitForm"
     />
 </template>
@@ -50,6 +52,11 @@ const form_config = reactive({
                 { value: 1, label: '是' },
                 { value: 0, label: '否' },
             ],
+            relation_hidden: [
+                // ['title', { 1: false, 0: true }],
+                ['image_url', { 1: false, 0: true }],
+            ],
+            relation_disabled: [['title', { 0: true }]],
         },
         { type: 'wangeditor', label: '内容描述', prop: 'content' },
     ],
@@ -69,6 +76,10 @@ const form_config = reactive({
         status: '0',
         citys: [],
     },
+    form_hidden: {
+        category_id: true,
+    },
+    form_disabled: {},
 });
 onBeforeMount(() => {
     detail_info.id = query.id;
