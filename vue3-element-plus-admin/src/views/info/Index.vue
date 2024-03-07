@@ -27,9 +27,9 @@
             </el-form>
         </el-col>
         <el-col :span="6">
-            <router-link to="/newsDetailed" class="pull-right">
-                <el-button type="danger" class="pull-right">新增</el-button>
-            </router-link>
+            <!-- <router-link to="/newsDetailed" class="pull-right"> -->
+            <el-button type="danger" class="pull-right" @click="handleDetailed()">新增</el-button>
+            <!-- </router-link> -->
         </el-col>
     </el-row>
     <basic-table :tableHeader="table_header" :tableData="table_info.data" :config="config" @changeStatus="changeStatus" @deleteInfo="deleteInfo">

@@ -1,14 +1,26 @@
-import WangEditor from './WangEditor';
-import BasicCascader from './cascader';
-import BasicForm from './form/';
-import SvgIcon from './svgIcon';
-import BasicUpload from './upload';
+/*
+ * @Author: shulu
+ * @Date: 2024-02-26 15:53:55
+ * @LastEditors: shulu
+ * @LastEditTime: 2024-03-07 17:11:17
+ * @Description: file content
+ * @FilePath: /vue3-element-plus-admin/src/components/index.js
+ */
+
+// 使用 import.meta.glob 获取所有组件
+const components = require.context('@c/control', true, /\index.vue$/);
 export default {
     install(app) {
-        app.component('basic-form', BasicForm);
-        app.component('wang-editor', WangEditor);
-        app.component('svg-icon', SvgIcon);
-        app.component('basic-cascader', BasicCascader);
-        app.component('basic-upload', BasicUpload);
+        // 遍历查询结果，将查询到的文件加载后插入数组
+        components.keys().forEach((fileName) => {
+            //获取组件名称
+            const name_info = fileName.split('/');
+            const component = name_info[1].toLowerCase();
+            const componentName = component + 'Component';
+            // 获取组件配置
+            const componentConfig = components(fileName);
+            // 全局注册组件
+            app.component(componentName, componentConfig.default);
+        });
     },
 };

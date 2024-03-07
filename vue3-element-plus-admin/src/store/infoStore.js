@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-02-28 16:52:53
+ * @LastEditTime: 2024-03-07 11:21:33
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/infoStore.js
  */
@@ -349,6 +349,14 @@ export const useInfoStore = defineStore('info', {
         async GET_DETAIL() {
             try {
                 if (!this.detail_info.id) {
+                    this.detail_form = {
+                        category_id: '',
+                        image_url: '',
+                        title: '',
+                        content: '',
+                        create_date: '',
+                        status: 0,
+                    };
                     return false;
                 }
                 let request_data = {

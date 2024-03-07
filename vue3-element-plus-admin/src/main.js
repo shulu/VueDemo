@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-14 10:13:21
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-02 17:00:59
+ * @LastEditTime: 2024-03-07 17:14:46
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/main.js
  */
@@ -21,13 +21,13 @@ import 'element-plus/dist/index.css';
 //components
 import components from './components';
 // svgicon
-// import SvgIcon from '@/components/svgIcon/Index.vue';
+import SvgIcon from '@/components/svgIcon/';
 //Editor
 // import WangEditor from '@/components/WangEditor/Index.vue';
 //axios
 import * as api from './api';
 const app = createApp(App);
-// app.component('svg-icon', SvgIcon);
+app.component('svg-icon', SvgIcon);
 // app.component('wang-editor', WangEditor);
 //全局应用配置
 app.config.globalProperties.$api = api;
@@ -36,3 +36,4 @@ app.use(createPinia());
 app.use(router);
 app.use(components);
 app.mount('#app');
+console.log(`output->app`, app);

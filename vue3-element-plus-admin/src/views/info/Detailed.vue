@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:23:13
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-05 17:56:33
+ * @LastEditTime: 2024-03-07 15:28:45
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Detailed.vue
 -->
@@ -24,6 +24,7 @@
 
 <script setup>
 import { useInfoStore } from '@/store/infoStore';
+import BasicForm from '@c/form';
 import { formatDateTime } from '@u/common';
 import { onBeforeMount, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -32,9 +33,9 @@ const { go } = useRouter();
 const { query } = useRoute();
 const form_config = reactive({
     form_item: [
-        { type: 'cascader', label: '信息分类', prop: 'category_id' },
-        { type: 'input', label: '信息标题', prop: 'title', width: '300px', max_length: 50, min_length: 1, placeholder: '请输入标题' },
-        { type: 'upload', label: '缩略图', prop: 'image_url' },
+        { type: 'cascader', label: '信息分类', prop: 'category_id', col: 8 },
+        { type: 'input', label: '信息标题', prop: 'title', width: '300px', maxlength: 50, minlength: 1, placeholder: '请输入标题', col: 16 },
+        { type: 'upload', label: '缩略图', prop: 'image_url', col: 8 },
         {
             type: 'date',
             label: '发布日期',
@@ -43,6 +44,7 @@ const form_config = reactive({
             date_format: 'YYYY/MM/DD',
             date_value: 'YYYY/MM/DD',
             placeholder: '请选择时间',
+            col: 8,
         },
         {
             type: 'radio',
@@ -52,13 +54,14 @@ const form_config = reactive({
                 { value: 1, label: '是' },
                 { value: 0, label: '否' },
             ],
+            col: 8,
             relation_hidden: [
                 // ['title', { 1: false, 0: true }],
                 ['image_url', { 1: false, 0: true }],
             ],
             relation_disabled: [['title', { 0: true }]],
         },
-        { type: 'wangeditor', label: '内容描述', prop: 'content' },
+        { type: 'wangeditor', label: '内容描述', prop: 'content', col: 24 },
     ],
     form_button: [
         { label: '提交', type: 'danger', key: 'submit' },
@@ -77,7 +80,7 @@ const form_config = reactive({
         citys: [],
     },
     form_hidden: {
-        category_id: true,
+        category_id: false,
     },
     form_disabled: {},
 });
