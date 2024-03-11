@@ -17,16 +17,27 @@
     }
 }
 
-.avatar-upload .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
+/*上传组件*/
+.avatar-uploader {
     overflow: hidden;
-    width: 150px;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
+    img {
+        width: 100%;
+    }
+    .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+    }
+}
+/* 日期组件 z-index */
+.el-popper {
+    z-index: 10002 !important;
 }

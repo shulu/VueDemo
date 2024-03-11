@@ -2,34 +2,34 @@
  * @Author: shulu
  * @Date: 2024-02-27 13:51:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-11 11:54:05
+ * @LastEditTime: 2024-03-11 15:39:07
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/control/upload/index.vue
 -->
 <template>
     <el-upload
-        class="avatar-upload"
+        class="avatar-uploader"
         action="#"
-        :limit="1"
-        :http-request="upload_img"
+        :http-request="handlerUpload"
+        :before-upload="handlerBeforeOnUpload"
+        :on-error="handlerOnError"
         :show-file-list="false"
-        :on-success="$emit('update:modelValue', image_url)"
-        :on-error="handleOnError"
-        :before-upload="check_img"
-        :auto-upload="false"
-        v-model="image_url"
+        :disabled="disabled"
     >
-        <img v-if="image_url" class="el-upload-list__item-thumbnail" :src="image_url" alt="" w-full />
+        <img v-if="image.image_url" :src="image.image_url" class="avatar el-upload-list__item-thumbnail" />
         <span v-else>+</span>
     </el-upload>
 </template>
 
 <script setup>
 import { UploadFile } from '@/api';
-import { getCurrentInstance, ref } from 'vue';
+import { defineEmits, defineProps, getCurrentInstance, reactive, watch } from 'vue';
 const { proxy } = getCurrentInstance();
-const image_url = ref('');
-const check_img = (file) => {
+const emits = defineEmits(['update:modelValue']);
+const image = reactive({
+    image_url: '',
+});
+const handlerBeforeOnUpload = (file) => {
     console.log(`output->file`, file);
     const isJPG = file.type === 'image/jpeg';
     const isLt2M = file.size / 1024 / 1024 < 2;
@@ -41,20 +41,36 @@ const check_img = (file) => {
     }
     return isJPG && isLt2M;
 };
-const upload_img = async (params) => {
+const handlerUpload = async (params) => {
     const file = params.file;
     const form = new FormData();
     form.append('files', file);
     try {
         const res = await UploadFile(form);
-        image.url = res.data.files_path;
-        image.up_disabled = true;
-        emits('update:imageUrl', image.url);
+        image.image_url = res.data.files_path;
+        emits('update:modelValue', image.image_url);
         proxy.$message.success(res.message);
     } catch (error) {
         proxy.$message.error(error.message);
     }
 };
+const props = defineProps({
+    modelValue: String,
+    default: () => {
+        '';
+    },
+});
+watch(
+    () => props.modelValue,
+    (val) => {
+        image.image_url = val;
+    },
+    { immediate: true },
+);
+// const handlePictureCardPreview = () => {
+//     image.dialogVisible = true;
+//     console.log(`output->1`, 1);
+// };
 </script>
 
 <style scoped lang="scss">
