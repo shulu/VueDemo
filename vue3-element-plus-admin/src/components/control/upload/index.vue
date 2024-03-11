@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2024-02-27 13:51:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-01 16:41:12
+ * @LastEditTime: 2024-03-11 11:54:05
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/components/upload/index.vue
+ * @FilePath: /vue3-element-plus-admin/src/components/control/upload/index.vue
 -->
 <template>
     <el-upload
@@ -13,44 +13,24 @@
         :limit="1"
         :http-request="upload_img"
         :show-file-list="false"
-        :on-success="handleOnSuccess"
+        :on-success="$emit('update:modelValue', image_url)"
         :on-error="handleOnError"
         :before-upload="check_img"
-        list-type="picture-card"
         :auto-upload="false"
-        v-model:file-list="image_list"
-        :disabled="image.up_disabled"
+        v-model="image_url"
     >
-        <div v-if="image.url">
-            <img class="el-upload-list__item-thumbnail" :src="image.url" alt="" w-full />
-            <span class="el-upload-list__item-actions">
-                <!-- <span class="el-upload-list__item-preview" @click="handlePictureCardPreview">
-                    <svg-icon iconName="zoomOut"></svg-icon>
-                </span> -->
-                <span class="el-upload-list__item-delete" @click="handleRemove">
-                    <svg-icon iconName="trash"></svg-icon>
-                </span>
-            </span>
-        </div>
+        <img v-if="image_url" class="el-upload-list__item-thumbnail" :src="image_url" alt="" w-full />
         <span v-else>+</span>
     </el-upload>
-    <el-dialog v-model="dialogVisible">
-        <img w-full :src="image.url" alt="Preview Image" />
-    </el-dialog>
 </template>
 
 <script setup>
 import { UploadFile } from '@/api';
-import { defineEmits, defineProps, getCurrentInstance, reactive, watch } from 'vue';
+import { getCurrentInstance, ref } from 'vue';
 const { proxy } = getCurrentInstance();
-const emits = defineEmits(['update:imageUrl']);
-const image = reactive({
-    up_disabled: false,
-    url: '',
-    dialogVisible: false,
-    dialogImageUrl: '',
-});
+const image_url = ref('');
 const check_img = (file) => {
+    console.log(`output->file`, file);
     const isJPG = file.type === 'image/jpeg';
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isJPG) {
@@ -74,27 +54,6 @@ const upload_img = async (params) => {
     } catch (error) {
         proxy.$message.error(error.message);
     }
-};
-const props = defineProps({
-    imageUrl: String,
-    default: () => {
-        '';
-    },
-});
-watch(
-    () => props.imageUrl,
-    (val) => {
-        image.url = val;
-        image.up_disabled = true;
-    },
-    { immediate: true },
-);
-// const handlePictureCardPreview = () => {
-//     image.dialogVisible = true;
-//     console.log(`output->1`, 1);
-// };
-const handleRemove = () => {
-    image.url = '';
 };
 </script>
 

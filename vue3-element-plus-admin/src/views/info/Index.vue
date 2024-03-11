@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-02-22 16:34:40
+ * @LastEditTime: 2024-03-08 16:52:51
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Index.vue
 -->
@@ -52,7 +52,7 @@ import BasicTable from '@c/table';
 
 import { onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
-const { table_info, category_info, page_info, GET_TABLE_LIST, CHANGE_STATUS, table_search, GET_CATEGORY, INFO_DEL, table_batch_del } = useInfoStore();
+const { table_info, category_info, page_info, GET_TABLE_LIST, CHANGE_STATUS, table_search, INFO_DEL, table_batch_del } = useInfoStore();
 const status_loading = ref(false);
 const batch_disabled = ref(true);
 
@@ -113,7 +113,6 @@ const handleSearch = () => {
     GET_TABLE_LIST();
 };
 onBeforeMount(() => {
-    GET_CATEGORY();
     GET_TABLE_LIST();
 });
 </script>

@@ -13,6 +13,7 @@
         :disabled="disabled"
         :type="data.date_type || 'datetime'"
         :format="data.date_format || 'YYYY-MM-DD HH:mm:ss'"
+        :value-format="data.date_value || 'YYYY-MM-DD'"
         :placeholder="data.placeholder || '选择日期时间'"
         :start-placeholder="data.start_placeholder || '请选择开始日期'"
         :end-placeholder="data.end_placeholder || '请选择结束日期'"

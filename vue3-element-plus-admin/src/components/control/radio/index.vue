@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2024-03-07 14:57:42
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-07 15:34:50
+ * @LastEditTime: 2024-03-11 11:36:32
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/components/control/checkbox/index.vue
+ * @FilePath: /vue3-element-plus-admin/src/components/control/radio/index.vue
 -->
 <template>
     <div>
@@ -16,7 +16,7 @@
 
 <script setup>
 import { defineProps, ref } from 'vue';
-const modelValue = ref('');
+const modelValue = ref(0);
 defineProps({
     data: Object,
     default: () => {},

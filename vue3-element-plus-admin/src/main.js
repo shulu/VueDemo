@@ -36,4 +36,3 @@ app.use(createPinia());
 app.use(router);
 app.use(components);
 app.mount('#app');
-console.log(`output->app`, app);

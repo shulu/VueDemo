@@ -2,30 +2,17 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-07 11:21:33
+ * @LastEditTime: 2024-03-08 17:20:57
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/infoStore.js
  */
-import {
-    CategoryDel,
-    CategoryEdit,
-    ChildCategoryAdd,
-    Delete,
-    GetCategory,
-    GetDettailed,
-    GetTableList,
-    InfoCreate,
-    InfoEdit,
-    Status,
-    firstCategoryAdd,
-} from '@/api/info';
+import { CategoryDel, CategoryEdit, ChildCategoryAdd, Delete, GetDettailed, GetTableList, InfoCreate, InfoEdit, Status, firstCategoryAdd } from '@/api/info';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { defineStore } from 'pinia';
 export const useInfoStore = defineStore('info', {
     state: () => {
         return {
             category_info: {
-                category_list: [],
                 detail_props: {
                     label: 'category_name',
                     value: 'id',
@@ -33,7 +20,6 @@ export const useInfoStore = defineStore('info', {
                     multiple: false,
                 },
             },
-            tree_data: [],
             defaultProps: {
                 children: 'children',
                 label: 'category_name',
@@ -99,24 +85,8 @@ export const useInfoStore = defineStore('info', {
             },
         };
     },
+    getters: {},
     actions: {
-        async GET_CATEGORY() {
-            try {
-                const res = await GetCategory();
-                this.tree_data = res.data;
-                this.category_info.category_list = res.data;
-                ElMessage({
-                    message: res.message,
-                    type: 'success',
-                });
-            } catch (error) {
-                console.log(`output->error`, error);
-                ElMessage({
-                    message: '获取分类失败',
-                    type: 'error',
-                });
-            }
-        },
         async FIRST_CATEGORY_ADD() {
             if (!this.parent_category) {
                 ElMessage({

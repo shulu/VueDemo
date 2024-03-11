@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2024-01-02 16:57:43
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-01 16:44:51
+ * @LastEditTime: 2024-03-11 11:39:23
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/components/WangEditor/index.vue
+ * @FilePath: /vue3-element-plus-admin/src/components/control/WangEditor/index.vue
 -->
 <template>
     <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode" />
@@ -15,14 +15,14 @@
         @onCreated="handleCreated"
         class="wang-editor"
         style="height: 200px"
-        @onChange="$emit('update:TextContent', valueHtml)"
+        @onChange="$emit('update:modelValue', valueHtml)"
     />
 </template>
 <script setup>
 import { getToken } from '@/utils/cookies';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
-import { defineProps, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
+import { onBeforeUnmount, onMounted, ref, shallowRef } from 'vue';
 // 模拟 ajax 异步获取内容
 onMounted(() => {});
 // 编辑器实例，必须用 shallowRef
@@ -50,19 +50,19 @@ const toolbarConfig = {};
 const handleCreated = (editor) => {
     editorRef.value = editor; // 记录 editor 实例，重要！
 };
-const props = defineProps({
-    TextContent: String,
-    default: () => {
-        return '请输入内容...';
-    },
-});
-watch(
-    () => props.TextContent,
-    (val) => {
-        valueHtml.value = val;
-    },
-    { immediate: true },
-);
+// const props = defineProps({
+//     TextContent: String,
+//     default: () => {
+//         return '请输入内容...';
+//     },
+// });
+// watch(
+//     () => props.TextContent,
+//     (val) => {
+//         valueHtml.value = val;
+//     },
+//     { immediate: true },
+// );
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
     const editor = editorRef.value;

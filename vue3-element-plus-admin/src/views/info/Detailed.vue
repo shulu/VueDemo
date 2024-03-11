@@ -2,14 +2,12 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:23:13
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-07 15:28:45
+ * @LastEditTime: 2024-03-11 11:36:08
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Detailed.vue
 -->
 <template>
     <basic-form
-        :options="category_info.category_list"
-        :props="category_info.detail_props"
         :form_item="form_config.form_item"
         :form_button="form_config.form_button"
         :field="detail_form"
@@ -26,25 +24,38 @@
 import { useInfoStore } from '@/store/infoStore';
 import BasicForm from '@c/form';
 import { formatDateTime } from '@u/common';
+import { storeToRefs } from 'pinia';
 import { onBeforeMount, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-const { GET_CATEGORY, detail_form, detail_form_rules, category_info, INFO_CREATE, detail_info, GET_DETAIL, INFO_EDIT } = useInfoStore();
+const store = useInfoStore();
+const { INFO_CREATE, GET_DETAIL, INFO_EDIT } = store;
+const { detail_form, detail_form_rules, detail_info, category_info } = storeToRefs(store);
+onBeforeMount(() => {
+    detail_info.id = query.id;
+    GET_DETAIL();
+});
 const { go } = useRouter();
 const { query } = useRoute();
 const form_config = reactive({
     form_item: [
-        { type: 'cascader', label: '信息分类', prop: 'category_id', col: 8 },
-        { type: 'input', label: '信息标题', prop: 'title', width: '300px', maxlength: 50, minlength: 1, placeholder: '请输入标题', col: 16 },
-        { type: 'upload', label: '缩略图', prop: 'image_url', col: 8 },
+        {
+            type: 'cascader',
+            label: '信息分类',
+            prop: 'category_id',
+            col: 24,
+            props: category_info.value.detail_props,
+        },
+        { type: 'input', label: '信息标题', prop: 'title', width: '300px', maxlength: 50, minlength: 1, placeholder: '请输入标题', col: 24 },
+        { type: 'upload', label: '缩略图', prop: 'image_url', col: 24 },
         {
             type: 'date',
             label: '发布日期',
             prop: 'create_date',
             date_type: 'date',
             date_format: 'YYYY/MM/DD',
-            date_value: 'YYYY/MM/DD',
+            date_value: 'YYYY-MM-DD',
             placeholder: '请选择时间',
-            col: 8,
+            col: 24,
         },
         {
             type: 'radio',
@@ -54,7 +65,7 @@ const form_config = reactive({
                 { value: 1, label: '是' },
                 { value: 0, label: '否' },
             ],
-            col: 8,
+            col: 24,
             relation_hidden: [
                 // ['title', { 1: false, 0: true }],
                 ['image_url', { 1: false, 0: true }],
@@ -84,11 +95,7 @@ const form_config = reactive({
     },
     form_disabled: {},
 });
-onBeforeMount(() => {
-    detail_info.id = query.id;
-    GET_CATEGORY();
-    GET_DETAIL();
-});
+
 const handleSubmitForm = () => {
     // 深度拷贝
     const request_data = JSON.parse(JSON.stringify(detail_form));

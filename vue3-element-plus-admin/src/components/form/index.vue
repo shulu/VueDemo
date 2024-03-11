@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-02-23 16:22:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-07 15:30:47
+ * @LastEditTime: 2024-03-11 11:43:21
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/form/index.vue
 -->
@@ -12,54 +12,8 @@
             <template v-for="item in form_item" :key="item.prop">
                 <el-col v-if="!hidden[item.prop]" :span="item.col || 24">
                     <el-form-item :label="item.label" :prop="item.prop">
-                        <component :is="item.type + 'Component'" :data="item" v-model:value="field[item.prop]" :disabled="ele_disabled[item.prop]" />
+                        <component :is="item.type + 'Component'" :data="item" v-model:modelValue="field[item.prop]" :disabled="ele_disabled[item.prop]" />
                     </el-form-item>
-                    <!-- <el-form-item v-if="item.type === 'cascader'" :label="item.label" :prop="item.prop">
-                        <basic-cascader v-model:modelValue="field[item.prop]" :options="options" :props="props.props" :disabled="ele_disabled[item.prop]" />
-                    </el-form-item>
-                    <el-form-item v-if="item.type === 'input'" :label="item.label" :prop="item.prop">
-                        <el-input
-                            :maxlength="item.max_length"
-                            :minlength="item.min_length || 0"
-                            :style="`width:${item.width}`"
-                            :placeholder="item.placeholder"
-                            v-model="field[item.prop]"
-                            :disabled="ele_disabled[item.prop]"
-                        ></el-input>
-                    </el-form-item>
-                    <el-form-item v-if="item.type === 'upload'" :label="item.label" :prop="item.prop">
-                        <basic-upload v-model:imageUrl="field[item.prop]" :disabled="ele_disabled[item.prop]" />
-                    </el-form-item>
-                    <el-form-item v-if="item.type === 'date'" :label="item.label" :prop="item.prop" :disabled="ele_disabled[item.prop]">
-                        <el-date-picker
-                            v-model="field[item.prop]"
-                            :type="item.date_type || 'datetime'"
-                            :format="item.date_format || 'YYYY-MM-DD HH:mm:ss'"
-                            :value-format="item.date_value || 'YYYY-MM-DD HH:mm:ss'"
-                            :placeholder="item.placeholder"
-                            :start-placeholder="item.start_placeholder || '请选择开始日期'"
-                            :end-placeholder="item.end_placeholder || '请选择结束日期'"
-                            :range-separator="item.range_placeholder || '-'"
-                        ></el-date-picker>
-                    </el-form-item>
-                    <el-form-item v-if="item.type === 'radio'" :label="item.label" :prop="item.prop" :disabled="ele_disabled[item.prop]">
-                        <el-radio-group v-model.number="field[item.prop]" @change="handlerChange($event, item)">
-                            <el-radio v-for="radio in item.options" :key="radio.value" :label="radio.value">{{ radio.label }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item v-if="item.type === 'select'" :label="item.label" :prop="item.prop" :disabled="ele_disabled[item.prop]">
-                        <el-select v-model="field[item.prop]">
-                            <el-option v-for="select in item.options" :key="select.value" :label="select.label" :value="select.value"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item v-if="item.type === 'checkbox'" :label="item.label" :prop="item.prop" :disabled="ele_disabled[item.prop]">
-                        <el-checkbox-group v-model="field[item.prop]">
-                            <el-checkbox v-for="checkbox in item.options" :key="checkbox.value" :label="checkbox.value">{{ checkbox.label }}</el-checkbox>
-                        </el-checkbox-group>
-                    </el-form-item>
-                    <el-form-item v-if="item.type === 'wangeditor'" :label="item.label" :prop="item.prop" :disabled="ele_disabled[item.prop]">
-                        <wang-editor v-model:TextContent="field[item.prop]"></wang-editor>
-                    </el-form-item> -->
                 </el-col>
             </template>
             <el-form-item>
@@ -111,14 +65,6 @@ const props = defineProps({
         default: () => {
             [];
         },
-    },
-    options: {
-        type: Array,
-        default: () => {},
-    },
-    props: {
-        type: Array,
-        default: () => {},
     },
     form_fields: {
         type: Object,
