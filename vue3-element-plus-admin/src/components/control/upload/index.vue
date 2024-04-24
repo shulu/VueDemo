@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-02-27 13:51:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-11 15:39:07
+ * @LastEditTime: 2024-04-24 17:49:23
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/control/upload/index.vue
 -->
@@ -30,7 +30,6 @@ const image = reactive({
     image_url: '',
 });
 const handlerBeforeOnUpload = (file) => {
-    console.log(`output->file`, file);
     const isJPG = file.type === 'image/jpeg';
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isJPG) {

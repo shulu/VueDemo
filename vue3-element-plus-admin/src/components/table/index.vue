@@ -2,12 +2,13 @@
  * @Author: shulu
  * @Date: 2024-02-20 11:20:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-02-22 16:32:51
+ * @LastEditTime: 2024-04-24 18:09:45
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/table/index.vue
 -->
 <template>
     <div>
+        <SearchForm :show="config.search" />
         <el-table :data="props.tableData" border style="width: 100%">
             <el-table-column v-if="config.selection" type="selection"></el-table-column>
             <template v-for="header in props.tableHeader" :key="header.prop">
@@ -30,6 +31,7 @@
 </template>
 
 <script setup>
+import SearchForm from '@c/search';
 import { formatDateTime } from '@u/common';
 import { defineEmits, defineProps, watch } from 'vue';
 import { configHook } from './configHook';

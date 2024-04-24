@@ -19,7 +19,7 @@ import ElementPlus from 'element-plus';
 import '@/components/svgIcon/svg';
 import 'element-plus/dist/index.css';
 //components
-import components from './components';
+import components from './components/control';
 // svgicon
 import SvgIcon from '@/components/svgIcon/';
 //Editor

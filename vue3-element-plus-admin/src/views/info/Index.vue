@@ -67,6 +67,7 @@ const config = {
     selection: false,
     pagination: false,
     batch_delete: true,
+    search: false,
 };
 const { push } = useRouter();
 const handlerSelectionChange = (val) => {

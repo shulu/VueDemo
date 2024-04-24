@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2024-02-26 15:53:55
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-07 17:11:17
+ * @LastEditTime: 2024-04-24 18:10:23
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/components/index.js
+ * @FilePath: /vue3-element-plus-admin/src/components/control/index.js
  */
 
 // 使用 import.meta.glob 获取所有组件

@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:23:13
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-11 11:36:08
+ * @LastEditTime: 2024-04-24 17:52:55
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Detailed.vue
 -->
@@ -98,7 +98,7 @@ const form_config = reactive({
 
 const handleSubmitForm = () => {
     // 深度拷贝
-    const request_data = JSON.parse(JSON.stringify(detail_form));
+    const request_data = JSON.parse(JSON.stringify(detail_form.value));
     // 日期处理
     request_data.create_date = formatDateTime(request_data.create_date);
     // category_idd 重新赋值
