@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-08 16:52:51
+ * @LastEditTime: 2024-04-29 15:28:46
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Index.vue
 -->
@@ -32,7 +32,7 @@
             <!-- </router-link> -->
         </el-col>
     </el-row>
-    <basic-table :tableHeader="table_header" :tableData="table_info.data" :config="config" @changeStatus="changeStatus" @deleteInfo="deleteInfo">
+    <basic-table :tableHeader="table_header" :tableData="table_info.data" :config="search_config" @changeStatus="changeStatus" @deleteInfo="deleteInfo">
         <template #operation="slotData">
             <el-button type="danger" size="small" @click="handleDetailed(slotData.data.id)">编辑</el-button>
         </template>
@@ -63,11 +63,31 @@ const table_header = ref([
     { type: 'switch', label: '发布状态', prop: 'status' },
     { type: 'slot', label: '操作', slot_name: 'operation', delete_elem: true },
 ]);
-const config = {
+const search_config = {
     selection: false,
     pagination: false,
     batch_delete: true,
-    search: false,
+    search: true,
+    label_width: '80px',
+    form_item: [
+        {
+            type: 'cascader',
+            label: '类别',
+            prop: 'category_id',
+            props: {
+                label: 'category_name',
+                value: 'id',
+            },
+            url: 'category',
+        },
+        {
+            type: 'selection',
+            label: '发布状态',
+            prop: 'status',
+            width: '100px',
+            options: [{ value: '1', label: '是' }],
+        },
+    ],
 };
 const { push } = useRouter();
 const handlerSelectionChange = (val) => {
