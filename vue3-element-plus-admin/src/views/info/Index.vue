@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-29 15:28:46
+ * @LastEditTime: 2024-04-29 17:08:02
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/views/info/Index.vue
+ * @FilePath: \vue3-element-plus-admin\src\views\info\Index.vue
 -->
 <template>
     <el-row>
@@ -32,7 +32,7 @@
             <!-- </router-link> -->
         </el-col>
     </el-row>
-    <basic-table :tableHeader="table_header" :tableData="table_info.data" :config="search_config" @changeStatus="changeStatus" @deleteInfo="deleteInfo">
+    <basic-table :tableHeader="table_header" :tableData="table_info.data" :config="config" @changeStatus="changeStatus" @deleteInfo="deleteInfo">
         <template #operation="slotData">
             <el-button type="danger" size="small" @click="handleDetailed(slotData.data.id)">编辑</el-button>
         </template>
@@ -49,8 +49,7 @@
 import { useInfoStore } from '@/store/infoStore';
 import Pagination from '@c/pagination';
 import BasicTable from '@c/table';
-
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, provide, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const { table_info, category_info, page_info, GET_TABLE_LIST, CHANGE_STATUS, table_search, INFO_DEL, table_batch_del } = useInfoStore();
 const status_loading = ref(false);
@@ -63,11 +62,13 @@ const table_header = ref([
     { type: 'switch', label: '发布状态', prop: 'status' },
     { type: 'slot', label: '操作', slot_name: 'operation', delete_elem: true },
 ]);
-const search_config = {
+const config = {
     selection: false,
     pagination: false,
     batch_delete: true,
     search: true,
+};
+const search_config = {
     label_width: '80px',
     form_item: [
         {
@@ -81,14 +82,22 @@ const search_config = {
             url: 'category',
         },
         {
-            type: 'selection',
+            type: 'select',
             label: '发布状态',
             prop: 'status',
             width: '100px',
-            options: [{ value: '1', label: '是' }],
+            options: [
+                { value: '1', label: '是' },
+                { value: '2', label: '否' },
+            ],
         },
     ],
+    form_data: {
+        category_id: '',
+        status: '',
+    },
 };
+provide('search_config', search_config);
 const { push } = useRouter();
 const handlerSelectionChange = (val) => {
     table_batch_del.ids = [];

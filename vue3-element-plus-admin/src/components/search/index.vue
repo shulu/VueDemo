@@ -2,14 +2,11 @@
  * @Author: shulu
  * @Date: 2024-04-24 18:05:17
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-29 15:22:20
+ * @LastEditTime: 2024-04-29 16:44:53
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/components/search/index.vue
+ * @FilePath: \vue3-element-plus-admin\src\components\search\index.vue
 -->
 <template>
-    <el-form :inline="true" v-if="show">
-        <el-form-item>表单组件类型</el-form-item>
-    </el-form>
     <el-form ref="formDom" inline :label-width="label_width" v-if="show">
         <el-form-item v-for="item in form_item" :key="item.prop">
             <component v-model:value="field[item.prop]" :is="item.type + 'Component'" :data="item" />
@@ -22,29 +19,28 @@
     </el-form>
 </template>
 <script setup>
-import { defineProps } from 'vue';
-defineProps({
+import { defineProps, inject, reactive, ref } from 'vue';
+const props = defineProps({
     show: {
         type: Boolean,
         default: () => {
             false;
         },
     },
-    form_item: {
-        type: Array,
-        default: () => {
-            [];
-        },
-    },
-    form_button: {
-        type: Array,
-        default: () => {
-            [];
-        },
+    item: { type: Array, default: () => ({}) },
+    labelWidth: {
+        type: [String, Number],
+        default: '',
     },
     field: {
         type: Object,
         default: () => ({}),
     },
 });
+const search_config = inject('search_config');
+console.log(`output->search_config`, search_config);
+const label_width = ref(search_config?.label_width || props.labelWidth);
+const form_item = reactive(search_config?.form_item || props.item);
+const field = reactive(search_config?.form_data || props.field);
+console.log(`output->field`, field);
 </script>
