@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-29 17:08:02
+ * @LastEditTime: 2024-04-30 12:24:51
  * @Description: file content
- * @FilePath: \vue3-element-plus-admin\src\views\info\Index.vue
+ * @FilePath: /vue3-element-plus-admin/src/views/info/Index.vue
 -->
 <template>
     <el-row>
@@ -91,11 +91,17 @@ const search_config = {
                 { value: '2', label: '否' },
             ],
         },
+        {
+            type: 'keyword',
+            label: '关键字',
+            prop: 'keyword',
+            options: [
+                { value: 'id', label: 'ID' },
+                { value: 'title', label: '标题' },
+            ],
+        },
     ],
-    form_data: {
-        category_id: '',
-        status: '',
-    },
+    form_data: table_search,
 };
 provide('search_config', search_config);
 const { push } = useRouter();

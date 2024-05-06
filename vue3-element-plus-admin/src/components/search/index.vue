@@ -2,13 +2,13 @@
  * @Author: shulu
  * @Date: 2024-04-24 18:05:17
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-29 16:44:53
+ * @LastEditTime: 2024-04-30 12:32:03
  * @Description: file content
- * @FilePath: \vue3-element-plus-admin\src\components\search\index.vue
+ * @FilePath: /vue3-element-plus-admin/src/components/search/index.vue
 -->
 <template>
     <el-form ref="formDom" inline :label-width="label_width" v-if="show">
-        <el-form-item v-for="item in form_item" :key="item.prop">
+        <el-form-item v-for="item in form_item" :key="item.prop" :label="item.label" :width="item.width">
             <component v-model:value="field[item.prop]" :is="item.type + 'Component'" :data="item" />
         </el-form-item>
         <el-form-item v-if="form_button && form_button.length > 0">
@@ -27,7 +27,7 @@ const props = defineProps({
             false;
         },
     },
-    item: { type: Array, default: () => ({}) },
+    item: { type: Array, default: () => [] },
     labelWidth: {
         type: [String, Number],
         default: '',
@@ -38,9 +38,7 @@ const props = defineProps({
     },
 });
 const search_config = inject('search_config');
-console.log(`output->search_config`, search_config);
 const label_width = ref(search_config?.label_width || props.labelWidth);
 const form_item = reactive(search_config?.form_item || props.item);
 const field = reactive(search_config?.form_data || props.field);
-console.log(`output->field`, field);
 </script>

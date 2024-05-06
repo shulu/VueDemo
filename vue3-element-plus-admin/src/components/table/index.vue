@@ -2,32 +2,39 @@
  * @Author: shulu
  * @Date: 2024-02-20 11:20:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-24 18:09:45
+ * @LastEditTime: 2024-04-30 12:30:11
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/table/index.vue
 -->
 <template>
-    <div>
-        <SearchForm :show="config.search" />
-        <el-table :data="props.tableData" border style="width: 100%">
-            <el-table-column v-if="config.selection" type="selection"></el-table-column>
-            <template v-for="header in props.tableHeader" :key="header.prop">
-                <el-table-column v-if="header.type === 'switch'" :label="header.label">
-                    <template #default="scope">
-                        <el-switch v-model="scope.row[header.prop]" @change="changeStatus($event, scope.row)" :loading="status_loading"></el-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column v-else-if="header.type === 'date'" :prop="header.prop" :label="header.label" :formatter="formatDate"> </el-table-column>
-                <el-table-column v-else-if="header.type === 'slot'" :label="header.label">
-                    <template #default="scope">
-                        <slot :name="header.slot_name" :data="scope.row"></slot>
-                        <el-button v-if="header.delete_elem" size="small" @click="deleteInfo(scope.row.id)">删除</el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column v-else :prop="header.prop" :label="header.label"></el-table-column>
-            </template>
-        </el-table>
-    </div>
+    <el-row>
+        <el-col :span="18">
+            <SearchForm :show="config.search" />
+        </el-col>
+        <el-col :span="6">
+            <!-- <router-link to="/newsDetailed" class="pull-right"> -->
+            <el-button type="danger" class="pull-right" @click="handleDetailed()">新增</el-button>
+            <!-- </router-link> -->
+        </el-col>
+    </el-row>
+    <el-table :data="props.tableData" border style="width: 100%">
+        <el-table-column v-if="config.selection" type="selection"></el-table-column>
+        <template v-for="header in props.tableHeader" :key="header.prop">
+            <el-table-column v-if="header.type === 'switch'" :label="header.label">
+                <template #default="scope">
+                    <el-switch v-model="scope.row[header.prop]" @change="changeStatus($event, scope.row)" :loading="status_loading"></el-switch>
+                </template>
+            </el-table-column>
+            <el-table-column v-else-if="header.type === 'date'" :prop="header.prop" :label="header.label" :formatter="formatDate"> </el-table-column>
+            <el-table-column v-else-if="header.type === 'slot'" :label="header.label">
+                <template #default="scope">
+                    <slot :name="header.slot_name" :data="scope.row"></slot>
+                    <el-button v-if="header.delete_elem" size="small" @click="deleteInfo(scope.row.id)">删除</el-button>
+                </template>
+            </el-table-column>
+            <el-table-column v-else :prop="header.prop" :label="header.label"></el-table-column>
+        </template>
+    </el-table>
 </template>
 
 <script setup>

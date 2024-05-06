@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-08 17:20:57
+ * @LastEditTime: 2024-04-30 11:12:33
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/infoStore.js
  */
@@ -76,6 +76,7 @@ export const useInfoStore = defineStore('info', {
                 categore_id: 0,
                 key: '',
                 key_word: '',
+                status: '',
             },
             table_batch_del: {
                 ids: [],
