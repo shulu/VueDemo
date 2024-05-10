@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-04-30 12:03:32
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-09 18:38:10
+ * @LastEditTime: 2024-05-10 16:30:42
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/control/keyword/index.vue
 -->
@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps, getCurrentInstance, ref } from 'vue';
+import { defineEmits, defineExpose, defineProps, getCurrentInstance, ref } from 'vue';
 const { proxy } = getCurrentInstance();
 const props = defineProps({
     data: {
@@ -22,6 +22,7 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+const dom_info = ref(props.data);
 const emits = defineEmits(['update:modelValue', 'callback']);
 const key = ref('');
 const value = ref('');
@@ -54,6 +55,14 @@ const updatePlaceHolder = (val) => {
     const cont = props.data.options.filter((item) => item.value === val)[0].label;
     placeholder.value = `请输入${cont}`;
 };
+const clearVal = () => {
+    value.value = '';
+    key.value = '';
+};
+defineExpose({
+    dom_info,
+    clearVal,
+});
 // const options = reactive([
 //     { label: 'ID', value: 'id' },
 //     { label: '标题', value: 'title' },

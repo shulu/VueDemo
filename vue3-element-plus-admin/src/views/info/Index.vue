@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-09 19:18:57
+ * @LastEditTime: 2024-05-10 17:13:29
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Index.vue
 -->
@@ -30,6 +30,47 @@ import { useRouter } from 'vue-router';
 const { table_info, page_info, GET_TABLE_LIST, CHANGE_STATUS, table_search, INFO_DEL, table_batch_del, RESET_TABLE_SEARCH } = useInfoStore();
 const status_loading = ref(false);
 const batch_disabled = ref(true);
+const { push } = useRouter();
+const handlerSelectionChange = (val) => {
+    table_batch_del.ids = [];
+    if (val && val.length > 0) {
+        const ids = val.map((item) => item.id);
+        table_batch_del.ids = ids;
+        batch_disabled.value = false;
+    }
+};
+// 分页
+const handleSizeChange = (val) => {
+    page_info.page_size = val;
+    GET_TABLE_LIST();
+};
+const handleCurrentChange = (val) => {
+    page_info.current_page = val;
+    GET_TABLE_LIST();
+};
+const handleDetailed = (id) => {
+    push({
+        path: '/newsDetailed',
+        query: { id },
+    });
+};
+const changeStatus = (value) => {
+    status_loading.value = true;
+    const request_data = {
+        id: value.id,
+        status: value.status,
+    };
+    CHANGE_STATUS(request_data).then((res) => {
+        console.log(`output->res`, res);
+    });
+    status_loading.value = false;
+};
+const deleteInfo = (id) => {
+    const request_data = {
+        id: id,
+    };
+    INFO_DEL(request_data);
+};
 const table_header = ref([
     { label: '标题', prop: 'title' },
     { label: '类别', prop: 'category_name' },
@@ -74,70 +115,27 @@ const search_config = reactive({
         },
     ],
     form_data: table_search,
-    form_button: [
+    form_button: {
+        reset_button: true,
+    },
+    button_group: [
         {
-            key: 'search',
+            label: '新增',
             type: 'danger',
-            label: '搜索',
+            prop: 'new',
             callback: () => {
-                GET_TABLE_LIST();
+                handleDetailed('');
             },
         },
         {
-            key: 'reset',
-            type: 'primary',
-            label: '重置',
-            callback: () => {
-                RESET_TABLE_SEARCH();
-            },
+            label: '其他按钮',
+            type: 'danger',
+            prop: 'other',
+            callback: () => {},
         },
     ],
 });
-provide('search_config', search_config);
-const { push } = useRouter();
-const handlerSelectionChange = (val) => {
-    table_batch_del.ids = [];
-    if (val && val.length > 0) {
-        const ids = val.map((item) => item.id);
-        table_batch_del.ids = ids;
-        batch_disabled.value = false;
-    }
-};
-// 分页
-const handleSizeChange = (val) => {
-    page_info.page_size = val;
-    GET_TABLE_LIST();
-};
-const handleCurrentChange = (val) => {
-    page_info.current_page = val;
-    GET_TABLE_LIST();
-};
-const handleDetailed = (id) => {
-    push({
-        path: '/newsDetailed',
-        query: { id },
-    });
-};
-const changeStatus = (value) => {
-    status_loading.value = true;
-    const request_data = {
-        id: value.id,
-        status: value.status,
-    };
-    CHANGE_STATUS(request_data).then((res) => {
-        console.log(`output->res`, res);
-    });
-    status_loading.value = false;
-};
-const deleteInfo = (id) => {
-    const request_data = {
-        id: id,
-    };
-    INFO_DEL(request_data);
-};
-const handleSearch = () => {
-    GET_TABLE_LIST();
-};
+provide('search', { search_config, GET_TABLE_LIST, RESET_TABLE_SEARCH });
 onBeforeMount(() => {
     GET_TABLE_LIST();
 });
