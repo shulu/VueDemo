@@ -7,16 +7,7 @@
  * @FilePath: /vue3-element-plus-admin/src/components/table/index.vue
 -->
 <template>
-    <el-row>
-        <el-col :span="18">
-            <SearchForm :show="config.search" />
-        </el-col>
-        <el-col :span="6">
-            <!-- <router-link to="/newsDetailed" class="pull-right"> -->
-            <el-button type="danger" class="pull-right" @click="handleDetailed()">新增</el-button>
-            <!-- </router-link> -->
-        </el-col>
-    </el-row>
+    <SearchForm :show="config.search" />
     <el-table :data="props.tableData" border style="width: 100%">
         <el-table-column v-if="config.selection" type="selection"></el-table-column>
         <template v-for="header in props.tableHeader" :key="header.prop">

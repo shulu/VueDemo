@@ -2,36 +2,11 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-30 12:24:51
+ * @LastEditTime: 2024-05-09 19:18:57
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Index.vue
 -->
 <template>
-    <el-row>
-        <el-col :span="18">
-            <el-form :inline="true" label-width="80px" style="display: flex">
-                <el-form-item label="类别" width="150px">
-                    <el-cascader :options="category_info.category_list" :props="category_info.detail_props" v-model="table_search.category_id"> </el-cascader>
-                </el-form-item>
-                <el-form-item label="关键字">
-                    <el-select class="width-100" placeholder="请选择" v-model="table_search.key">
-                        <el-option v-for="item in table_info.keywords_options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-input class="width-180" placeholder="请输入关键字" v-model="table_search.key_word"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="danger" @click="handleSearch">搜索</el-button>
-                </el-form-item>
-            </el-form>
-        </el-col>
-        <el-col :span="6">
-            <!-- <router-link to="/newsDetailed" class="pull-right"> -->
-            <el-button type="danger" class="pull-right" @click="handleDetailed()">新增</el-button>
-            <!-- </router-link> -->
-        </el-col>
-    </el-row>
     <basic-table :tableHeader="table_header" :tableData="table_info.data" :config="config" @changeStatus="changeStatus" @deleteInfo="deleteInfo">
         <template #operation="slotData">
             <el-button type="danger" size="small" @click="handleDetailed(slotData.data.id)">编辑</el-button>
@@ -46,15 +21,15 @@
 </template>
 
 <script setup>
+import globalData from '@/js/data';
 import { useInfoStore } from '@/store/infoStore';
 import Pagination from '@c/pagination';
 import BasicTable from '@c/table';
-import { onBeforeMount, provide, ref } from 'vue';
+import { onBeforeMount, provide, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-const { table_info, category_info, page_info, GET_TABLE_LIST, CHANGE_STATUS, table_search, INFO_DEL, table_batch_del } = useInfoStore();
+const { table_info, page_info, GET_TABLE_LIST, CHANGE_STATUS, table_search, INFO_DEL, table_batch_del, RESET_TABLE_SEARCH } = useInfoStore();
 const status_loading = ref(false);
 const batch_disabled = ref(true);
-
 const table_header = ref([
     { label: '标题', prop: 'title' },
     { label: '类别', prop: 'category_name' },
@@ -68,8 +43,8 @@ const config = {
     batch_delete: true,
     search: true,
 };
-const search_config = {
-    label_width: '80px',
+const search_config = reactive({
+    //label_width: '80px',
     form_item: [
         {
             type: 'cascader',
@@ -86,15 +61,12 @@ const search_config = {
             label: '发布状态',
             prop: 'status',
             width: '100px',
-            options: [
-                { value: '1', label: '是' },
-                { value: '2', label: '否' },
-            ],
+            options: globalData.whether,
         },
         {
             type: 'keyword',
             label: '关键字',
-            prop: 'keyword',
+            prop: 'key_word',
             options: [
                 { value: 'id', label: 'ID' },
                 { value: 'title', label: '标题' },
@@ -102,7 +74,25 @@ const search_config = {
         },
     ],
     form_data: table_search,
-};
+    form_button: [
+        {
+            key: 'search',
+            type: 'danger',
+            label: '搜索',
+            callback: () => {
+                GET_TABLE_LIST();
+            },
+        },
+        {
+            key: 'reset',
+            type: 'primary',
+            label: '重置',
+            callback: () => {
+                RESET_TABLE_SEARCH();
+            },
+        },
+    ],
+});
 provide('search_config', search_config);
 const { push } = useRouter();
 const handlerSelectionChange = (val) => {

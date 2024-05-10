@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-30 11:12:33
+ * @LastEditTime: 2024-05-09 17:15:00
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/infoStore.js
  */
@@ -73,7 +73,7 @@ export const useInfoStore = defineStore('info', {
                 total: 0,
             },
             table_search: {
-                categore_id: 0,
+                category_id: 0,
                 key: '',
                 key_word: '',
                 status: '',
@@ -305,10 +305,10 @@ export const useInfoStore = defineStore('info', {
         },
         FORTMAT_PARAMS() {
             const data = Object.assign({}, this.table_search);
-            if (data.categore_id.length) {
-                data.categore_id = data.categore_id[data.categore_id.length - 1];
+            if (data.category_id.length) {
+                data.category_id = data.category_id[data.category_id.length - 1];
             } else {
-                delete data.categore_id;
+                delete data.category_id;
             }
             if (data.key && data.key_word) {
                 data[data.key] = data.key_word;
@@ -360,6 +360,14 @@ export const useInfoStore = defineStore('info', {
                 ElMessage.error(error.message);
                 return false;
             }
+        },
+        RESET_TABLE_SEARCH() {
+            this.table_search = {
+                category_id: 0,
+                key: '',
+                key_word: '',
+                status: '',
+            };
         },
     },
 });

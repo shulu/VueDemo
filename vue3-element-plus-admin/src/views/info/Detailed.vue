@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:23:13
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-24 17:52:55
+ * @LastEditTime: 2024-05-09 14:43:16
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Detailed.vue
 -->
@@ -21,6 +21,7 @@
 </template>
 
 <script setup>
+import globalData from '@/js/data';
 import { useInfoStore } from '@/store/infoStore';
 import BasicForm from '@c/form';
 import { formatDateTime } from '@u/common';
@@ -61,10 +62,7 @@ const form_config = reactive({
             type: 'radio',
             label: '是否发布',
             prop: 'status',
-            options: [
-                { value: 1, label: '是' },
-                { value: 0, label: '否' },
-            ],
+            options: globalData.whether,
             col: 24,
             relation_hidden: [
                 // ['title', { 1: false, 0: true }],
