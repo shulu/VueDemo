@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 14:04:26
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-02 17:17:57
+ * @LastEditTime: 2024-05-10 19:06:30
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/layout/Index.vue
 -->
@@ -11,7 +11,9 @@
     <el-container id="layout-container">
         <el-aside id="layout-aside" :width="data.collapse ? '60px' : '250px'"><LayoutSide /></el-aside>
         <el-container>
-            <el-header id="layout-header" height="75px"><LayoutHeader /></el-header>
+            <el-header id="layout-header" height="75px">
+                <LayoutHeader />
+            </el-header>
             <el-main id="layout-main"><LayoutMain /></el-main>
         </el-container>
     </el-container>

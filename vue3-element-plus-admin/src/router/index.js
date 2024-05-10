@@ -2,13 +2,48 @@
  * @Author: shulu
  * @Date: 2023-12-14 10:13:21
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-26 14:16:25
+ * @LastEditTime: 2024-05-10 19:20:13
  * @Description: file contenre
  * @FilePath: /vue3-element-plus-admin/src/router/index.js
  */
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
+    {
+        path: '/system',
+        name: 'Sytem',
+        meta: {
+            title: '系统配置',
+            icon: 'setting',
+        },
+        component: () => import('../layout/Index.vue'),
+        children: [
+            {
+                path: '/user',
+                name: 'User',
+                meta: {
+                    title: '用户列表',
+                },
+                component: () => import('@v/system/User.vue'),
+            },
+            {
+                path: '/role',
+                name: 'Role',
+                meta: {
+                    title: '角色列表',
+                },
+                component: () => import('@v/system/Role.vue'),
+            },
+            {
+                path: '/menu',
+                name: 'Menu',
+                meta: {
+                    title: '菜单列表',
+                },
+                component: () => import('@v/system/Menu.vue'),
+            },
+        ],
+    },
     {
         path: '/',
         redirect: 'Login',

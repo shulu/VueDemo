@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-02-20 11:20:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-04-30 12:30:11
+ * @LastEditTime: 2024-05-10 19:33:23
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/table/index.vue
 -->
@@ -64,6 +64,7 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+console.log(`output->props`, props);
 const changeStatus = (val, row) => {
     emit('changeStatus', row);
 };
