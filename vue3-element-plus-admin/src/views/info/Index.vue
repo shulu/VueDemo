@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:50
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-10 17:13:29
+ * @LastEditTime: 2024-05-10 18:19:32
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/info/Index.vue
 -->
@@ -96,6 +96,7 @@ const search_config = reactive({
                 value: 'id',
             },
             url: 'category',
+            col: 6,
         },
         {
             type: 'select',
@@ -103,6 +104,8 @@ const search_config = reactive({
             prop: 'status',
             width: '100px',
             options: globalData.whether,
+            col: 6,
+            label_width: '120px',
         },
         {
             type: 'keyword',
@@ -112,6 +115,7 @@ const search_config = reactive({
                 { value: 'id', label: 'ID' },
                 { value: 'title', label: '标题' },
             ],
+            col: 10,
         },
     ],
     form_data: table_search,
@@ -134,6 +138,7 @@ const search_config = reactive({
             callback: () => {},
         },
     ],
+    button_col: 6,
 });
 provide('search', { search_config, GET_TABLE_LIST, RESET_TABLE_SEARCH });
 onBeforeMount(() => {
