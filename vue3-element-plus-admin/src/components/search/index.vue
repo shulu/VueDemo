@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-04-24 18:05:17
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-10 18:17:20
+ * @LastEditTime: 2024-05-11 15:51:50
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/search/index.vue
 -->
@@ -12,7 +12,7 @@
             {{ item.label }}
         </el-button>
     </div>
-    <el-form ref="searchForm" inline :label-width="label_width" v-if="show" style="display: flex" :model="field">
+    <el-form ref="searchForm" inline :label-width="label_width" v-if="show" :model="field">
         <el-row v-if="form_item && form_item.length > 0">
             <el-col v-for="item in form_item" :key="item.prop" :span="item.col || 24">
                 <el-form-item :label="item.label" :width="item.width" :prop="item.prop" :label-width="item.label_width || label_width">

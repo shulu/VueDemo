@@ -2,12 +2,12 @@
  * @Author: shulu
  * @Date: 2024-02-20 11:20:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-10 19:33:23
+ * @LastEditTime: 2024-05-11 16:07:01
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/table/index.vue
 -->
 <template>
-    <SearchForm :show="config.search" />
+    <SearchForm :show="config.search" :field="tableSearch" />
     <el-table :data="props.tableData" border style="width: 100%">
         <el-table-column v-if="config.selection" type="selection"></el-table-column>
         <template v-for="header in props.tableHeader" :key="header.prop">
@@ -63,8 +63,11 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    tableSearch: {
+        type: Object,
+        default: () => ({}),
+    },
 });
-console.log(`output->props`, props);
 const changeStatus = (val, row) => {
     emit('changeStatus', row);
 };
