@@ -2,17 +2,101 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-11 18:18:10
+ * @LastEditTime: 2024-05-15 19:16:51
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/settingStore.js
  */
-import { MenuList } from '@/api/setting';
+import { MenuCreate, MenuList } from '@/api/setting';
 import globalData from '@/js/data';
 import { ElMessage } from 'element-plus';
 import { defineStore } from 'pinia';
 export const useSettingStore = defineStore('setting', {
     state: () => {
         return {
+            form_loading: false,
+            form_item: [
+                {
+                    type: 'input',
+                    label: '菜单名称',
+                    prop: 'menu_name',
+                    width: '300px',
+                    disabled: false,
+                    required: true,
+                },
+                {
+                    type: 'input',
+                    label: '菜单路径',
+                    prop: 'menu_path',
+                    width: '300px',
+                    hidden: false,
+                    disabled: false,
+                    required: true,
+                },
+                {
+                    type: 'input',
+                    label: '路由名称',
+                    prop: 'menu_router',
+                    width: '300px',
+                    required: true,
+                },
+                {
+                    type: 'input',
+                    label: '映射组件',
+                    prop: 'menu_component',
+                    width: '300px',
+                    required: true,
+                },
+                { type: 'upload', label: '图标', prop: 'menu_icon', required: true },
+                { type: 'inputnumber', label: '排序', prop: 'menu_sort', required: true },
+                {
+                    type: 'radio',
+                    label: '是否禁用',
+                    prop: 'menu_disabled',
+                    options: globalData.whether,
+                },
+                {
+                    type: 'radio',
+                    label: '是否隐藏',
+                    prop: 'menu_hidden',
+                    options: globalData.whether,
+                },
+                {
+                    type: 'radio',
+                    label: '是否缓存',
+                    prop: 'menu_keep',
+                    options: globalData.whether,
+                },
+                {
+                    type: 'input',
+                    label: '重定向',
+                    prop: 'menu_redirect',
+                    width: '300px',
+                },
+                {
+                    type: 'slot',
+                    label: '页面功能',
+                    slot_name: 'menu_function',
+                },
+            ],
+            form_data: {
+                menu_name: '',
+                menu_path: '',
+                menu_router: '',
+                menu_component: '',
+                menu_sort: 1,
+                menu_disabled: '0',
+                menu_hidden: '',
+                menu_keep: '0',
+                menu_redirect: '',
+            },
+            form_rules: {
+                menu_name: [{ required: true, message: '菜单不能为空', trigger: 'change' }],
+                menu_path: [{ required: true, message: '菜单路径不能为空', trigger: 'change' }],
+                menu_router: [{ required: true, message: '菜单路由不能为空', trigger: 'change' }],
+                menu_component: [{ required: true, message: '菜单组件不能为空', trigger: 'change' }],
+                menu_icon: [{ required: true, message: '菜单ICON不能为空', trigger: 'change' }],
+                menu_sort: [{ required: true, message: '菜单排序不能为空', trigger: 'change' }],
+            },
             search_config: {
                 label_width: '70px',
                 form_button: { reset_button: true },
@@ -20,7 +104,7 @@ export const useSettingStore = defineStore('setting', {
                     {
                         type: 'select',
                         label: '是否禁用',
-                        props: 'menu_disabled',
+                        prop: 'menu_disabled',
                         width: '100px',
                         col: 6,
                         options: globalData.whether,
@@ -28,7 +112,7 @@ export const useSettingStore = defineStore('setting', {
                     {
                         type: 'keyword',
                         label: '关键字',
-                        prop: 'keyword',
+                        prop: 'key_word',
                         col: 12,
                         options: [
                             { label: '菜单名称', value: 'menu_name' },
@@ -67,14 +151,9 @@ export const useSettingStore = defineStore('setting', {
                     },
                 ],
             },
-            page_info: {
-                page_num: 1,
-                current_page: 1,
-                page_size: 20,
-                total: 0,
-            },
+            page_info: globalData.page_info,
             table_search: {
-                category_id: 0,
+                menu_disabled: '0',
                 key: '',
                 key_word: '',
                 status: '',
@@ -91,6 +170,25 @@ export const useSettingStore = defineStore('setting', {
         getTableSearch: (state) => state.table_search,
     },
     actions: {
+        async MENU_CREATE() {
+            //开启按钮加载状态
+            this.form_loading = true;
+            //执行接口
+            try {
+                const res = await MenuCreate(this.form_data);
+                ElMessage({
+                    message: res.message,
+                    type: 'success',
+                });
+                this.GET_TABLE_LIST();
+            } catch (err) {
+                ElMessage({
+                    message: '添加失败',
+                    type: 'error',
+                });
+            }
+            this.form_loading = false;
+        },
         async GET_TABLE_LIST() {
             try {
                 const search_data = this.FORTMAT_PARAMS();
@@ -134,11 +232,6 @@ export const useSettingStore = defineStore('setting', {
         },
         FORTMAT_PARAMS() {
             const data = Object.assign({}, this.table_search);
-            if (data.category_id.length) {
-                data.category_id = data.category_id[data.category_id.length - 1];
-            } else {
-                delete data.category_id;
-            }
             if (data.key && data.key_word) {
                 data[data.key] = data.key_word;
             }
@@ -152,6 +245,19 @@ export const useSettingStore = defineStore('setting', {
                 key: '',
                 key_word: '',
                 status: '',
+            };
+        },
+        RESET_FORM_DATA() {
+            this.form_data = {
+                menu_name: '',
+                menu_path: '',
+                menu_router: '',
+                menu_component: '',
+                menu_sort: 1,
+                menu_disabled: '0',
+                menu_hidden: '',
+                menu_keep: '0',
+                menu_redirect: '',
             };
         },
     },

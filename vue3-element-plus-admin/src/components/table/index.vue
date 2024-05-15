@@ -2,12 +2,12 @@
  * @Author: shulu
  * @Date: 2024-02-20 11:20:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-11 16:07:01
+ * @LastEditTime: 2024-05-14 16:06:15
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/table/index.vue
 -->
 <template>
-    <SearchForm :show="config.search" :field="tableSearch" />
+    <SearchForm :show="config.search" :field="tableSearch" :button_group="tableButtonGroup" />
     <el-table :data="props.tableData" border style="width: 100%">
         <el-table-column v-if="config.selection" type="selection"></el-table-column>
         <template v-for="header in props.tableHeader" :key="header.prop">
@@ -64,6 +64,10 @@ const props = defineProps({
         default: () => ({}),
     },
     tableSearch: {
+        type: Object,
+        default: () => ({}),
+    },
+    tableButtonGroup: {
         type: Object,
         default: () => ({}),
     },

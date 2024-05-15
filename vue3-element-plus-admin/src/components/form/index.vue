@@ -2,17 +2,20 @@
  * @Author: shulu
  * @Date: 2024-02-23 16:22:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-03-11 11:43:21
+ * @LastEditTime: 2024-05-15 19:02:44
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/form/index.vue
 -->
 <template>
-    <el-form ref="formRef" :model="form_model" :rules="form_rules" :label-width="label_width">
+    <el-form ref="formRef" :model="form_model" :rules="form_rules" :label-width="label_width" v-loading="form_loading" element-loading-text="加载中,请稍后">
         <el-row>
             <template v-for="item in form_item" :key="item.prop">
-                <el-col v-if="!hidden[item.prop]" :span="item.col || 24">
-                    <el-form-item :label="item.label" :prop="item.prop">
-                        <component :is="item.type + 'Component'" :data="item" v-model:modelValue="field[item.prop]" :disabled="ele_disabled[item.prop]" />
+                <el-col v-if="!item.hidden" :span="item.col || 24">
+                    <el-form-item v-if="item.type === 'slot'">
+                        <slot :name="item.slot_name"> </slot>
+                    </el-form-item>
+                    <el-form-item v-else :label="item.label" :prop="item.prop">
+                        <component :is="item.type + 'Component'" :data="item" v-model:modelValue="field[item.prop]" />
                     </el-form-item>
                 </el-col>
             </template>
@@ -30,10 +33,10 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps, reactive, ref } from 'vue';
+import { defineEmits, defineProps, ref } from 'vue';
 import { relationHook } from './relationHook';
 const { HiddenItem, DisabledItem } = relationHook();
-const props = defineProps({
+defineProps({
     form_disabled: {
         type: Object,
         default: () => {},
@@ -78,8 +81,12 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    form_loading: {
+        type: Boolean,
+        default: false,
+    },
 });
-const emits = defineEmits(['submitForm']);
+const emits = defineEmits(['submitForm', 'resetForm']);
 const formRef = ref();
 const handlerFormAction = (data) => {
     if (data.key === 'submit') {
@@ -94,11 +101,13 @@ const handlerFormAction = (data) => {
         });
     }
     if (data.key === 'reset') {
+        formRef.value.resetFields();
+        emits('resetForm', {});
         return false;
     }
 };
-const hidden = reactive(props.form_hidden);
-const ele_disabled = reactive(props.form_disabled);
+// const hidden = reactive(props.form_hidden);
+// const ele_disabled = reactive(props.form_disabled);
 const handlerChange = (event, data) => {
     HiddenItem(event, data.relation_hidden, hidden);
     DisabledItem(event, data.relation_disabled, ele_disabled);

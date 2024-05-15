@@ -7,11 +7,9 @@
  * @FilePath: /vue3-element-plus-admin/src/components/control/checkbox/index.vue
 -->
 <template>
-    <div>
         <el-checkbox-group v-model="modelValue" :disabled="disabled" @change="$emit('update:modelValue', modelValue)">
             <el-checkbox v-for="checkbox in data.options" :label="checkbox.value" :key="checkbox.value">{{ checkbox.label }}</el-checkbox>
         </el-checkbox-group>
-    </div>
 </template>
 
 <script setup>

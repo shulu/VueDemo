@@ -7,7 +7,6 @@
  * @FilePath: /vue3-element-plus-admin/src/components/control/textarea/index.vue
 -->
 <template>
-    <div>
         <el-input
             v-model="modelValue"
             type="textarea"
@@ -18,7 +17,6 @@
             :placeholder="data.placeholder"
             @change="$emit('update:modelValue', modelValue)"
         />
-    </div>
 </template>
 
 <script setup>
