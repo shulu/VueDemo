@@ -2,13 +2,21 @@
  * @Author: shulu
  * @Date: 2023-12-25 14:37:35
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-28 14:44:00
+ * @LastEditTime: 2024-05-16 12:23:02
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/Aside.vue
 -->
 <template>
     <h1 class="logo"><img :src="data.logo" alt="手把手撸前端" srcset="" /></h1>
-    <el-menu :default-active="currentPath" background-color="#344a5f" text-color="#fff" active-text-color="#fff" router="true" :collapse="data.collapse">
+    <el-menu
+        :default-active="currentPath"
+        background-color="#344a5f"
+        text-color="#fff"
+        active-text-color="#fff"
+        router="true"
+        :collapse="data.collapse"
+        style="width: 100%"
+    >
         <template v-for="item in routers" :key="item.path">
             <template v-if="hasOnlyChild(item.children)">
                 <el-menu-item :index="item.children[0].path">
@@ -77,4 +85,3 @@ const currentPath = computed(() => path);
     }
 }
 </style>
-@/store/sideStore

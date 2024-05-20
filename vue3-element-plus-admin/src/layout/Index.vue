@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2023-12-25 14:04:26
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-10 19:06:30
+ * @LastEditTime: 2024-05-16 10:57:04
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/layout/Index.vue
 -->
@@ -53,6 +53,6 @@ const data = reactive({
 
 #layout-main {
     background-color: #f7f7f7;
-    height: 100%;
+    // height: 100%;
 }
 </style>

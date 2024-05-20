@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-15 19:16:51
+ * @LastEditTime: 2024-05-16 11:46:51
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/store/settingStore.js
  */
@@ -14,6 +14,8 @@ export const useSettingStore = defineStore('setting', {
     state: () => {
         return {
             form_loading: false,
+            dialog_visible: false,
+            page_item: [{ value: '', label: '' }],
             form_item: [
                 {
                     type: 'input',
@@ -85,7 +87,7 @@ export const useSettingStore = defineStore('setting', {
                 menu_component: '',
                 menu_sort: 1,
                 menu_disabled: '0',
-                menu_hidden: '',
+                menu_hidden: '0',
                 menu_keep: '0',
                 menu_redirect: '',
             },
@@ -135,7 +137,7 @@ export const useSettingStore = defineStore('setting', {
                 { label: '重定向', prop: 'menu_redirect' },
                 { label: '是否隐藏', prop: 'menu_hidden', type: 'switch' },
                 { label: '是否禁用', prop: 'menu_disabled', type: 'switch' },
-                { label: '操作', prop: 'menu_name', type: 'slot', slot_name: 'operetion', width: '250' },
+                { label: '操作', prop: 'menu_name', type: 'slot', slot_name: 'operation', width: '250' },
             ],
             table_info: {
                 data: [],
@@ -175,11 +177,15 @@ export const useSettingStore = defineStore('setting', {
             this.form_loading = true;
             //执行接口
             try {
-                const res = await MenuCreate(this.form_data);
+                const pagItem = this.FORMAT_PAGE_ITEM();
+                const res = await MenuCreate(this.form_data, pagItem);
+                this.dialog_visible = false;
                 ElMessage({
                     message: res.message,
                     type: 'success',
                 });
+                this.RESET_FORM_DATA();
+                this.RESET_MENU_FUNC();
                 this.GET_TABLE_LIST();
             } catch (err) {
                 ElMessage({
@@ -230,7 +236,7 @@ export const useSettingStore = defineStore('setting', {
                 return false;
             }
         },
-        FORTMAT_PARAMS() {
+        FORTMAT_SEARCH_PARAMS() {
             const data = Object.assign({}, this.table_search);
             if (data.key && data.key_word) {
                 data[data.key] = data.key_word;
@@ -238,6 +244,11 @@ export const useSettingStore = defineStore('setting', {
             delete data.key;
             delete data.key_word;
             return data;
+        },
+        FORMAT_PAGE_ITEM() {
+            const data = Object.assign([], this.page_item);
+            const dataItem = data.filter((item) => item.label && item.value);
+            return JSON.stringify(dataItem);
         },
         RESET_TABLE_SEARCH() {
             this.table_search = {
@@ -255,10 +266,19 @@ export const useSettingStore = defineStore('setting', {
                 menu_component: '',
                 menu_sort: 1,
                 menu_disabled: '0',
-                menu_hidden: '',
+                menu_hidden: '0',
                 menu_keep: '0',
                 menu_redirect: '',
             };
+        },
+        ADD_MENU_FUNC() {
+            this.page_item.push({ value: '', label: '' });
+        },
+        REMOVE_MENU_FUNC(index) {
+            this.page_item.splice(index, 1);
+        },
+        RESET_MENU_FUNC() {
+            this.page_item = [{ value: '', label: '' }];
         },
     },
 });

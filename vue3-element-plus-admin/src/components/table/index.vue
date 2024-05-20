@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-02-20 11:20:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-14 16:06:15
+ * @LastEditTime: 2024-05-16 11:11:06
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/components/table/index.vue
 -->
@@ -20,7 +20,6 @@
             <el-table-column v-else-if="header.type === 'slot'" :label="header.label">
                 <template #default="scope">
                     <slot :name="header.slot_name" :data="scope.row"></slot>
-                    <el-button v-if="header.delete_elem" size="small" @click="deleteInfo(scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
             <el-table-column v-else :prop="header.prop" :label="header.label"></el-table-column>

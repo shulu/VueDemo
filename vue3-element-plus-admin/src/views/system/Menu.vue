@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-05-10 19:08:27
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-15 19:18:57
+ * @LastEditTime: 2024-05-16 12:26:40
  * @Description: file content
  * @FilePath: /vue3-element-plus-admin/src/views/system/menu.vue
 -->
@@ -19,15 +19,21 @@ const {
     table_info,
     page_info,
     form_item,
-    form_data,
     form_rules,
     table_search,
     GET_TABLE_LIST,
     RESET_TABLE_SEARCH,
     MENU_CREATE,
     RESET_FORM_DATA,
+    ADD_MENU_FUNC,
+    REMOVE_MENU_FUNC,
+    RESET_MENU_FUNC,
 } = useSettingStore();
 const f_load = toRef(useSettingStore(), 'form_loading');
+const d_load = toRef(useSettingStore(), 'dialog_visible');
+const form_data = toRef(useSettingStore(), 'form_data');
+const page_item = toRef(useSettingStore(), 'page_item');
+const d_title = ref('添加一级菜单');
 const form_button_group = reactive([
     { label: '确认添加', type: 'danger', key: 'submit' },
     {
@@ -35,14 +41,13 @@ const form_button_group = reactive([
         key: 'reset',
     },
 ]);
-const dialog_visible = ref(false);
 const table_button_group = reactive([
     {
         label: '新增一级菜单',
         type: 'danger',
         prop: 'new',
         callback: () => {
-            dialog_visible.value = true;
+            d_load.value = true;
         },
     },
     {
@@ -60,6 +65,18 @@ const handlerSubmitForm = () => {
 };
 const handlerResetForm = () => {
     RESET_FORM_DATA();
+    RESET_MENU_FUNC();
+};
+const handlerMenu = (key, data) => {
+    console.log(`output->data`, data);
+    const d_title_group = {
+        add: '添加一级菜单',
+        add_sub: '添加二级菜单',
+        edit: '编辑菜单',
+    };
+    d_title.value = d_title_group[key];
+    d_load.value = true;
+    form_data.value = data;
 };
 onBeforeMount(() => {
     GET_TABLE_LIST();
@@ -76,7 +93,9 @@ onBeforeMount(() => {
         @deleteInfo="deleteInfo"
     >
         <template #operation="slotData">
-            <el-button type="danger" size="small" @click="handleDetailed(slotData.data.id)">编辑</el-button>
+            <el-button type="danger" size="small" @click="handlerMenu('add', slotData.data.id)">添加子菜单</el-button>
+            <el-button type="danger" size="small" @click="handlerMenu('edit', slotData.data)">编辑</el-button>
+            <el-button size="small" @click="delMenu(slotData.data.id)">删除</el-button>
         </template>
     </basic-table>
     <el-row class="margin-top-30">
@@ -85,7 +104,7 @@ onBeforeMount(() => {
             <Pagination :pageInfo="page_info" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" />
         </el-col>
     </el-row>
-    <el-dialog title="菜单编辑" v-model="dialog_visible" width="50%">
+    <el-dialog :title="d_title" v-model="d_load" width="50%">
         <basic-form
             label-width="100px"
             :form_model="form_data"
@@ -99,24 +118,26 @@ onBeforeMount(() => {
         >
             <template #menu_function>
                 <el-row :gutter="10" justify="space-around" style="width: 100%">
-                    <el-col :span="9">
-                        <div>功能</div>
+                    <el-col :span="4">页面功能</el-col>
+                    <el-col :span="8">
+                        <div>页面元素</div>
                     </el-col>
-                    <el-col :span="9">
+                    <el-col :span="8">
                         <div>标识符</div>
                     </el-col>
-                    <el-col :span="6">操作</el-col>
+                    <el-col :span="4">操作</el-col>
                 </el-row>
-                <el-row :gutter="10" justify="space-around" style="width: 100%">
-                    <el-col :span="9">
-                        <el-input size="small"></el-input>
+                <el-row :gutter="10" justify="space-around" style="width: 100%" v-for="(item, index) in page_item" :key="item.id">
+                    <el-col :span="4"></el-col>
+                    <el-col :span="8">
+                        <el-input size="small" v-model.trim="item.label"></el-input>
                     </el-col>
-                    <el-col :span="9">
-                        <el-input size="small"></el-input>
+                    <el-col :span="8">
+                        <el-input size="small" v-model.trim="item.value"></el-input>
                     </el-col>
-                    <el-col :span="6"><el-button>删除</el-button></el-col>
+                    <el-col :span="4"><el-button @click="REMOVE_MENU_FUNC(index)">删除</el-button></el-col>
                 </el-row>
-                <el-button type="primary" class="margin-top-10">添加功能</el-button>
+                <el-button type="primary" class="margin-top-10" @click="ADD_MENU_FUNC">添加功能</el-button>
             </template>
         </basic-form>
     </el-dialog>
