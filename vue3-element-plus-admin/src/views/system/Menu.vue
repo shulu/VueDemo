@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2024-05-10 19:08:27
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-16 12:26:40
+ * @LastEditTime: 2024-05-23 23:56:02
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/views/system/menu.vue
+ * @FilePath: \vue3-element-plus-admin\src\views\system\Menu.vue
 -->
 <script setup>
 import { useSettingStore } from '@/store/settingStore';
@@ -68,15 +68,26 @@ const handlerResetForm = () => {
     RESET_MENU_FUNC();
 };
 const handlerMenu = (key, data) => {
-    console.log(`output->data`, data);
     const d_title_group = {
         add: '添加一级菜单',
-        add_sub: '添加二级菜单',
+        add_sub: '添加子级菜单',
         edit: '编辑菜单',
     };
-    d_title.value = d_title_group[key];
-    d_load.value = true;
-    form_data.value = data;
+    if (data.menu_id != form_data.value.menu_id) {
+        RESET_FORM_DATA();
+        d_title.value = d_title_group[key];
+        d_load.value = true;
+        form_data.value = data;
+        try {
+            const page_string = JSON.parse(data.menu_fun);
+            page_string && (page_item.value = page_string);
+        } catch (error) {
+            console.log(`output->menu_fun-error`);
+        }
+    }
+};
+const dialog_close = () => {
+    RESET_FORM_DATA();
 };
 onBeforeMount(() => {
     GET_TABLE_LIST();
@@ -93,7 +104,7 @@ onBeforeMount(() => {
         @deleteInfo="deleteInfo"
     >
         <template #operation="slotData">
-            <el-button type="danger" size="small" @click="handlerMenu('add', slotData.data.id)">添加子菜单</el-button>
+            <el-button type="danger" size="small" @click="handlerMenu('add_sub', slotData.data.id)">添加子菜单</el-button>
             <el-button type="danger" size="small" @click="handlerMenu('edit', slotData.data)">编辑</el-button>
             <el-button size="small" @click="delMenu(slotData.data.id)">删除</el-button>
         </template>
@@ -104,7 +115,7 @@ onBeforeMount(() => {
             <Pagination :pageInfo="page_info" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" />
         </el-col>
     </el-row>
-    <el-dialog :title="d_title" v-model="d_load" width="50%">
+    <el-dialog :title="d_title" v-model="d_load" width="50%" :close="dialog_close">
         <basic-form
             label-width="100px"
             :form_model="form_data"

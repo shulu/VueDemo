@@ -2,11 +2,11 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-16 11:46:51
+ * @LastEditTime: 2024-05-23 23:51:28
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/store/settingStore.js
+ * @FilePath: \vue3-element-plus-admin\src\store\settingStore.js
  */
-import { MenuCreate, MenuList } from '@/api/setting';
+import { MENU_DETAIL, MenuCreate, MenuList } from '@/api/setting';
 import globalData from '@/js/data';
 import { ElMessage } from 'element-plus';
 import { defineStore } from 'pinia';
@@ -81,7 +81,9 @@ export const useSettingStore = defineStore('setting', {
                 },
             ],
             form_data: {
+                menu_id: '',
                 menu_name: '',
+                menu_func: '',
                 menu_path: '',
                 menu_router: '',
                 menu_component: '',
@@ -172,13 +174,30 @@ export const useSettingStore = defineStore('setting', {
         getTableSearch: (state) => state.table_search,
     },
     actions: {
+        async MENU_DETAIL() {
+            try {
+                const res = await MENU_DETAIL({ menu_id: this.form_data.menu_id });
+                console.log(`output->detail`, res);
+                this.dialog_visible = false;
+                ElMessage({
+                    message: res.message,
+                    type: 'success',
+                });
+            } catch (err) {
+                ElMessage({
+                    message: '添加失败',
+                    type: 'error',
+                });
+            }
+        },
         async MENU_CREATE() {
             //开启按钮加载状态
             this.form_loading = true;
             //执行接口
             try {
                 const pagItem = this.FORMAT_PAGE_ITEM();
-                const res = await MenuCreate(this.form_data, pagItem);
+                const add_data = Object.assign(this.form_data, { menu_fun: pagItem });
+                const res = await MenuCreate(add_data);
                 this.dialog_visible = false;
                 ElMessage({
                     message: res.message,
@@ -197,7 +216,7 @@ export const useSettingStore = defineStore('setting', {
         },
         async GET_TABLE_LIST() {
             try {
-                const search_data = this.FORTMAT_PARAMS();
+                const search_data = this.FORTMAT_SEARCH_PARAMS();
                 let request_data = {
                     pageNumber: this.page_info.current_page,
                     pageSize: this.page_info.page_size,
@@ -260,6 +279,8 @@ export const useSettingStore = defineStore('setting', {
         },
         RESET_FORM_DATA() {
             this.form_data = {
+                menu_id: '',
+                menu_fun: '',
                 menu_name: '',
                 menu_path: '',
                 menu_router: '',
@@ -270,6 +291,7 @@ export const useSettingStore = defineStore('setting', {
                 menu_keep: '0',
                 menu_redirect: '',
             };
+            this.page_item = [{ value: '', label: '' }];
         },
         ADD_MENU_FUNC() {
             this.page_item.push({ value: '', label: '' });
