@@ -11,6 +11,16 @@ import instance from '@/utils/request';
 /**
  *菜单添加
  */
+export const MenuUpdate = (data) => {
+    return instance.request({
+        method: 'post',
+        url: '/menu/update',
+        data,
+    });
+};
+/**
+ *菜单添加
+ */
 export const MenuDetailed = (data) => {
     return instance.request({
         method: 'post',

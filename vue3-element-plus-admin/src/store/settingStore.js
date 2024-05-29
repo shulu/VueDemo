@@ -233,6 +233,7 @@ export const useSettingStore = defineStore('setting', {
                     type: 'success',
                 });
             } catch (error) {
+                console.log(`output->error`, error);
                 ElMessage({
                     message: '获取信息失败',
                     type: 'error',

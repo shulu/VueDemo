@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-05-10 19:08:27
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-23 23:56:02
+ * @LastEditTime: 2024-05-29 23:13:17
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\views\system\Menu.vue
 -->
@@ -78,6 +78,7 @@ const handlerMenu = (key, data) => {
         d_title.value = d_title_group[key];
         d_load.value = true;
         form_data.value = data;
+        console.log(`output->form_data`, form_data);
         try {
             const page_string = JSON.parse(data.menu_fun);
             page_string && (page_item.value = page_string);
@@ -85,6 +86,7 @@ const handlerMenu = (key, data) => {
             console.log(`output->menu_fun-error`);
         }
     }
+    console.log(`output->page_item`, page_item);
 };
 const dialog_close = () => {
     RESET_FORM_DATA();
@@ -105,7 +107,7 @@ onBeforeMount(() => {
     >
         <template #operation="slotData">
             <el-button type="danger" size="small" @click="handlerMenu('add_sub', slotData.data.id)">添加子菜单</el-button>
-            <el-button type="danger" size="small" @click="handlerMenu('edit', slotData.data)">编辑</el-button>
+            <el-button type="danger" size="small" @click="handlerMenu('edit', slotData.data.menu_id)">编辑</el-button>
             <el-button size="small" @click="delMenu(slotData.data.id)">删除</el-button>
         </template>
     </basic-table>
