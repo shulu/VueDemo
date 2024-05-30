@@ -2,17 +2,18 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-23 23:51:28
+ * @LastEditTime: 2024-05-30 23:57:25
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\store\settingStore.js
  */
-import { MENU_DETAIL, MenuCreate, MenuList } from '@/api/setting';
+import { MenuCreate, MenuDetailed, MenuList, MenuUpdate } from '@/api/setting';
 import globalData from '@/js/data';
 import { ElMessage } from 'element-plus';
 import { defineStore } from 'pinia';
 export const useSettingStore = defineStore('setting', {
     state: () => {
         return {
+            menu_handler_flag: '',
             form_loading: false,
             dialog_visible: false,
             page_item: [{ value: '', label: '' }],
@@ -92,6 +93,8 @@ export const useSettingStore = defineStore('setting', {
                 menu_hidden: '0',
                 menu_keep: '0',
                 menu_redirect: '',
+                menu_icon: '',
+                parent_id: 0,
             },
             form_rules: {
                 menu_name: [{ required: true, message: '菜单不能为空', trigger: 'change' }],
@@ -157,7 +160,7 @@ export const useSettingStore = defineStore('setting', {
             },
             page_info: globalData.page_info,
             table_search: {
-                menu_disabled: '0',
+                // menu_disabled: '0',
                 key: '',
                 key_word: '',
                 status: '',
@@ -176,16 +179,24 @@ export const useSettingStore = defineStore('setting', {
     actions: {
         async MENU_DETAIL() {
             try {
-                const res = await MENU_DETAIL({ menu_id: this.form_data.menu_id });
-                console.log(`output->detail`, res);
-                this.dialog_visible = false;
+                const req_data = { menu_id: this.form_data.menu_id };
+                const { data, message } = await MenuDetailed(req_data);
+                this.form_data = data;
+                try {
+                    const page_string = JSON.parse(data.menu_fun);
+                    page_string && (this.page_item = page_string);
+                } catch (error) {
+                    console.log(`output->menu_fun-error`);
+                }
+                this.dialog_visible = true;
                 ElMessage({
-                    message: res.message,
+                    message: message,
                     type: 'success',
                 });
             } catch (err) {
+                console.log(`output->err`, err);
                 ElMessage({
-                    message: '添加失败',
+                    message: '更新失败',
                     type: 'error',
                 });
             }
@@ -195,9 +206,28 @@ export const useSettingStore = defineStore('setting', {
             this.form_loading = true;
             //执行接口
             try {
+                let res = { data: '', message: '' };
+                console.log(`output->this.menu_handler_flag`, this.menu_handler_flag);
+                console.log(`output->this.form_data`, this.form_data);
                 const pagItem = this.FORMAT_PAGE_ITEM();
-                const add_data = Object.assign(this.form_data, { menu_fun: pagItem });
-                const res = await MenuCreate(add_data);
+                if (this.menu_handler_flag == 'edit') {
+                    const update_data = {
+                        ...this.form_data,
+                        menu_func: pagItem,
+                        menu_id: this.form_data.menu_id,
+                    };
+                    res = await MenuUpdate(update_data);
+                } else if (this.menu_handler_flag == 'add_sub') {
+                    const add_sub_data = {
+                        ...this.form_data,
+                        menu_fun: pagItem,
+                    };
+                    console.log(`output->add_sub_data`, add_sub_data);
+                    res = await MenuCreate(add_sub_data);
+                } else {
+                    const add_data = Object.assign(this.form_data, { menu_fun: pagItem });
+                    res = await MenuCreate(add_data);
+                }
                 this.dialog_visible = false;
                 ElMessage({
                     message: res.message,
@@ -207,6 +237,7 @@ export const useSettingStore = defineStore('setting', {
                 this.RESET_MENU_FUNC();
                 this.GET_TABLE_LIST();
             } catch (err) {
+                console.log(`output->err`, err);
                 ElMessage({
                     message: '添加失败',
                     type: 'error',

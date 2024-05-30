@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-05-10 19:08:27
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-29 23:13:17
+ * @LastEditTime: 2024-05-30 23:48:18
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\views\system\Menu.vue
 -->
@@ -24,6 +24,7 @@ const {
     GET_TABLE_LIST,
     RESET_TABLE_SEARCH,
     MENU_CREATE,
+    MENU_DETAIL,
     RESET_FORM_DATA,
     ADD_MENU_FUNC,
     REMOVE_MENU_FUNC,
@@ -33,6 +34,7 @@ const f_load = toRef(useSettingStore(), 'form_loading');
 const d_load = toRef(useSettingStore(), 'dialog_visible');
 const form_data = toRef(useSettingStore(), 'form_data');
 const page_item = toRef(useSettingStore(), 'page_item');
+const menu_handler_flag = toRef(useSettingStore(), 'menu_handler_flag');
 const d_title = ref('添加一级菜单');
 const form_button_group = reactive([
     { label: '确认添加', type: 'danger', key: 'submit' },
@@ -68,27 +70,33 @@ const handlerResetForm = () => {
     RESET_MENU_FUNC();
 };
 const handlerMenu = (key, data) => {
+    menu_handler_flag.value = key;
+    console.log(`output->key`, key);
     const d_title_group = {
         add: '添加一级菜单',
         add_sub: '添加子级菜单',
         edit: '编辑菜单',
     };
-    if (data.menu_id != form_data.value.menu_id) {
-        RESET_FORM_DATA();
-        d_title.value = d_title_group[key];
-        d_load.value = true;
-        form_data.value = data;
-        console.log(`output->form_data`, form_data);
-        try {
-            const page_string = JSON.parse(data.menu_fun);
-            page_string && (page_item.value = page_string);
-        } catch (error) {
-            console.log(`output->menu_fun-error`);
-        }
+    d_title.value = d_title_group[key];
+    switch (key) {
+        case 'edit':
+            console.log(`output->here is edit`);
+            form_data.value = data;
+            MENU_DETAIL();
+            break;
+        case 'add_sub':
+            console.log(`output->here is add_sub`);
+            console.log(`output->data`, data);
+            form_data.value.parent_id = data;
+            d_load.value = true;
+            break;
+        default:
+            alert('错误操作');
+            break;
     }
-    console.log(`output->page_item`, page_item);
 };
 const dialog_close = () => {
+    console.log('here is close dialog');
     RESET_FORM_DATA();
 };
 onBeforeMount(() => {
@@ -106,8 +114,8 @@ onBeforeMount(() => {
         @deleteInfo="deleteInfo"
     >
         <template #operation="slotData">
-            <el-button type="danger" size="small" @click="handlerMenu('add_sub', slotData.data.id)">添加子菜单</el-button>
-            <el-button type="danger" size="small" @click="handlerMenu('edit', slotData.data.menu_id)">编辑</el-button>
+            <el-button type="danger" size="small" @click="handlerMenu('add_sub', slotData.data.menu_id)">添加子菜单</el-button>
+            <el-button type="danger" size="small" @click="handlerMenu('edit', slotData.data)">编辑</el-button>
             <el-button size="small" @click="delMenu(slotData.data.id)">删除</el-button>
         </template>
     </basic-table>
@@ -117,7 +125,7 @@ onBeforeMount(() => {
             <Pagination :pageInfo="page_info" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" />
         </el-col>
     </el-row>
-    <el-dialog :title="d_title" v-model="d_load" width="50%" :close="dialog_close">
+    <el-dialog :title="d_title" v-model="d_load" width="50%" @closed="dialog_close">
         <basic-form
             label-width="100px"
             :form_model="form_data"
