@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-05-10 19:08:27
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-30 23:48:18
+ * @LastEditTime: 2024-06-11 23:38:22
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\views\system\Menu.vue
 -->
@@ -25,10 +25,12 @@ const {
     RESET_TABLE_SEARCH,
     MENU_CREATE,
     MENU_DETAIL,
+    MENU_DEL,
     RESET_FORM_DATA,
     ADD_MENU_FUNC,
     REMOVE_MENU_FUNC,
     RESET_MENU_FUNC,
+    MENU_STATUS_CHANGE,
 } = useSettingStore();
 const f_load = toRef(useSettingStore(), 'form_loading');
 const d_load = toRef(useSettingStore(), 'dialog_visible');
@@ -80,15 +82,16 @@ const handlerMenu = (key, data) => {
     d_title.value = d_title_group[key];
     switch (key) {
         case 'edit':
-            console.log(`output->here is edit`);
             form_data.value = data;
             MENU_DETAIL();
             break;
         case 'add_sub':
-            console.log(`output->here is add_sub`);
-            console.log(`output->data`, data);
             form_data.value.parent_id = data;
             d_load.value = true;
+            break;
+        case 'del':
+            form_data.value = data;
+            MENU_DEL();
             break;
         default:
             alert('错误操作');
@@ -110,13 +113,13 @@ onBeforeMount(() => {
         :tableSearch="table_search"
         :tableButtonGroup="table_button_group"
         :config="table_config"
-        @changeStatus="changeStatus"
+        @changeStatus="MENU_STATUS_CHANGE"
         @deleteInfo="deleteInfo"
     >
         <template #operation="slotData">
             <el-button type="danger" size="small" @click="handlerMenu('add_sub', slotData.data.menu_id)">添加子菜单</el-button>
             <el-button type="danger" size="small" @click="handlerMenu('edit', slotData.data)">编辑</el-button>
-            <el-button size="small" @click="delMenu(slotData.data.id)">删除</el-button>
+            <el-button size="small" @click="handlerMenu('del', slotData.data)">删除</el-button>
         </template>
     </basic-table>
     <el-row class="margin-top-30">

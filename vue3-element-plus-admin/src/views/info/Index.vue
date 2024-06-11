@@ -56,10 +56,11 @@ const handleDetailed = (id) => {
 };
 const changeStatus = (value) => {
     status_loading.value = true;
-    const request_data = {
-        id: value.id,
-        status: value.status,
+    let request_data = {
+        id: value.data.id,
+        // status: value.status,
     };
+    Reflect.set(request_data, value.prop, value.data.status);
     CHANGE_STATUS(request_data).then((res) => {
         console.log(`output->res`, res);
     });

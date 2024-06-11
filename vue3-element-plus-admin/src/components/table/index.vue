@@ -2,18 +2,29 @@
  * @Author: shulu
  * @Date: 2024-02-20 11:20:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-16 11:11:06
+ * @LastEditTime: 2024-06-11 23:30:36
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/components/table/index.vue
+ * @FilePath: \vue3-element-plus-admin\src\components\table\index.vue
 -->
 <template>
     <SearchForm :show="config.search" :field="tableSearch" :button_group="tableButtonGroup" />
-    <el-table :data="props.tableData" border style="width: 100%">
+    <el-table
+        :data="props.tableData"
+        border
+        style="width: 100%"
+        :row-key="config.row_key"
+        :default-expand-all="config.expand_all"
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+    >
         <el-table-column v-if="config.selection" type="selection"></el-table-column>
         <template v-for="header in props.tableHeader" :key="header.prop">
             <el-table-column v-if="header.type === 'switch'" :label="header.label">
                 <template #default="scope">
-                    <el-switch v-model="scope.row[header.prop]" @change="changeStatus($event, scope.row)" :loading="status_loading"></el-switch>
+                    <el-switch
+                        v-model="scope.row[header.prop]"
+                        @change="changeStatus($event, { data: scope.row, prop: header.prop })"
+                        :loading="status_loading"
+                    ></el-switch>
                 </template>
             </el-table-column>
             <el-table-column v-else-if="header.type === 'date'" :prop="header.prop" :label="header.label" :formatter="formatDate"> </el-table-column>
@@ -30,12 +41,11 @@
 <script setup>
 import SearchForm from '@c/search';
 import { formatDateTime } from '@u/common';
-import { defineEmits, defineProps, watch } from 'vue';
-import { configHook } from './configHook';
+import { defineEmits, defineProps } from 'vue';
 const formatDate = (value) => {
     return formatDateTime(value.createDate * 1000);
 };
-const { config, configInit } = configHook();
+// const { config, configInit } = configHook();
 const emit = defineEmits(['changeStatus', 'deleteInfo']);
 const props = defineProps({
     tableHeader: {
@@ -74,14 +84,11 @@ const props = defineProps({
 const changeStatus = (val, row) => {
     emit('changeStatus', row);
 };
-const deleteInfo = (id) => {
-    emit('deleteInfo', id);
-};
-watch(
-    () => props.config,
-    (conf) => {
-        configInit(conf);
-    },
-    { immediate: true },
-);
+// watch(
+//     () => props.config,
+//     (conf) => {
+//         configInit(conf);
+//     },
+//     { immediate: true },
+// );
 </script>

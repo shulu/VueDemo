@@ -2,11 +2,11 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-30 23:57:25
+ * @LastEditTime: 2024-06-11 23:59:20
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\store\settingStore.js
  */
-import { MenuCreate, MenuDetailed, MenuList, MenuUpdate } from '@/api/setting';
+import { MenuCreate, MenuDelete, MenuDetailed, MenuDisabled, MenuHidden, MenuList, MenuUpdate } from '@/api/setting';
 import globalData from '@/js/data';
 import { ElMessage } from 'element-plus';
 import { defineStore } from 'pinia';
@@ -134,6 +134,8 @@ export const useSettingStore = defineStore('setting', {
                 selection: false,
                 batch_delete: false,
                 pagination: false,
+                row_key: 'menu_id',
+                expand_all: true,
             },
             table_header: [
                 { label: '菜单名称', prop: 'menu_name' },
@@ -160,7 +162,7 @@ export const useSettingStore = defineStore('setting', {
             },
             page_info: globalData.page_info,
             table_search: {
-                // menu_disabled: '0',
+                // menu_disabled: '0',8
                 key: '',
                 key_word: '',
                 status: '',
@@ -177,6 +179,57 @@ export const useSettingStore = defineStore('setting', {
         getTableSearch: (state) => state.table_search,
     },
     actions: {
+        async MENU_STATUS_CHANGE(change_info) {
+            try {
+                const prop_type = change_info.prop;
+                let res = {};
+                switch (prop_type) {
+                    case 'menu_hidden': {
+                        const hid_val = change_info.data.menu_hidden ? 1 : 2;
+                        const hidden_req_data = { menu_id: change_info.data.menu_id, menu_hidden: hid_val };
+                        res = await MenuHidden(hidden_req_data);
+                        break;
+                    }
+                    case 'menu_disabled': {
+                        const dis_val = change_info.data.menu_disabled ? 1 : 2;
+                        const dis_req_data = { menu_id: change_info.data.menu_id, menu_disabled: dis_val };
+                        res = await MenuDisabled(dis_req_data);
+                        break;
+                    }
+                    default: {
+                        return false;
+                    }
+                }
+                ElMessage({
+                    message: res.message,
+                    type: 'success',
+                });
+                this.GET_TABLE_LIST();
+            } catch (err) {
+                console.log(`output->err`, err);
+                ElMessage({
+                    message: '更新失败',
+                    type: 'error',
+                });
+            }
+        },
+        async MENU_DEL() {
+            try {
+                const req_data = { menu_id: this.form_data.menu_id };
+                const res = await MenuDelete(req_data);
+                ElMessage({
+                    message: res.message,
+                    type: 'success',
+                });
+                this.GET_TABLE_LIST();
+            } catch (err) {
+                console.log(`output->err`, err);
+                ElMessage({
+                    message: '更新失败',
+                    type: 'error',
+                });
+            }
+        },
         async MENU_DETAIL() {
             try {
                 const req_data = { menu_id: this.form_data.menu_id };
@@ -269,22 +322,6 @@ export const useSettingStore = defineStore('setting', {
                     message: '获取信息失败',
                     type: 'error',
                 });
-            }
-        },
-        async CHANGE_STATUS(request_data) {
-            try {
-                const { data, message } = await Status(request_data);
-                ElMessage({
-                    message: message,
-                    type: 'success',
-                });
-                return data;
-            } catch (error) {
-                ElMessage({
-                    message: '获取信息失败',
-                    type: 'error',
-                });
-                return false;
             }
         },
         FORTMAT_SEARCH_PARAMS() {
