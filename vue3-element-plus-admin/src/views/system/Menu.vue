@@ -7,7 +7,7 @@
  * @FilePath: \vue3-element-plus-admin\src\views\system\Menu.vue
 -->
 <script setup>
-import { useSettingStore } from '@/store/settingStore';
+import { useMenuStore } from '@/store/menuStore';
 import BasicForm from '@c/form';
 import Pagination from '@c/pagination';
 import BasicTable from '@c/table';
@@ -31,12 +31,12 @@ const {
     REMOVE_MENU_FUNC,
     RESET_MENU_FUNC,
     MENU_STATUS_CHANGE,
-} = useSettingStore();
-const f_load = toRef(useSettingStore(), 'form_loading');
-const d_load = toRef(useSettingStore(), 'dialog_visible');
-const form_data = toRef(useSettingStore(), 'form_data');
-const page_item = toRef(useSettingStore(), 'page_item');
-const menu_handler_flag = toRef(useSettingStore(), 'menu_handler_flag');
+} = useMenuStore();
+const f_load = toRef(useMenuStore(), 'form_loading');
+const d_load = toRef(useMenuStore(), 'dialog_visible');
+const form_data = toRef(useMenuStore(), 'form_data');
+const page_item = toRef(useMenuStore(), 'page_item');
+const menu_handler_flag = toRef(useMenuStore(), 'menu_handler_flag');
 const d_title = ref('添加一级菜单');
 const form_button_group = reactive([
     { label: '确认添加', type: 'danger', key: 'submit' },

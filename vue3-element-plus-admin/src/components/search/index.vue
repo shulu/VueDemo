@@ -63,8 +63,10 @@ const props = defineProps({
     },
 });
 const { search_config, GET_TABLE_LIST, RESET_TABLE_SEARCH } = inject('search');
+console.log(`output->search_config`, search_config);
 const label_width = ref(search_config?.label_width || props.labelWidth);
 const form_item = reactive(search_config?.form_item || props.item);
+console.log(`output->form_item`, form_item);
 const field = reactive(search_config?.form_data || props.field);
 const form_button = reactive(search_config?.form_button || props.form_button);
 const button_group = reactive(search_config?.button_group || props.button_group);

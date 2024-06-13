@@ -2,15 +2,16 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-06-11 23:59:20
+ * @LastEditTime: 2024-06-13 23:45:46
  * @Description: file content
- * @FilePath: \vue3-element-plus-admin\src\store\settingStore.js
+ * @FilePath: \vue3-element-plus-admin\src\store\menuStore.js
  */
-import { MenuCreate, MenuDelete, MenuDetailed, MenuDisabled, MenuHidden, MenuList, MenuUpdate } from '@/api/setting';
+import { MenuCreate, MenuDelete, MenuDetailed, MenuDisabled, MenuHidden, MenuList, MenuUpdate } from '@/api/menu';
 import globalData from '@/js/data';
+import { formatTree } from '@/utils/common';
 import { ElMessage } from 'element-plus';
 import { defineStore } from 'pinia';
-export const useSettingStore = defineStore('setting', {
+export const useMenuStore = defineStore('menu', {
     state: () => {
         return {
             menu_handler_flag: '',
@@ -131,6 +132,7 @@ export const useSettingStore = defineStore('setting', {
                 button_col: 6,
             },
             table_config: {
+                search: true,
                 selection: false,
                 batch_delete: false,
                 pagination: false,
@@ -307,7 +309,8 @@ export const useSettingStore = defineStore('setting', {
                 };
                 request_data = Object.assign(request_data, search_data);
                 const { data, message } = await MenuList(request_data);
-                this.table_info.data = data.data;
+                let format_tree = formatTree(data.data, 'menu_id', 'parent_id', 'children', 0);
+                this.table_info.data = format_tree;
                 this.table_info.total = data.total;
                 this.page_info.total = data.total;
                 this.page_info.current_page = data.current_page;

@@ -9,4 +9,5 @@
 export * from './account';
 export * from './common';
 export * from './info';
-export * from './setting';
+export * from './menu';
+export * from './role';

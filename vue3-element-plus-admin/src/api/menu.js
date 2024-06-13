@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-05-11 15:54:57
  * @LastEditors: shulu
- * @LastEditTime: 2024-06-11 23:57:57
+ * @LastEditTime: 2024-06-13 23:23:21
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\api\setting.js
  */
@@ -71,10 +71,20 @@ export const MenuCreate = (data) => {
 /**
  *菜单列表
  */
-export const MenuList = (data) => {
+export const MenuListTree = (data) => {
     return instance.request({
         method: 'post',
         url: '/menu/listsTree',
+        data,
+    });
+};
+/**
+ *菜单列表
+ */
+export const MenuList = (data) => {
+    return instance.request({
+        method: 'post',
+        url: '/menu/lists',
         data,
     });
 };
