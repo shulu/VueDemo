@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-06-13 23:44:51
+ * @LastEditTime: 2024-06-14 00:08:48
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\store\roleStore.js
  */
@@ -110,28 +110,24 @@ export const useRoleStore = defineStore('role', {
                 form_button: { reset_button: true },
                 form_item: [
                     {
+                        type: 'input',
+                        label: '角色名称',
+                        prop: 'role_name',
+                        col: 6,
+                    },
+                    {
                         type: 'select',
-                        label: '是否禁用',
-                        prop: 'menu_disabled',
+                        label: '禁用状态',
+                        prop: 'role_disabled',
                         width: '100px',
                         col: 6,
                         options: globalData.whether,
-                    },
-                    {
-                        type: 'keyword',
-                        label: '关键字',
-                        prop: 'key_word',
-                        col: 12,
-                        options: [
-                            { label: '菜单名称', value: 'menu_name' },
-                            { label: '菜单路径', value: 'menu_path' },
-                            { label: '组件名称', value: 'menu_component' },
-                        ],
                     },
                 ],
                 button_col: 6,
             },
             table_config: {
+                search: true,
                 selection: false,
                 batch_delete: false,
                 pagination: false,
