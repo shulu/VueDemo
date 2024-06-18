@@ -7,11 +7,6 @@
  * @FilePath: /vue3-element-plus-admin/src/components/search/index.vue
 -->
 <template>
-    <div v-if="button_group && button_group.length > 0" class="form-search-button-group">
-        <el-button v-for="item in button_group" :key="item.prop" :type="item.type" @click="item.callback ? item.callback() : handlerFormActive(item)">
-            {{ item.label }}
-        </el-button>
-    </div>
     <el-form ref="searchForm" inline :label-width="label_width" v-if="show" :model="field">
         <el-row v-if="form_item && form_item.length > 0">
             <el-col v-for="item in form_item" :key="item.prop" :span="item.col || 24">
@@ -34,6 +29,11 @@
             </el-col>
         </el-row>
     </el-form>
+    <div v-if="button_group && button_group.length > 0" class="form-search-button-group">
+        <el-button v-for="item in button_group" :key="item.prop" :type="item.type" @click="item.callback ? item.callback() : handlerFormActive(item)">
+            {{ item.label }}
+        </el-button>
+    </div>
 </template>
 <script setup>
 import { defineProps, inject, reactive, ref } from 'vue';
@@ -63,10 +63,8 @@ const props = defineProps({
     },
 });
 const { search_config, GET_TABLE_LIST, RESET_TABLE_SEARCH } = inject('search');
-console.log(`output->search_config`, search_config);
 const label_width = ref(search_config?.label_width || props.labelWidth);
 const form_item = reactive(search_config?.form_item || props.item);
-console.log(`output->form_item`, form_item);
 const field = reactive(search_config?.form_data || props.field);
 const form_button = reactive(search_config?.form_button || props.form_button);
 const button_group = reactive(search_config?.button_group || props.button_group);

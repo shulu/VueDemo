@@ -2,14 +2,13 @@
  * @Author: shulu
  * @Date: 2024-05-10 19:08:27
  * @LastEditors: shulu
- * @LastEditTime: 2024-06-13 23:37:52
+ * @LastEditTime: 2024-06-18 23:53:49
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\views\system\Role.vue
 -->
 <script setup>
 import { useRoleStore } from '@/store/roleStore';
-import BasicForm from '@c/form';
-import Pagination from '@c/pagination';
+import DialogRole from '@c/dialogRole';
 import BasicTable from '@c/table';
 import { onBeforeMount, provide, reactive, ref, toRef } from 'vue';
 const {
@@ -35,11 +34,10 @@ const {
 const f_load = toRef(useRoleStore(), 'form_loading');
 const d_load = toRef(useRoleStore(), 'dialog_visible');
 const form_data = toRef(useRoleStore(), 'form_data');
-const page_item = toRef(useRoleStore(), 'page_item');
 const menu_handler_flag = toRef(useRoleStore(), 'menu_handler_flag');
-const d_title = ref('添加一级菜单');
+const d_title = ref('添加角色');
 const form_button_group = reactive([
-    { label: '确认添加', type: 'danger', key: 'submit' },
+    { label: '添加角色', type: 'danger', callback: () => handlerRole() },
     {
         label: '重置',
         key: 'reset',
@@ -47,7 +45,7 @@ const form_button_group = reactive([
 ]);
 const table_button_group = reactive([
     {
-        label: '新增一级菜单',
+        label: '新增角色',
         type: 'danger',
         prop: 'new',
         callback: () => {
@@ -121,47 +119,5 @@ onBeforeMount(() => {
             <el-button size="small" @click="handlerMenu('del', slotData.data)">删除</el-button>
         </template>
     </basic-table>
-    <el-row class="margin-top-30">
-        <el-col :span="2"><el-button :disabled="batch_disabled" v-if="table_config.batch_delete">批量删除</el-button></el-col>
-        <el-col :span="22">
-            <Pagination :pageInfo="page_info" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" />
-        </el-col>
-    </el-row>
-    <el-dialog :title="d_title" v-model="d_load" width="50%" @closed="dialog_close">
-        <basic-form
-            label-width="100px"
-            :form_model="form_data"
-            :form_item="form_item"
-            :field="form_data"
-            :form_button="form_button_group"
-            :form_rules="form_rules"
-            :form_loading="f_load"
-            @submitForm="handlerSubmitForm"
-            @resetForm="handlerResetForm"
-        >
-            <template #menu_function>
-                <el-row :gutter="10" justify="space-around" style="width: 100%">
-                    <el-col :span="4">页面功能</el-col>
-                    <el-col :span="8">
-                        <div>页面元素</div>
-                    </el-col>
-                    <el-col :span="8">
-                        <div>标识符</div>
-                    </el-col>
-                    <el-col :span="4">操作</el-col>
-                </el-row>
-                <el-row :gutter="10" justify="space-around" style="width: 100%" v-for="(item, index) in page_item" :key="item.id">
-                    <el-col :span="4"></el-col>
-                    <el-col :span="8">
-                        <el-input size="small" v-model.trim="item.label"></el-input>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-input size="small" v-model.trim="item.value"></el-input>
-                    </el-col>
-                    <el-col :span="4"><el-button @click="REMOVE_MENU_FUNC(index)">删除</el-button></el-col>
-                </el-row>
-                <el-button type="primary" class="margin-top-10" @click="ADD_MENU_FUNC">添加功能</el-button>
-            </template>
-        </basic-form>
-    </el-dialog>
+    <dialog-role v-model:flag="d_load" />
 </template>
