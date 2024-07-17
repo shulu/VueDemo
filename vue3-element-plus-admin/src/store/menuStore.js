@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-06-13 23:45:46
+ * @LastEditTime: 2024-07-16 18:02:02
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\store\menuStore.js
  */
@@ -85,7 +85,7 @@ export const useMenuStore = defineStore('menu', {
             form_data: {
                 menu_id: '',
                 menu_name: '',
-                menu_func: '',
+                menu_fun: '',
                 menu_path: '',
                 menu_router: '',
                 menu_component: '',
@@ -268,7 +268,7 @@ export const useMenuStore = defineStore('menu', {
                 if (this.menu_handler_flag == 'edit') {
                     const update_data = {
                         ...this.form_data,
-                        menu_func: pagItem,
+                        menu_fun: pagItem,
                         menu_id: this.form_data.menu_id,
                     };
                     res = await MenuUpdate(update_data);

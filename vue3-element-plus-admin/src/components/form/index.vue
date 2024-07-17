@@ -2,16 +2,16 @@
  * @Author: shulu
  * @Date: 2024-02-23 16:22:34
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-15 19:02:44
+ * @LastEditTime: 2024-07-16 11:32:10
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/components/form/index.vue
+ * @FilePath: \vue3-element-plus-admin\src\components\form\index.vue
 -->
 <template>
     <el-form ref="formRef" :model="form_model" :rules="form_rules" :label-width="label_width" v-loading="form_loading" element-loading-text="加载中,请稍后">
         <el-row>
             <template v-for="item in form_item" :key="item.prop">
                 <el-col v-if="!item.hidden" :span="item.col || 24">
-                    <el-form-item v-if="item.type === 'slot'">
+                    <el-form-item v-if="item.type === 'slot'" :label="item.label">
                         <slot :name="item.slot_name"> </slot>
                     </el-form-item>
                     <el-form-item v-else :label="item.label" :prop="item.prop">
