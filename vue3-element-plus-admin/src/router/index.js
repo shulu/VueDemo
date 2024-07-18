@@ -2,16 +2,16 @@
  * @Author: shulu
  * @Date: 2023-12-14 10:13:21
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-10 19:20:13
+ * @LastEditTime: 2024-07-17 17:38:22
  * @Description: file contenre
- * @FilePath: /vue3-element-plus-admin/src/router/index.js
+ * @FilePath: \vue3-element-plus-admin\src\router\index.js
  */
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
     {
         path: '/system',
-        name: 'Sytem',
+        name: 'System',
         meta: {
             title: '系统配置',
             icon: 'setting',
@@ -115,26 +115,26 @@ const routes = [
             },
         ],
     },
-    {
-        path: '/user',
-        name: 'User',
-        meta: {
-            title: '用户管理',
-            icon: 'user',
-        },
-        component: () => import('../layout/Index.vue'),
-        children: [
-            {
-                path: '/userIndex',
-                name: 'UserIndex',
-                meta: {
-                    title: '用户列表',
-                    icon: 'user',
-                },
-                component: () => import('../views/user/Index.vue'),
-            },
-        ],
-    },
+    // {
+    //     path: '/user',
+    //     name: 'User',
+    //     meta: {
+    //         title: '用户管理',
+    //         icon: 'user',
+    //     },
+    //     component: () => import('../layout/Index.vue'),
+    //     children: [
+    //         {
+    //             path: '/userIndex',
+    //             name: 'UserIndex',
+    //             meta: {
+    //                 title: '用户列表',
+    //                 icon: 'user',
+    //             },
+    //             component: () => import('../views/user/Index.vue'),
+    //         },
+    //     ],
+    // },
 ];
 
 const router = createRouter({

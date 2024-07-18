@@ -2,19 +2,19 @@
  * @Author: shulu
  * @Date: 2024-05-11 15:54:57
  * @LastEditors: shulu
- * @LastEditTime: 2024-07-18 12:01:04
+ * @LastEditTime: 2024-07-18 17:16:58
  * @Description: file content
- * @FilePath: \vue3-element-plus-admin\src\api\role.js
+ * @FilePath: \vue3-element-plus-admin\src\api\user.js
  */
 import instance from '@/utils/request';
 
 /**
  *角色列表
  */
-export const RoleList = (data) => {
+export const UserList = (data) => {
     return instance.request({
         method: 'post',
-        url: '/role/lists',
+        url: '/user/lists',
         data,
     });
 };
@@ -22,10 +22,10 @@ export const RoleList = (data) => {
 /**
  *创建角色
  */
-export const RoleCreate = (data) => {
+export const UserCreate = (data) => {
     return instance.request({
         method: 'post',
-        url: '/role/create',
+        url: '/user/create',
         data,
     });
 };
@@ -33,10 +33,10 @@ export const RoleCreate = (data) => {
 /**
  *编辑角色
  */
-export const RoleDetailed = (data) => {
+export const UserDetailed = (data) => {
     return instance.request({
         method: 'post',
-        url: '/role/detailed',
+        url: '/user/detailed',
         data,
     });
 };
@@ -44,10 +44,10 @@ export const RoleDetailed = (data) => {
 /**
  *更新角色
  */
-export const RoleUpdate = (data) => {
+export const UserUpdate = (data) => {
     return instance.request({
         method: 'post',
-        url: '/role/update',
+        url: '/user/update',
         data,
     });
 };
@@ -55,10 +55,10 @@ export const RoleUpdate = (data) => {
 /**
  *更新角色
  */
-export const RoleStatus = (data) => {
+export const UserStatus = (data) => {
     return instance.request({
         method: 'post',
-        url: '/role/status',
+        url: '/user/status',
         data,
     });
 };
@@ -66,10 +66,10 @@ export const RoleStatus = (data) => {
 /**
  *更新角色
  */
-export const RoleDelete = (data) => {
+export const UserDelete = (data) => {
     return instance.request({
         method: 'post',
-        url: '/role/delete',
+        url: '/user/remove',
         data,
     });
 };
@@ -77,10 +77,10 @@ export const RoleDelete = (data) => {
 /**
  *更新角色
  */
-export const RoleListAll = (data) => {
+export const UpdatePass = (data) => {
     return instance.request({
         method: 'post',
-        url: '/role/all',
+        url: '/user/password',
         data,
     });
 };

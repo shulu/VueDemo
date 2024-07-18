@@ -8,9 +8,9 @@
 -->
 <script setup>
 import { useRoleStore } from '@/store/roleStore';
-import DialogRole from '@c/dialogRole';
 import BasicTable from '@c/table';
 import { onBeforeMount, provide, reactive, ref, toRef } from 'vue';
+import DialogRole from './components/dialogRole';
 const { search_config, table_config, table_header, table_info, table_search, ROLE_STATUS_CHANGE, ROLE_DEL, RESET_TABLE_SEARCH, GET_TABLE_LIST, ROLE_DETAIL } =
     useRoleStore();
 const role_handler_flag = toRef(useRoleStore(), 'role_handler_flag');
