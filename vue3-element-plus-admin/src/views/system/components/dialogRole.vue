@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2024-06-16 21:46:18
  * @LastEditors: shulu
- * @LastEditTime: 2024-07-17 15:35:51
+ * @LastEditTime: 2024-07-29 16:03:30
  * @Description: file content
- * @FilePath: \vue3-element-plus-admin\src\components\dialogRole.vue
+ * @FilePath: \vue3-element-plus-admin\src\views\system\components\dialogRole.vue
 -->
 <script setup>
 import { MenuListTree } from '@/api';
@@ -12,11 +12,26 @@ import { useRoleStore } from '@/store/roleStore';
 import BasicForm from '@c/form';
 
 import { defineEmits, defineProps, nextTick, reactive, ref, toRef, watch } from 'vue';
-const { form_item, form_rules, ROLE_CREATE, RESET_FORM_DATA } = useRoleStore();
+const { form_rules, radio_options, ROLE_CREATE, RESET_FORM_DATA } = useRoleStore();
 const treeRef = ref(null);
 const f_load = toRef(useRoleStore(), 'form_loading');
 const form_data = toRef(useRoleStore(), 'form_data');
+const form_item = toRef(useRoleStore(), 'form_item');
 const role_handler_flag = toRef(useRoleStore(), 'role_handler_flag');
+const changeAdmin = (val) => {
+    console.log(`output->val`, val);
+    if (val == 1) {
+        form_item.value.map((item) => {
+            if (item.prop == 'role_name' || item.prop == 'role_value' || item.prop == 'role_permit') {
+                item.hidden = true;
+            }
+        });
+    } else {
+        form_item.value.map((item) => {
+            item.hidden = false;
+        });
+    }
+};
 const handlerSubmitForm = () => {
     const halfKeys = treeRef.value.getHalfCheckedKeys();
     const id = treeRef.value.getCheckedKeys().concat(halfKeys);
@@ -135,11 +150,16 @@ const customNodeClass = (data, node) => {
                                 <strong>{{ data.menu_name }}-{{ data.menu_id }}</strong>
                             </div>
                             <el-checkbox-group v-model="datas.check_list">
-                                <el-checkbox v-for="item in data.menu_func" :key="item.value" label="item.value">{{ item.label }}</el-checkbox>
+                                <el-checkbox v-for="item in data.menu_func" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox>
                             </el-checkbox-group>
                         </div>
                     </template>
                 </el-tree>
+            </template>
+            <template #admin>
+                <el-radio-group v-model="form_data.has_admin" size="default" @change="changeAdmin">
+                    <el-radio v-for="radio in radio_options" :key="radio.value" :label="radio.value">{{ radio.label }}</el-radio>
+                </el-radio-group>
             </template>
         </basic-form>
     </el-dialog>

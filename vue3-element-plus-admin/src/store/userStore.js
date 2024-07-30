@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-07-18 17:21:22
+ * @LastEditTime: 2024-07-19 11:52:12
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\store\userStore.js
  */
@@ -230,10 +230,11 @@ export const useUserStore = defineStore('user', {
             try {
                 const search_data = this.FORTMAT_SEARCH_PARAMS();
                 let request_data = {
-                    pageNumber: this.page_info.current_page,
+                    pageNumber: this.page_info.current_page ?? 1,
                     pageSize: this.page_info.page_size,
                 };
                 request_data = Object.assign(request_data, search_data);
+                console.log(`output->request_data`, request_data);
                 const { data, message } = await UserList(request_data);
                 this.table_info.data = data.data;
                 this.table_info.total = data.total;

@@ -12,7 +12,7 @@
             <template v-for="item in form_item" :key="item.prop">
                 <el-col v-if="!item.hidden" :span="item.col || 24">
                     <el-form-item v-if="item.type === 'slot'" :label="item.label">
-                        <slot :name="item.slot_name"> </slot>
+                        <slot :name="item.slot_name" />
                     </el-form-item>
                     <el-form-item v-else :label="item.label" :prop="item.prop">
                         <component :is="item.type + 'Component'" :data="item" v-model:modelValue="field[item.prop]" />
@@ -34,8 +34,7 @@
 
 <script setup>
 import { defineEmits, defineProps, ref } from 'vue';
-import { relationHook } from './relationHook';
-const { HiddenItem, DisabledItem } = relationHook();
+// const { HiddenItem, DisabledItem } = relationHook();
 defineProps({
     form_disabled: {
         type: Object,
@@ -108,8 +107,8 @@ const handlerFormAction = (data) => {
 };
 // const hidden = reactive(props.form_hidden);
 // const ele_disabled = reactive(props.form_disabled);
-const handlerChange = (event, data) => {
-    HiddenItem(event, data.relation_hidden, hidden);
-    DisabledItem(event, data.relation_disabled, ele_disabled);
-};
+// const handlerChange = (event, data) => {
+//     HiddenItem(event, data.relation_hidden, hidden);
+//     DisabledItem(event, data.relation_disabled, ele_disabled);
+// };
 </script>

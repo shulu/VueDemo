@@ -2,7 +2,7 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-07-17 15:21:20
+ * @LastEditTime: 2024-07-29 15:46:38
  * @Description: file content
  * @FilePath: \vue3-element-plus-admin\src\store\roleStore.js
  */
@@ -17,16 +17,23 @@ export const useRoleStore = defineStore('role', {
             form_loading: false,
             dialog_visible: false,
             form_item: [
-                { type: 'input', label: '角色名称', prop: 'role_name', require: true },
-                { type: 'input', label: '角色标识', prop: 'role_value', require: true },
-                { type: 'radio', label: '是否启用', prop: 'role_disabled', options: globalData.whether },
-                { type: 'slot', label: '角色权限', prop: 'role_permit', slot_name: 'permit' },
+                { type: 'input', label: '角色名称', prop: 'role_name', require: true, hidden: false },
+                { type: 'input', label: '角色标识', prop: 'role_value', require: true, hidden: false },
+                {
+                    type: 'slot',
+                    label: '是否超管',
+                    prop: 'has_admin',
+                    slot_name: 'admin',
+                    hidden: false,
+                },
+                { type: 'radio', label: '是否启用', prop: 'role_disabled', options: globalData.whether, hidden: false },
+                { type: 'slot', label: '角色权限', prop: 'role_permit', slot_name: 'permit', hidden: false },
             ],
             form_data: {
                 role_name: '',
                 role_value: '',
                 role_disabled: '1',
-                menu_id: [],
+                has_admin: '0',
             },
             form_rules: {
                 role_name: [{ required: true, message: '角色名称不能为空', trigger: 'change' }],
@@ -95,6 +102,7 @@ export const useRoleStore = defineStore('role', {
             detail_info: {
                 id: 0,
             },
+            radio_options: globalData.whether,
         };
     },
     getters: {

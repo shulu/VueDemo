@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2023-12-25 15:22:59
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-04 15:50:19
+ * @LastEditTime: 2024-07-30 15:39:14
  * @Description: file contentl
- * @FilePath: /vue3-element-plus-admin/src/views/info/Category.vue
+ * @FilePath: \vue3-element-plus-admin\src\views\info\Category.vue
 -->
 <template>
     <el-button type="danger" @click="handleCategory('first_category_add')">添加一级分类</el-button>
@@ -152,7 +152,7 @@ const handleSubmit = () => {
     }
 };
 onBeforeMount(() => {
-    infoStore.GET_CATEGORY();
+    infoStore.GET_TABLE_LIST();
 });
 </script>
 

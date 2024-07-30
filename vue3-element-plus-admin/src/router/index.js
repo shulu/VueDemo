@@ -60,8 +60,8 @@ const routes = [
     },
     // 后台首页
     {
-        path: '/home',
-        name: 'Home',
+        path: '/console',
+        name: 'Console',
         meta: {
             title: '控制台',
             icon: 'home',
@@ -69,8 +69,8 @@ const routes = [
         component: () => import('../layout/Index.vue'),
         children: [
             {
-                path: '/console',
-                name: 'Console',
+                path: '/home',
+                name: 'Home',
                 meta: {
                     title: '首页',
                     icon: 'home',
@@ -135,6 +135,8 @@ const routes = [
     //         },
     //     ],
     // },
+    //中转静态路由
+    { path: '/admin', name: 'Admin', hidden: true },
 ];
 
 const router = createRouter({

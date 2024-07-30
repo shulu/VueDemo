@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2023-12-25 14:37:43
  * @LastEditors: shulu
- * @LastEditTime: 2024-01-03 18:03:19
+ * @LastEditTime: 2024-07-29 16:09:24
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/components/Header.vue
+ * @FilePath: \vue3-element-plus-admin\src\components\Header.vue
 -->
 <template>
     <div class="header-wrap">
@@ -49,6 +49,7 @@ const handlerLogout = () => {
         })
         .then(async () => {
             const res = await proxy.$api.LoginOut();
+            sideStore.DELETE_USER_INFO();
             proxy.$message({
                 message: res.message,
                 type: 'success',

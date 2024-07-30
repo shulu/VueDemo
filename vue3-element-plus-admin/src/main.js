@@ -2,12 +2,14 @@
  * @Author: shulu
  * @Date: 2023-12-14 10:13:21
  * @LastEditors: shulu
- * @LastEditTime: 2024-05-09 18:33:30
+ * @LastEditTime: 2024-07-30 15:58:48
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/main.js
+ * @FilePath: \vue3-element-plus-admin\src\main.js
  */
 import { createApp } from 'vue';
 
+//自定义指令
+import directive from './plugins/directive';
 import '@/router/permit';
 import { createPinia } from 'pinia';
 import App from './App.vue';
@@ -35,4 +37,5 @@ app.use(ElementPlus);
 app.use(createPinia());
 app.use(router);
 app.use(components);
+app.use(directive);
 app.mount('#app');

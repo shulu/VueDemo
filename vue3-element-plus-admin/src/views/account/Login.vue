@@ -261,7 +261,8 @@ const login = async () => {
         sideStore.SET_TOKEN(res.data.token);
         sideStore.SET_USERNAME(res.data.username);
         //jump
-        routerV.push({ path: '/console' });
+        // routerV.push({ path: '/console' });
+        routerV.push({ path: '/admin' });
         //重置元素
         reset();
     } catch (error) {
