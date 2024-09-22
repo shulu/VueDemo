@@ -2,9 +2,9 @@
  * @Author: shulu
  * @Date: 2023-12-18 15:18:39
  * @LastEditors: shulu
- * @LastEditTime: 2023-12-27 15:48:33
+ * @LastEditTime: 2024-07-18 10:52:34
  * @Description: file content
- * @FilePath: /vue3-element-plus-admin/src/views/account/Login.vue
+ * @FilePath: \vue3-element-plus-admin\src\views\account\Login.vue
 -->
 <template>
     <div id="login">
@@ -261,7 +261,8 @@ const login = async () => {
         sideStore.SET_TOKEN(res.data.token);
         sideStore.SET_USERNAME(res.data.username);
         //jump
-        routerV.push({ path: '/console' });
+        // routerV.push({ path: '/console' });
+        routerV.push({ path: '/admin' });
         //重置元素
         reset();
     } catch (error) {

@@ -7,7 +7,7 @@
  * @FilePath: /vue3-element-plus-admin/src/store/sideStore.js
  */
 
-import { getToken, getUserName, setToken, setUserName } from '@/utils/cookies';
+import { getToken, getUserName, removeToken, removeUsername, setToken, setUserName } from '@/utils/cookies';
 import { defineStore } from 'pinia';
 export const useSideStore = defineStore('side', {
     state: () => {
@@ -29,6 +29,11 @@ export const useSideStore = defineStore('side', {
         SET_USERNAME(value) {
             this.username = value;
             value && setUserName(value);
+        },
+        DELETE_USER_INFO() {
+            this.token = '';
+            removeToken();
+            removeUsername();
         },
     },
 });

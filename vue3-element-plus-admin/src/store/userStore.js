@@ -2,62 +2,66 @@
  * @Author: shulu
  * @Date: 2024-01-04 15:38:39
  * @LastEditors: shulu
- * @LastEditTime: 2024-07-29 15:46:38
+ * @LastEditTime: 2024-07-19 11:52:12
  * @Description: file content
- * @FilePath: \vue3-element-plus-admin\src\store\roleStore.js
+ * @FilePath: \vue3-element-plus-admin\src\store\userStore.js
  */
-import { RoleCreate, RoleDelete, RoleDetailed, RoleList, RoleStatus, RoleUpdate } from '@/api/role';
+import { UpdatePass, UserCreate, UserDelete, UserDetailed, UserList, UserStatus, UserUpdate } from '@/api/user';
 import globalData from '@/js/data';
+import { validatePass, validateUsername } from '@/utils/validate';
 import { ElMessage } from 'element-plus';
+import sha1 from 'js-sha1';
 import { defineStore } from 'pinia';
-export const useRoleStore = defineStore('role', {
+export const useUserStore = defineStore('user', {
     state: () => {
         return {
-            role_handler_flag: 'add',
+            d_title: '添加用户',
+            user_handler_flag: 'add',
             form_loading: false,
             dialog_visible: false,
             form_item: [
-                { type: 'input', label: '角色名称', prop: 'role_name', require: true, hidden: false },
-                { type: 'input', label: '角色标识', prop: 'role_value', require: true, hidden: false },
-                {
-                    type: 'slot',
-                    label: '是否超管',
-                    prop: 'has_admin',
-                    slot_name: 'admin',
-                    hidden: false,
-                },
-                { type: 'radio', label: '是否启用', prop: 'role_disabled', options: globalData.whether, hidden: false },
-                { type: 'slot', label: '角色权限', prop: 'role_permit', slot_name: 'permit', hidden: false },
+                { type: 'input', label: '用户名', prop: 'username', require: true, hidden: false },
+                { type: 'input', label: '真实姓名', prop: 'truename', require: true, hidden: false },
+                { type: 'input', label: '密码', prop: 'password', value_type: 'password', require: true, hidden: false },
+                { type: 'radio', label: '是否启用', prop: 'user_disabled', options: globalData.whether_other, require: true, hidden: false },
+                { label: '角色类型', prop: 'role_type', type: 'slot', slot_name: 'role', width: '250', require: true, hidden: false },
             ],
             form_data: {
-                role_name: '',
-                role_value: '',
-                role_disabled: '1',
-                has_admin: '0',
+                username: '',
+                truename: '',
+                password: '',
+                role_type: '',
+                user_disabled: '1',
             },
             form_rules: {
-                role_name: [{ required: true, message: '角色名称不能为空', trigger: 'change' }],
-                role_value: [{ required: true, message: '角色标识不能为空', trigger: 'change' }],
-                role_disabled: [{ required: true, message: '菜单路由不能为空', trigger: 'change' }],
-                role_permit: [{ required: true, message: '菜单组件不能为空', trigger: 'change' }],
+                username: [{ required: true, validator: validateUsername, trigger: 'blur' }],
+                truename: [{ required: true, message: '真实姓名不能为空', trigger: 'blur' }],
+                password: [{ required: true, validator: validatePass, trigger: 'blur' }],
+                user_disabled: [{ required: true, message: '是否启用不能为空', trigger: 'change' }],
+                role_type: [{ required: true, message: '角色类型不能为空', trigger: 'change' }],
             },
             search_config: {
                 label_width: '70px',
                 form_button: { reset_button: true },
                 form_item: [
                     {
-                        type: 'input',
-                        label: '角色名称',
-                        prop: 'role_name',
-                        col: 6,
-                    },
-                    {
                         type: 'select',
-                        label: '禁用状态',
-                        prop: 'role_disabled',
+                        label: '帐号状态',
+                        prop: 'user_disabled',
                         width: '100px',
                         col: 6,
                         options: globalData.whether,
+                    },
+                    {
+                        type: 'keyword',
+                        label: '关键字',
+                        prop: 'key_word',
+                        col: 12,
+                        options: [
+                            { label: '用户名', value: 'username' },
+                            { label: '真实姓名', value: 'truename' },
+                            { label: '角色类型', value: 'role_type' },
+                        ],
                     },
                 ],
                 button_col: 6,
@@ -71,8 +75,11 @@ export const useRoleStore = defineStore('role', {
                 expand_all: true,
             },
             table_header: [
-                { label: '角色名称', prop: 'role_name' },
-                { label: '是否禁用', prop: 'role_disabled', type: 'switch' },
+                { label: '用户名', prop: 'username' },
+                { label: '真实姓名', prop: 'truename' },
+                { label: '角色类型', prop: 'role_type' },
+                { label: '帐号状态', prop: 'user_disabled', type: 'switch' },
+                { label: '创建时间', prop: 'user_createtime' },
                 { label: '操作', prop: 'menu_name', type: 'slot', slot_name: 'operation', width: '250' },
             ],
             table_info: {
@@ -94,7 +101,7 @@ export const useRoleStore = defineStore('role', {
                 // menu_disabled: '0',8
                 key: '',
                 key_word: '',
-                status: '',
+                user_disabled: '',
             },
             table_batch_del: {
                 ids: [],
@@ -102,24 +109,28 @@ export const useRoleStore = defineStore('role', {
             detail_info: {
                 id: 0,
             },
-            radio_options: globalData.whether,
         };
     },
     getters: {
         getTableSearch: (state) => state.table_search,
     },
     actions: {
-        async ROLE_STATUS_CHANGE(change_info) {
+        async MOD_PWD(id) {
+            this.form_data.id = id;
+            this.form_item.map((item) => (item.prop != 'password' ? (item.hidden = true) : item));
+            this.dialog_visible = true;
+        },
+        async STATUS_CHANGE(change_info) {
             try {
                 console.log(`output->change_info`, change_info);
                 const prop_type = change_info.prop;
                 let res = {};
                 switch (prop_type) {
-                    case 'role_disabled': {
-                        const dis_val = change_info.data.role_disabled ? 1 : 2;
-                        const req_data = { role_id: change_info.data.role_id, role_disabled: dis_val };
+                    case 'user_disabled': {
+                        const dis_val = change_info.data.user_disabled ? 1 : 2;
+                        const req_data = { id: change_info.data.id, user_disabled: dis_val };
                         console.log(`output->req_data`, req_data);
-                        res = await RoleStatus(req_data);
+                        res = await UserStatus(req_data);
                         break;
                     }
                     default: {
@@ -139,11 +150,11 @@ export const useRoleStore = defineStore('role', {
                 });
             }
         },
-        async ROLE_DEL(id) {
+        async DELETE(id) {
             try {
-                const req_data = { role_id: id };
+                const req_data = { id: id };
                 console.log(`output->req_data`, req_data);
-                const res = await RoleDelete(req_data);
+                const res = await UserDelete(req_data);
                 ElMessage({
                     message: res.message,
                     type: 'success',
@@ -157,12 +168,11 @@ export const useRoleStore = defineStore('role', {
                 });
             }
         },
-        async ROLE_DETAIL(id) {
+        async DETAIL(id) {
             try {
-                const req_data = { role_id: id };
-                console.log(`output->req_data`, req_data);
-                const { data, message } = await RoleDetailed(req_data);
-                console.log(`output->detail data`, data);
+                const req_data = { id: id };
+                const { data, message } = await UserDetailed(req_data);
+                this.form_item.map((item) => (item.prop == 'password' ? (item.hidden = true) : item));
                 this.form_data = data;
                 this.dialog_visible = true;
                 ElMessage({
@@ -172,25 +182,33 @@ export const useRoleStore = defineStore('role', {
             } catch (err) {
                 console.log(`output->err`, err);
                 ElMessage({
-                    message: '更新失败',
+                    message: '获取详情失败',
                     type: 'error',
                 });
             }
         },
-        async ROLE_CREATE() {
+        async CREATE() {
             //开启按钮加载状态
             this.form_loading = true;
             //执行接口
             try {
                 let res = { data: '', message: '' };
-                console.log(`output->this.role_handler_flag`, this.role_handler_flag);
-                if (this.role_handler_flag == 'edit') {
-                    const update_data = {
-                        ...this.form_data,
+                console.log(`output->this.role_handler_flag`, this.user_handler_flag);
+                if (this.user_handler_flag == 'edit') {
+                    const req_data = Object.assign({}, this.form_data);
+                    res = await UserUpdate(req_data);
+                } else if (this.user_handler_flag == 'edit_pwd') {
+                    const req_data = {
+                        id: this.form_data.id,
+                        password: this.form_data.password,
                     };
-                    res = await RoleUpdate(update_data);
+                    req_data.password = sha1(req_data.password);
+                    res = await UpdatePass(req_data);
                 } else {
-                    res = await RoleCreate(this.form_data);
+                    const req_data = Object.assign({}, this.form_data);
+                    req_data.password = sha1(req_data.password);
+                    console.log(`output->create req_data`, req_data);
+                    res = await UserCreate(req_data);
                 }
                 this.dialog_visible = false;
                 ElMessage({
@@ -212,11 +230,12 @@ export const useRoleStore = defineStore('role', {
             try {
                 const search_data = this.FORTMAT_SEARCH_PARAMS();
                 let request_data = {
-                    pageNumber: this.page_info.current_page,
+                    pageNumber: this.page_info.current_page ?? 1,
                     pageSize: this.page_info.page_size,
                 };
                 request_data = Object.assign(request_data, search_data);
-                const { data, message } = await RoleList(request_data);
+                console.log(`output->request_data`, request_data);
+                const { data, message } = await UserList(request_data);
                 this.table_info.data = data.data;
                 this.table_info.total = data.total;
                 this.page_info.total = data.total;
@@ -250,17 +269,23 @@ export const useRoleStore = defineStore('role', {
         },
         RESET_TABLE_SEARCH() {
             this.table_search = {
+                // menu_disabled: '0',8
                 key: '',
                 key_word: '',
-                status: '',
+                user_disabled: '',
             };
         },
         RESET_FORM_DATA() {
+            this.user_handler_flag = 'add';
+            this.d_title = '添加用户';
+            this.form_item.map((item) => (item.hidden = false));
+            console.log(`output->this.form_item`, this.form_item);
             this.form_data = {
-                role_name: '',
-                role_value: '',
-                role_disabled: '1',
-                menu_id: [],
+                username: '',
+                truename: '',
+                password: '',
+                role_type: '',
+                user_disabled: '1',
             };
         },
     },
